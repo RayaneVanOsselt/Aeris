@@ -4,24 +4,19 @@
  * - formspree : transfère vers Formspree (défaut en production)
  * Un webhook CRM optionnel reçoit une copie de chaque demande.
  */
-type Kind = "order" | "quote" | "contact" | "payment";
+import { formspreeIds, formspreePayload, type Submission } from "../submissions";
+
 
 const transport = process.env.MAIL_TRANSPORT ?? (process.env.NODE_ENV === "production" ? "formspree" : "log");
 
-const formIds: Record<Kind, string> = {
-  order: process.env.FORMSPREE_ORDER_ID ?? "xykqgqyj",
-  payment: process.env.FORMSPREE_ORDER_ID ?? "xykqgqyj",
-  quote: process.env.FORMSPREE_CONTACT_ID ?? "mgojwjvp",
-  contact: process.env.FORMSPREE_CONTACT_ID ?? "mgojwjvp",
-};
-
 export class DeliveryError extends Error {}
 
-export async function deliver(kind: Kind, subject: string, fields: Record<string, string>, replyTo?: string) {
-  const payload = { _subject: subject, ...(replyTo ? { email: replyTo, _replyto: replyTo } : {}), ...fields };
+export async function deliver(submission: Submission) {
+  const { kind, subject, fields } = submission;
+  const payload = formspreePayload(submission);
 
   if (transport === "formspree") {
-    const res = await fetch(`https://formspree.io/f/${formIds[kind]}`, {
+    const res = await fetch(`https://formspree.io/f/${formspreeIds[kind]}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(payload),

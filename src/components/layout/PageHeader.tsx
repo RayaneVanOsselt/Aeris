@@ -35,11 +35,11 @@ export function PageHeader({
                 {eyebrow}
               </p>
             )}
-            <h1 className="t-h1 animate-fade-up text-ink" style={{ "--delay": "60ms" } as React.CSSProperties}>
+            <h1 className="t-h1 animate-rise text-ink" style={{ "--delay": "60ms" } as React.CSSProperties}>
               {title}
             </h1>
             {intro && (
-              <p className="t-lead animate-fade-up mt-6 max-w-2xl text-ink-2" style={{ "--delay": "120ms" } as React.CSSProperties}>
+              <p className="t-lead animate-rise mt-6 max-w-2xl text-ink-2" style={{ "--delay": "120ms" } as React.CSSProperties}>
                 {intro}
               </p>
             )}

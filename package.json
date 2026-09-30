@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:pages": "NEXT_PUBLIC_DEPLOY_TARGET=github-pages NEXT_PUBLIC_BASE_PATH=/Aeris NEXT_PUBLIC_SITE_URL=https://rayanevanosselt.github.io/Aeris next build && node scripts/postexport.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

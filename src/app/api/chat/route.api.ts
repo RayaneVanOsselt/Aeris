@@ -3,7 +3,7 @@ import { answer } from "@/lib/chat/engine";
 import { askLlm, llmProvider } from "@/lib/chat/llm";
 import type { ChatReply } from "@/lib/chat/types";
 import { guard } from "@/lib/server/http";
-import { chatSchema } from "@/lib/server/schemas";
+import { chatSchema } from "@/lib/schemas";
 
 export async function POST(req: Request) {
   const result = await guard(req, chatSchema, { key: "chat", limit: 20, windowMs: 60_000 });

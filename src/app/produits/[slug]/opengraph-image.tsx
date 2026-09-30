@@ -6,6 +6,7 @@ import { startingPrice } from "@/lib/pricing";
 export const alt = "Moustiquaire sur mesure Aéris";
 export const size = ogSize;
 export const contentType = "image/png";
+export const dynamic = "force-static";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));

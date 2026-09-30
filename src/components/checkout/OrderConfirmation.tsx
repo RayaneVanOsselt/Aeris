@@ -19,7 +19,7 @@ export function OrderConfirmation() {
   const orders = useLocalOrders();
   const hydrated = useHydrated();
   const order = orders.find((o) => o.reference === ref);
-  const { submit, status, message } = useSubmit("/api/payment-notice");
+  const { submit, status, message } = useSubmit("payment-notice");
   const [method, setMethod] = useState<(typeof payment.methods)[number] | null>(null);
   const chosen = method ?? (order?.paymentMethod as (typeof payment.methods)[number] | undefined) ?? "Revolut";
 

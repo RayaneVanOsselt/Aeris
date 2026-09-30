@@ -87,3 +87,6 @@ export const chatSchema = z.object({
 });
 
 export type OrderInput = z.infer<typeof orderSchema>;
+export type QuoteInput = z.infer<typeof quoteSchema>;
+export type ContactInput = z.infer<typeof contactSchema>;
+export type PaymentNoticeInput = z.infer<typeof paymentNoticeSchema>;

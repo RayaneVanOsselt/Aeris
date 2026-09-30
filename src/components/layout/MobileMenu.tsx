@@ -39,6 +39,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
       aria-label="Menu"
       className="sheet h-dvh w-screen bg-paper! open:animate-[fade-up_var(--dur-slow)_var(--ease-out)]"
     >
+      {open && (
       <div className="flex h-full flex-col">
         <div className="container-site flex h-[var(--header-h)] shrink-0 items-center justify-between border-b border-line">
           <Link href="/" onClick={onClose} aria-label="Aéris — accueil">
@@ -82,6 +83,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
           </ButtonLink>
         </div>
       </div>
+      )}
     </dialog>
   );
 }

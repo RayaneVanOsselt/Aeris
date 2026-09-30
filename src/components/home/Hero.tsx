@@ -20,12 +20,12 @@ export function Hero() {
             </span>
             Moustiquaires sur mesure · Fenêtres, portes, baies
           </p>
-          <h1 className="t-display animate-fade-up text-ink" style={{ "--delay": "80ms" } as React.CSSProperties}>
+          <h1 className="t-display animate-rise text-ink" style={{ "--delay": "80ms" } as React.CSSProperties}>
             Fenêtres ouvertes,
             <br />
             <span className="accent text-sand-deep">insectes dehors.</span>
           </h1>
-          <p className="t-lead animate-fade-up mt-8 max-w-xl text-ink-2" style={{ "--delay": "160ms" } as React.CSSProperties}>
+          <p className="t-lead animate-rise mt-8 max-w-xl text-ink-2" style={{ "--delay": "160ms" } as React.CSSProperties}>
             Des moustiquaires fabriquées au millimètre pour chacune de vos ouvertures. Discrètes, faciles à vivre — et votre prix exact
             s&apos;affiche pendant que vous configurez.
           </p>

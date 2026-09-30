@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent, type R
 import { track } from "@/lib/analytics";
 import type { ChatAction, ChatMessage, ChatReply } from "@/lib/chat/types";
 import { cn } from "@/lib/cn";
+import { isStaticSite } from "@/lib/deploy";
 import { useSubmit } from "@/lib/use-submit";
 import { Button, IconButton } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -84,13 +85,23 @@ export function ChatPanel({ open, onClose }: { open: boolean; onClose: () => voi
     setPending(true);
     track("chatbot_question", { page: pathname });
     try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history.map(({ role, content }) => ({ role, content })), page: pathname }),
-      });
-      const data = (await res.json()) as ChatReply & { ok?: boolean; message?: string };
-      if (!res.ok || !data.ok) throw new Error(data.message ?? "Erreur");
+      const messages = history.map(({ role, content }) => ({ role, content }));
+      let data: ChatReply & { ok?: boolean; message?: string };
+      if (isStaticSite) {
+        // Version statique : le moteur local répond dans le navigateur (mêmes données, aucune IA externe)
+        const { answer } = await import("@/lib/chat/engine");
+        await new Promise((r) => setTimeout(r, 350));
+        data = { ok: true, ...answer(messages) };
+      } else {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages, page: pathname }),
+        });
+        data = (await res.json()) as ChatReply & { ok?: boolean; message?: string };
+        if (!res.ok) throw new Error(data.message ?? "Erreur");
+      }
+      if (!data.ok) throw new Error(data.message ?? "Erreur");
       setEntries((e) => [...e, { id: crypto.randomUUID(), role: "assistant", content: data.reply, actions: data.actions }]);
       setSuggestions(data.suggestions ?? []);
     } catch (err) {
@@ -244,7 +255,7 @@ export function ChatPanel({ open, onClose }: { open: boolean; onClose: () => voi
 }
 
 function ChatQuoteForm({ context, onDone }: { context: string; onDone: () => void }) {
-  const { submit, status, message, fields } = useSubmit("/api/quote");
+  const { submit, status, message, fields } = useSubmit("quote");
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
