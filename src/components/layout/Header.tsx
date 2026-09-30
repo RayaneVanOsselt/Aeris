@@ -57,10 +57,12 @@ export function Header() {
     return () => window.removeEventListener("aeris:cart-added", onAdd);
   }, []);
 
-  useEffect(() => {
+  const [lastPath, setLastPath] = useState(pathname);
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
     setMegaOpen(false);
     setMenuOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     if (!megaOpen) return;

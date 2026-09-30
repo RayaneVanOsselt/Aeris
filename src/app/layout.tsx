@@ -1,5 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { CartDrawer } from "@/components/cart/CartDrawer";
+import { ChatLauncher } from "@/components/chat/ChatLauncher";
+import { CookieConsent } from "@/components/consent/CookieConsent";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { siteUrl } from "@/lib/site";
@@ -46,6 +51,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        <CartDrawer />
+        <ChatLauncher />
+        <CookieConsent />
+        <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={websiteJsonLd()} />
       </body>
     </html>
   );
