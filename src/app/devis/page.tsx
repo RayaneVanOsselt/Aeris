@@ -3,7 +3,7 @@ import { claims } from "@/lib/business";
 import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { QuoteForm } from "@/components/forms/QuoteForm";
-import { ClaimLabel } from "@/components/ui/Claim";
+import { ClaimLabel, isClaimVisible } from "@/components/ui/Claim";
 import { Icon } from "@/components/ui/Icon";
 
 export const metadata = pageMetadata({
@@ -36,7 +36,9 @@ export default function QuotePage() {
             { icon: "ruler" as const, title: "Joignez vos dimensions", text: "Même approximatives : nous vous aidons à les affiner." },
             { icon: "eye" as const, title: claims.checkedBeforeProduction.label, text: claims.checkedBeforeProduction.detail, claim: true },
             { icon: "chat" as const, title: "Une réponse personnelle", text: "Pas de relance automatique, pas de revente de vos données." },
-          ].map((b) => (
+          ]
+            .filter((b) => !b.claim || isClaimVisible("checkedBeforeProduction"))
+            .map((b) => (
             <div key={b.title} className="flex gap-4 rounded-[var(--radius-lg)] border border-line bg-surface p-6">
               <Icon name={b.icon} size={22} className="mt-0.5 shrink-0 text-sky" />
               <div>

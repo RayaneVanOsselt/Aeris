@@ -66,6 +66,11 @@ export const claims = {
     detail: "Revolut ou virement SEPA : vos données bancaires ne transitent jamais par ce site.",
     toConfirm: false,
   },
+  instantPrice: {
+    label: "Prix immédiat",
+    detail: "Le prix TTC s'affiche pendant que vous configurez, sans inscription.",
+    toConfirm: false,
+  },
   humanSupport: {
     label: "Une équipe qui répond",
     detail: "Une question sur vos mesures ? Nous vous répondons personnellement.",

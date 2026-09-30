@@ -1,5 +1,5 @@
 import { ButtonLink } from "@/components/ui/Button";
-import { ClaimLabel } from "@/components/ui/Claim";
+import { ClaimLabel, isClaimVisible } from "@/components/ui/Claim";
 import { Icon } from "@/components/ui/Icon";
 import { Ruler } from "@/components/ui/Ruler";
 import { HeroVisual } from "./HeroVisual";
@@ -47,7 +47,7 @@ export function Hero() {
             </li>
             <li className="flex items-center gap-2.5">
               <Icon name="ruler" size={18} className="shrink-0 text-sky" />
-              <ClaimLabel id="checkedBeforeProduction" />
+              {isClaimVisible("checkedBeforeProduction") ? <ClaimLabel id="checkedBeforeProduction" /> : "Fabriquée à vos dimensions"}
             </li>
             <li className="flex items-center gap-2.5">
               <Icon name="lock" size={18} className="shrink-0 text-sky" />
