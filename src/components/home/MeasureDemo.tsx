@@ -23,7 +23,7 @@ export function MeasureDemo() {
   const href = `/configurateur?modele=${product.id}&largeur=${w}&hauteur=${h}&coloris=${colorId}`;
 
   return (
-    <div className="grid gap-8 md:grid-cols-[1.1fr_1fr]">
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.1fr_1fr]">
       <div className="relative min-h-[300px] rounded-[var(--radius-lg)] bg-paper-2 md:min-h-[360px]">
         <div aria-hidden className="blueprint-grid absolute inset-0 rounded-[var(--radius-lg)]" />
         <ProductVisual

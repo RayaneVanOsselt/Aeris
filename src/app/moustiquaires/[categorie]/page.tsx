@@ -60,7 +60,7 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
       <section className="py-[var(--section-y)]">
         <div className="container-site">
           <ProductFinder />
-          <div className="mt-[var(--section-y)] grid gap-12 lg:grid-cols-12">
+          <div className="mt-[var(--section-y)] grid grid-cols-1 gap-12 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <SectionHeading eyebrow="Questions" title="Bien choisir." />
             </div>

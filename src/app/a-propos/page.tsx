@@ -42,7 +42,7 @@ export default function AboutPage() {
       />
 
       <section className="py-[var(--section-y)]">
-        <div className="container-site grid gap-12 lg:grid-cols-12">
+        <div className="container-site grid grid-cols-1 gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-7">
             <p className="text-[clamp(1.5rem,3vw,2.25rem)] font-light leading-snug tracking-[-0.025em] text-ink">
               Les moustiquaires standard ferment mal, vieillissent vite et défigurent les fenêtres. Nous avons choisi l&apos;inverse&nbsp;:{" "}
@@ -63,7 +63,7 @@ export default function AboutPage() {
       <section className="border-y border-line bg-surface py-[var(--section-y)]">
         <div className="container-site">
           <SectionHeading eyebrow="Notre méthode" title="Quatre étapes, aucune surprise." />
-          <ol className="mt-14 grid gap-px overflow-hidden rounded-[var(--radius-xl)] border border-line bg-line md:grid-cols-4">
+          <ol className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-[var(--radius-xl)] border border-line bg-line md:grid-cols-4">
             {method.map((m, i) => (
               <Reveal as="li" key={m.n} delay={i * 80} className="bg-surface p-7">
                 <p className="t-num text-sm text-sky">{m.n}</p>
@@ -78,7 +78,7 @@ export default function AboutPage() {
       <section className="py-[var(--section-y)]">
         <div className="container-site">
           <SectionHeading eyebrow="Nos valeurs" title="Ce qui guide chaque moustiquaire." />
-          <div className="mt-14 grid gap-4 md:grid-cols-3">
+          <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
             {values.map((v, i) => (
               <Reveal key={v.title} delay={i * 80} className="rounded-[var(--radius-xl)] border border-line bg-surface p-7">
                 <Icon name={v.icon} size={24} className="text-ink" />
@@ -95,7 +95,7 @@ export default function AboutPage() {
             ))}
           </ul>
           {showPlaceholders && (
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
               {["Photo de l'équipe", "Photo de l'atelier / du stock", "Certifications ou partenaires (si existants)"].map((t) => (
                 <Placeholder key={t} title={t} />
               ))}

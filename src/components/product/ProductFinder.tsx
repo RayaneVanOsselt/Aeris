@@ -56,7 +56,7 @@ export function ProductFinder() {
   const questions = ["Quelle ouverture ?", "Comment l'utilisez-vous ?", "Un besoin particulier ?"];
 
   return (
-    <div className="grid gap-8 rounded-[var(--radius-xl)] border border-line bg-paper-2/60 p-5 sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:p-10">
+    <div className="grid grid-cols-1 gap-8 rounded-[var(--radius-xl)] border border-line bg-paper-2/60 p-5 sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:p-10">
       <div>
         <div className="flex items-center gap-2" aria-hidden>
           {questions.map((q, i) => (

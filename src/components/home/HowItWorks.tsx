@@ -59,7 +59,7 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+    <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
       <div className="hidden lg:block">
         <div className="sticky top-[calc(var(--header-h)+3rem)]">
           <div className="relative aspect-[5/4] overflow-hidden rounded-[var(--radius-xl)] border border-line bg-surface shadow-[var(--shadow-md)]">

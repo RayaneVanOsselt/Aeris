@@ -49,7 +49,7 @@ export function CartView() {
   }
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12">
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
       <ul className="divide-y divide-line border-y border-line lg:col-span-8" aria-label="Articles du panier">
         {items.map((item) => {
           const product = getProduct(item.config.productId);

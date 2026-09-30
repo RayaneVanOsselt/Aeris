@@ -27,7 +27,7 @@ export function PageHeader({
       />
       <div className="container-site relative pb-12 pt-8 md:pb-16 md:pt-12">
         <Breadcrumb items={crumbs} />
-        <div className="mt-10 grid items-end gap-10 md:mt-14 lg:grid-cols-12">
+        <div className="mt-10 grid grid-cols-1 items-end gap-10 md:mt-14 lg:grid-cols-12">
           <div className="max-w-3xl lg:col-span-7">
             {eyebrow && (
               <p className="t-caption animate-fade-up mb-5 inline-flex items-center gap-2 text-ink-3">

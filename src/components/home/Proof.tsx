@@ -18,7 +18,7 @@ export function Proof() {
     <section className="section-y border-t border-line bg-surface">
       <div className="container-site">
         <SectionHeading eyebrow="Ils ont choisi Aéris" title="Des intérieurs qui respirent." />
-        <div className="mt-14 grid gap-4 md:grid-cols-3">
+        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
           {hasReviews
             ? reviews.slice(0, 3).map((r, i) => (
                 <Reveal as="figure" key={`${r.author}-${r.date}`} delay={i * 80} className="flex flex-col rounded-[var(--radius-xl)] border border-line bg-paper p-7">

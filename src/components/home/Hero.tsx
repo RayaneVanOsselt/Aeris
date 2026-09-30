@@ -11,7 +11,7 @@ export function Hero() {
         aria-hidden
         className="blueprint-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_75%_40%,#000_20%,transparent_75%)]"
       />
-      <div className="container-site relative grid items-center gap-12 pb-10 pt-10 md:pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-20 lg:pt-20">
+      <div className="container-site relative grid grid-cols-1 items-center gap-12 pb-10 pt-10 md:pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-20 lg:pt-20">
         <div className="lg:col-span-7">
           <p className="t-caption animate-fade-up mb-7 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/70 py-1.5 pl-2 pr-3.5 text-ink-2 backdrop-blur">
             <span className="relative flex size-2">
@@ -38,7 +38,7 @@ export function Hero() {
             </ButtonLink>
           </div>
           <ul
-            className="animate-fade-up mt-10 grid gap-x-8 gap-y-3 text-[0.9375rem] text-ink-2 sm:grid-cols-3"
+            className="animate-fade-up mt-10 grid grid-cols-1 gap-x-8 gap-y-3 text-[0.9375rem] text-ink-2 sm:grid-cols-3"
             style={{ "--delay": "320ms" } as React.CSSProperties}
           >
             <li className="flex items-center gap-2.5">

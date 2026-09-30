@@ -76,7 +76,7 @@ export function CatalogGrid({ items, filters = ["fenetre", "porte", "baie"] }: {
           </button>
         </div>
       ) : (
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {list.map((p, i) => (
             <div key={p.id} className="animate-fade-up" style={{ "--delay": `${i * 50}ms` } as React.CSSProperties}>
               <ProductCard product={p} className="h-full" headingLevel="h2" />

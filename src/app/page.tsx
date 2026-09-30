@@ -76,7 +76,7 @@ export default function HomePage() {
       <Proof />
 
       <section className="section-y">
-        <div className="container-site grid gap-12 lg:grid-cols-12">
+        <div className="container-site grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <SectionHeading eyebrow="Questions fréquentes" title="Les réponses, avant même de demander." />
             <Reveal className="mt-8">

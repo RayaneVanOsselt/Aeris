@@ -16,7 +16,7 @@ export function MeshExplorer() {
   const tint = mesh.id === "solaire" ? "rgb(10 22 49 / 0.18)" : "transparent";
 
   return (
-    <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+    <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
       <div className="relative mx-auto aspect-square w-full max-w-[460px]">
         <div aria-hidden className="absolute inset-0 rounded-full bg-gradient-to-b from-[#cfe0f5] via-[#e8efe6] to-[#d6e4c8]" />
         <div aria-hidden className="absolute inset-[18%] rounded-full bg-[radial-gradient(circle_at_40%_35%,#f7f2e4,transparent_60%)] opacity-80" />

@@ -76,7 +76,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           ]}
         />
 
-        <div className="mt-8 grid gap-10 lg:mt-12 lg:grid-cols-12 lg:gap-14">
+        <div className="mt-8 grid grid-cols-1 gap-10 lg:mt-12 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-7">
             <div className="lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
               <ProductShowcase product={product} />
@@ -134,7 +134,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       </section>
 
       <section className="border-y border-line bg-surface py-[var(--section-y)]">
-        <div className="container-site grid gap-14 lg:grid-cols-12">
+        <div className="container-site grid grid-cols-1 gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionHeading eyebrow="En détail" title={<>Pensée pour <span className="accent text-sand-deep">votre quotidien.</span></>} />
             <Reveal className="mt-8 text-ink-2">
@@ -153,7 +153,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             <h3 className="t-caption mb-2 text-ink-3">Caractéristiques</h3>
             <dl className="divide-y divide-line border-y border-line">
               {specs.map(([k, v]) => (
-                <div key={k} className="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6">
+                <div key={k} className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6">
                   <dt className="text-sm text-ink-3">{k}</dt>
                   <dd className="text-ink">{v}</dd>
                 </div>
@@ -164,7 +164,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       </section>
 
       <section className="py-[var(--section-y)]">
-        <div className="container-site grid gap-14 lg:grid-cols-12">
+        <div className="container-site grid grid-cols-1 gap-14 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <SectionHeading eyebrow="Questions" title="Avant de commander." />
             <Reveal className="mt-8">
@@ -187,7 +187,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       <section className="border-t border-line bg-surface py-[var(--section-y)]">
         <div className="container-site">
           <SectionHeading eyebrow="Vous hésitez encore ?" title="Les modèles voisins." />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

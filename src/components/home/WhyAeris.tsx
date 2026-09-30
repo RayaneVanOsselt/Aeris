@@ -20,7 +20,7 @@ export function WhyAeris() {
           intro="Parce qu'elle est faite pour votre ouverture — pas pour une taille standard qu'il faudrait recouper, caler ou supporter."
         />
 
-        <div className="mt-14 grid gap-4 md:grid-cols-6 lg:mt-20">
+        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-6 lg:mt-20">
           <Reveal className="rounded-[var(--radius-xl)] border border-line bg-surface p-5 sm:p-8 md:col-span-6 lg:col-span-4 lg:row-span-2">
             <div className="mb-6 flex items-start justify-between gap-4">
               <div>

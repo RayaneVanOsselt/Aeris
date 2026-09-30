@@ -11,7 +11,7 @@ export function Footer() {
     <footer className="relative overflow-hidden bg-night text-on-night">
       <div className="mesh-texture-night pointer-events-none absolute inset-0 opacity-60" aria-hidden />
       <div className="container-site relative">
-        <div className="grid gap-12 border-b border-line-night py-16 md:grid-cols-12 md:py-20">
+        <div className="grid grid-cols-1 gap-12 border-b border-line-night py-16 md:grid-cols-12 md:py-20">
           <div className="md:col-span-4">
             <Logo tone="light" />
             <p className="mt-6 max-w-xs text-on-night-2">

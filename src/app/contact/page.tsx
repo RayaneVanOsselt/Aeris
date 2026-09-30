@@ -38,7 +38,7 @@ export default function ContactPage() {
         }
         intro="Sur un modèle, vos mesures ou votre commande : un membre de l'équipe vous répond personnellement."
       />
-      <section className="container-site grid gap-12 pb-[var(--section-y)] pt-10 lg:grid-cols-12">
+      <section className="container-site grid grid-cols-1 gap-12 pb-[var(--section-y)] pt-10 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <Suspense fallback={<div className="skeleton h-[560px] rounded-[var(--radius-xl)]" />}>
             <ContactForm />

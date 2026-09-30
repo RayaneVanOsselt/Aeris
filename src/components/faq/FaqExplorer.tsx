@@ -25,7 +25,7 @@ export function FaqExplorer({ categories }: { categories: FaqCategory[] }) {
   const count = filtered.reduce((n, c) => n + c.items.length, 0);
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12">
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
       <aside className="lg:col-span-3">
         <div className="lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
           <label className="relative block">

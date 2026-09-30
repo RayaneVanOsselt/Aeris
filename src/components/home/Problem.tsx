@@ -43,7 +43,7 @@ export function Problem() {
           intro="Chaleur, sommeil, lumière du soir : les meilleures heures de l'été sont aussi celles où les moustiques entrent."
         />
 
-        <ol className="relative mt-16 grid gap-10 md:mt-24 md:grid-cols-4 md:gap-6">
+        <ol className="relative mt-16 grid grid-cols-1 gap-10 md:mt-24 md:grid-cols-4 md:gap-6">
           <span aria-hidden className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-line-night md:left-0 md:top-[7px] md:h-px md:w-full" />
           {night.map((step, i) => (
             <Reveal as="li" key={step.time} delay={i * 110} className="relative pl-10 md:pl-0 md:pt-12">

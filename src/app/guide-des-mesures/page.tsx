@@ -42,7 +42,7 @@ export default function MeasureGuidePage() {
         intro="Une moustiquaire sur mesure commence par une bonne mesure. La méthode est simple — et nous vérifions chaque configuration avant fabrication."
       />
 
-      <section className="container-site grid gap-14 py-16 lg:grid-cols-12 lg:py-24">
+      <section className="container-site grid grid-cols-1 gap-14 py-16 lg:grid-cols-12 lg:py-24">
         <div className="lg:col-span-5">
           <div className="rounded-[var(--radius-xl)] border border-line bg-surface p-6 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
             <MeasureGuideVisual className="w-full" />
@@ -63,7 +63,7 @@ export default function MeasureGuidePage() {
       <section className="border-y border-line bg-surface py-[var(--section-y)]">
         <div className="container-site">
           <SectionHeading eyebrow="À éviter" title="Les trois erreurs les plus fréquentes." />
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
             {mistakes.map((m, i) => (
               <Reveal key={m.title} delay={i * 80} className="rounded-[var(--radius-xl)] border border-line bg-paper p-7">
                 <Icon name={m.icon} size={24} className="text-sky" />

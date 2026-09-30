@@ -12,7 +12,7 @@ export function LegalPage({ title, path, intro, sections }: { title: string; pat
   return (
     <>
       <PageHeader crumbs={[{ name: title, href: path }]} eyebrow="Informations légales" title={title} intro={intro} />
-      <section className="container-site grid gap-12 pb-[var(--section-y)] pt-12 lg:grid-cols-12">
+      <section className="container-site grid grid-cols-1 gap-12 pb-[var(--section-y)] pt-12 lg:grid-cols-12">
         <nav aria-label="Sommaire" className="lg:col-span-3">
           <ol className="t-small space-y-2 text-ink-2 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
             {sections.map((s, i) => (

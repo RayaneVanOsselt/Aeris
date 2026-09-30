@@ -82,7 +82,7 @@ export function QuoteForm() {
           </label>
         </div>
       )}
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <TextField label="Nom complet" name="name" autoComplete="name" required error={err("name")} />
         <TextField label="E-mail" name="email" type="email" autoComplete="email" required error={err("email")} />
         <TextField label="Téléphone" name="phone" type="tel" autoComplete="tel" optional error={err("phone")} />

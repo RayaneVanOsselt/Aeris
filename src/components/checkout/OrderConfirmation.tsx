@@ -51,7 +51,7 @@ export function OrderConfirmation() {
   };
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12">
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
       <div className="lg:col-span-7">
         <div className="flex items-center gap-4">
           <span className="flex size-12 items-center justify-center rounded-full bg-success text-white">

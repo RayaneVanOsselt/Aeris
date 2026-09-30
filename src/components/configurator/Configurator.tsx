@@ -81,7 +81,7 @@ export function Configurator() {
   const h = parseNumber(state.height);
 
   return (
-    <div className="grid gap-8 pb-28 lg:grid-cols-12 lg:gap-12 lg:pb-0">
+    <div className="grid grid-cols-1 gap-8 pb-28 lg:grid-cols-12 lg:gap-12 lg:pb-0">
       {/* Progression */}
       <nav aria-label="Étapes de configuration" className="lg:col-span-12">
         <ol className="scroll-row -mx-[var(--gutter)] flex gap-2 overflow-x-auto px-[var(--gutter)] sm:mx-0 sm:px-0">

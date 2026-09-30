@@ -25,7 +25,7 @@ export default function QuotePage() {
         }
         intro="Plusieurs ouvertures, une grande baie, une forme spéciale ou une question de pose : décrivez-nous tout, nous revenons vers vous avec une proposition."
       />
-      <section className="container-site grid gap-12 pb-[var(--section-y)] pt-10 lg:grid-cols-12">
+      <section className="container-site grid grid-cols-1 gap-12 pb-[var(--section-y)] pt-10 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <Suspense fallback={<div className="skeleton h-[560px] rounded-[var(--radius-xl)]" />}>
             <QuoteForm />

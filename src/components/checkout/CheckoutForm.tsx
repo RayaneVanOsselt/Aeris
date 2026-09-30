@@ -98,7 +98,7 @@ export function CheckoutForm() {
   };
 
   return (
-    <form onSubmit={onSubmit} noValidate className="grid gap-10 lg:grid-cols-12">
+    <form onSubmit={onSubmit} noValidate className="grid grid-cols-1 gap-10 lg:grid-cols-12">
       <div className="space-y-12 lg:col-span-7">
         <Honeypot />
         <fieldset>
@@ -106,7 +106,7 @@ export function CheckoutForm() {
             <span className="t-num flex size-8 items-center justify-center rounded-full bg-ink text-sm text-paper">1</span>
             Vos coordonnées
           </legend>
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <TextField label="Prénom" name="firstName" autoComplete="given-name" required error={errorFor("firstName")} />
             <TextField label="Nom" name="lastName" autoComplete="family-name" required error={errorFor("lastName")} />
             <TextField label="E-mail" name="email" type="email" autoComplete="email" required error={errorFor("email")} hint="Pour la confirmation et les instructions de paiement." />
@@ -119,7 +119,7 @@ export function CheckoutForm() {
             <span className="t-num flex size-8 items-center justify-center rounded-full bg-ink text-sm text-paper">2</span>
             Livraison
           </legend>
-          <div className="grid gap-5 sm:grid-cols-6">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-6">
             <TextField label="Rue et numéro" name="street" autoComplete="street-address" required error={errorFor("street")} className="sm:col-span-6" />
             <TextField label="Code postal" name="postalCode" autoComplete="postal-code" required error={errorFor("postalCode")} className="sm:col-span-2" />
             <TextField label="Ville" name="city" autoComplete="address-level2" required error={errorFor("city")} className="sm:col-span-4" />
@@ -138,7 +138,7 @@ export function CheckoutForm() {
             Paiement
           </legend>
           <p className="mb-6 text-ink-2">Vous recevez les instructions juste après la commande. La fabrication démarre à réception du paiement.</p>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {payment.methods.map((m) => (
               <label
                 key={m}

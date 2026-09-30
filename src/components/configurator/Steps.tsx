@@ -49,7 +49,7 @@ export function StepModel({ state, dispatch, onPick }: StepProps & { onPick: () 
         {groups.map((g) => (
           <fieldset key={g}>
             <legend className="t-caption mb-4 text-ink-3">{openings[g].plural}</legend>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {products
                 .filter((p) => p.openings[0] === g || (g === "baie" && p.id === "sur-mesure-plus"))
                 .filter((p) => !(g !== "baie" && p.id === "sur-mesure-plus"))
@@ -114,7 +114,7 @@ export function StepDimensions({ state, dispatch, product }: StepProps & { produ
   return (
     <div>
       <StepTitle index={1} title="Vos dimensions" intro="En millimètres, au plus juste. Nous vérifions chaque configuration avant de lancer la fabrication." />
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {fields.map((f) => {
           const issue = touched[f.key] ? issues.find((i) => i.field === f.key) : undefined;
           return (
@@ -169,7 +169,7 @@ export function StepDimensions({ state, dispatch, product }: StepProps & { produ
         </p>
       ))}
 
-      <div className="mt-10 grid gap-6 rounded-[var(--radius-lg)] border border-line bg-paper-2/60 p-6 sm:grid-cols-[140px_1fr] sm:items-center">
+      <div className="mt-10 grid grid-cols-1 gap-6 rounded-[var(--radius-lg)] border border-line bg-paper-2/60 p-6 sm:grid-cols-[140px_1fr] sm:items-center">
         <ProductVisual kind={product.visual} width={product.defaultSize.width} height={product.defaultSize.height} dimensions color="#383C42" className="mx-auto h-40 w-full max-w-[140px]" title="Où mesurer" />
         <div>
           <p className="t-h4 text-ink">Bien mesurer en 30 secondes</p>
@@ -197,7 +197,7 @@ export function StepFinish({ state, dispatch }: StepProps) {
       <StepTitle index={2} title="Toile et coloris" intro="La toile détermine l'usage, le coloris l'harmonie avec vos menuiseries." />
       <fieldset>
         <legend className="t-caption mb-4 text-ink-3">Toile</legend>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {meshes.map((m) => {
             const selected = state.meshId === m.id;
             return (
@@ -286,7 +286,7 @@ export function StepOptions({ state, dispatch }: StepProps) {
       <StepTitle index={3} title="Options et quantité" intro="Tout est facultatif. Chaque option s'ajoute au prix affiché." />
       <fieldset>
         <legend className="t-caption mb-4 text-ink-3">Options</legend>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {productOptions.map((o) => {
             const selected = state.optionIds.includes(o.id);
             return (
@@ -314,7 +314,7 @@ export function StepOptions({ state, dispatch }: StepProps) {
         </div>
       </fieldset>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
+      <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <p id={`${id}-qty`} className="t-caption mb-3 text-ink-3">
             Quantité (mêmes dimensions)
@@ -466,7 +466,7 @@ export function StepSummary({
           </div>
         </div>
       ) : (
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Button onClick={onAdd} size="lg" arrow icon="bag" className={product.id === "sur-mesure-plus" ? "order-2" : ""} variant={product.id === "sur-mesure-plus" ? "secondary" : "primary"}>
             Ajouter au panier
           </Button>

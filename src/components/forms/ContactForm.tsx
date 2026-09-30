@@ -69,13 +69,13 @@ export function ContactForm() {
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-6 rounded-[var(--radius-xl)] border border-line bg-surface p-6 sm:p-8">
       <Honeypot />
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <TextField label="Prénom" name="firstName" autoComplete="given-name" required error={err("firstName")} />
         <TextField label="Nom" name="lastName" autoComplete="family-name" required error={err("lastName")} />
         <TextField label="E-mail" name="email" type="email" autoComplete="email" required error={err("email")} />
         <TextField label="Téléphone" name="phone" type="tel" autoComplete="tel" optional error={err("phone")} />
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <SelectField label="Sujet" name="subject" defaultValue={ref ? "Suivi de commande" : subjects[0]}>
           {subjects.map((s) => (
             <option key={s}>{s}</option>
