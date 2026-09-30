@@ -1,0 +1,9 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /panier
+Disallow: /commande
+Disallow: /mes-commandes
+
+Host: https://rayanevanosselt.github.io/Aeris
+Sitemap: https://rayanevanosselt.github.io/Aeris/sitemap.xml
