@@ -76,8 +76,10 @@ export function answer(messages: ChatMessage[]): ChatReply {
   const last = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
   const text = norm(last);
   const context = norm(messages.filter((m) => m.role === "user").map((m) => m.content).join(" "));
-  const product = findProduct(text) ?? (has(text, "combien", "prix", "tarif", "cout") ? findProduct(context) : undefined);
   const dims = parseDimensions(last);
+  // « prix fenêtre 80x120 » : la fenêtre (hors porte-fenêtre) désigne notre modèle fenêtre
+  const windowByDefault = dims && has(text, "fenetre") && !has(text, "porte fenetre", "porte-fenetre") ? getProduct("fenetre") : undefined;
+  const product = findProduct(text) ?? windowByDefault ?? (has(text, "combien", "prix", "tarif", "cout") ? findProduct(context) : undefined);
 
   if (has(text, "bonjour", "salut", "hello", "bonsoir") && text.split(" ").filter(Boolean).length <= 4) {
     return reply(

@@ -18,7 +18,7 @@ export function QuoteForm() {
   const config = toConfiguration(parseParams(params));
   const onlyModel = !config ? getProduct(params.get("modele") ?? "") : undefined;
   const [attach, setAttach] = useState(true);
-  const { submit, status, message, fields } = useSubmit("/api/quote");
+  const { submit, status, message, fields } = useSubmit("quote");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const err = (k: string) => errors[k] ?? fields[k];
 

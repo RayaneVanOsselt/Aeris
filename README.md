@@ -18,7 +18,8 @@ npm run dev                  # http://localhost:3000
 | Commande            | Rôle                                                   |
 | ------------------- | ------------------------------------------------------ |
 | `npm run dev`       | Serveur de développement                               |
-| `npm run build`     | Build de production                                    |
+| `npm run build`     | Build de production (hébergement avec serveur)         |
+| `npm run build:pages` | Build statique pour GitHub Pages (dossier `out/`)    |
 | `npm start`         | Sert le build de production                            |
 | `npm run lint`      | ESLint (règles Next.js, React, accessibilité)          |
 | `npm run typecheck` | Vérification TypeScript stricte                        |
@@ -42,15 +43,32 @@ Les engagements marqués `toConfirm: true` dans `business.ts` s'affichent avec u
 tant que `NEXT_PUBLIC_SHOW_PLACEHOLDERS=true`, et sont **masqués** quand il vaut `false`.
 Passez-les à `toConfirm: false` une fois validés.
 
-## Mise en production (Vercel recommandé)
+## Mise en production
+
+### GitHub Pages (configuration actuelle)
+
+Le workflow `.github/workflows/deploy-pages.yml` contrôle, compile et publie le site
+à chaque push sur `main` : https://rayanevanosselt.github.io/Aeris/
+
+À faire **une seule fois** : *Settings → Pages → Build and deployment → Source : GitHub Actions*.
+
+Tester la version statique en local :
+
+```bash
+npm run build:pages   # génère le dossier out/ (préfixe /Aeris)
+```
+
+Différences avec un hébergement serveur : formulaires envoyés directement à Formspree
+depuis le navigateur (mêmes validations), assistant limité au moteur local (pas d'IA
+externe), pas d'en-têtes de sécurité personnalisés ni de limite de débit côté serveur.
+
+### Vercel (version complète, si besoin plus tard)
 
 1. Importez le dépôt sur Vercel (framework détecté automatiquement).
-2. Déclarez les variables de `.env.example` dans *Settings → Environment Variables*,
-   au minimum `NEXT_PUBLIC_SITE_URL` et `NEXT_PUBLIC_SHOW_PLACEHOLDERS=false`.
-3. En production, les formulaires sont transmis à Formspree (`MAIL_TRANSPORT=formspree`).
-
-Le site ne peut plus être hébergé sur GitHub Pages : l'assistant IA et la validation des
-commandes s'exécutent côté serveur pour que les clés API ne soient jamais exposées.
+2. Déclarez les variables de `.env.example`, au minimum `NEXT_PUBLIC_SITE_URL`
+   et `NEXT_PUBLIC_SHOW_PLACEHOLDERS=false`.
+3. Les routes API (`src/app/api/*/route.api.ts`), l'assistant IA et les en-têtes
+   de sécurité sont alors actifs.
 
 ## Ancien site
 

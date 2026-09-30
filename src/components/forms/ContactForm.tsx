@@ -13,7 +13,7 @@ const subjects = ["Question sur un produit", "Aide pour mes mesures", "Suivi de 
 export function ContactForm() {
   const params = useSearchParams();
   const ref = params.get("ref") ?? "";
-  const { submit, status, message, fields, reset } = useSubmit("/api/contact");
+  const { submit, status, message, fields, reset } = useSubmit("contact");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const err = (k: string) => errors[k] ?? fields[k];
 

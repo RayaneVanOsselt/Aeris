@@ -1,11 +1,15 @@
 import type { MetadataRoute } from "next";
+
+export const dynamic = "force-static";
 import { categories, products } from "@/lib/catalog";
+import { isStaticSite } from "@/lib/deploy";
 import { siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const page = (path: string, priority: number, changeFrequency: "weekly" | "monthly" | "yearly" = "monthly") => ({
-    url: `${siteUrl}${path}`,
+    // GitHub Pages sert chaque page dans un dossier : URL avec « / » final
+    url: `${siteUrl}${isStaticSite && !path.endsWith("/") ? `${path}/` : path}`,
     lastModified: now,
     changeFrequency,
     priority,

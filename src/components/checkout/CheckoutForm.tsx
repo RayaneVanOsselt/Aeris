@@ -28,7 +28,7 @@ export function CheckoutForm() {
   const items = useCart();
   const hydrated = useHydrated();
   const router = useRouter();
-  const { submit, status, message, fields } = useSubmit<OrderResponse>("/api/order");
+  const { submit, status, message, fields } = useSubmit<OrderResponse>("order");
   const [method, setMethod] = useState<Method>("Revolut");
   const [localErrors, setLocalErrors] = useState<Record<string, string>>({});
   const total = items.reduce((s, i) => s + safeTotal(i.config), 0);

@@ -44,3 +44,11 @@ describe("zones de livraison", () => {
     expect(ask("Vous livrez au Japon ?").reply).toBe(FALLBACK);
   });
 });
+
+describe("estimation directe", () => {
+  it("chiffre une fenêtre donnée en centimètres", () => {
+    const r = ask("prix fenêtre 80x120 cm ?");
+    expect(r.reply).toMatch(/800 mm × 1.200 mm/);
+    expect(r.reply).toContain("TTC");
+  });
+});

@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { sendForm, type Endpoint } from "./transport";
 
 type Status = "idle" | "loading" | "success" | "error";
 type ApiResult<T> = { ok: true; data: T } | { ok: false; message: string; fields?: Record<string, string> };
 
 /**
- * Envoi JSON vers nos API avec des messages d'erreur compréhensibles
+ * Envoi d'un formulaire avec des messages d'erreur compréhensibles
  * (réseau, validation, surcharge) — jamais d'erreur technique brute.
  */
-export function useSubmit<T = unknown>(url: string) {
+export function useSubmit<T = unknown>(endpoint: Endpoint) {
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string>("");
   const [fields, setFields] = useState<Record<string, string>>({});
@@ -18,17 +19,17 @@ export function useSubmit<T = unknown>(url: string) {
     setStatus("loading");
     setMessage("");
     setFields({});
-    let res: Response;
+    let result: Awaited<ReturnType<typeof sendForm>>;
     try {
-      res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      result = await sendForm(endpoint, body);
     } catch {
       const msg = "Connexion impossible. Vérifiez votre connexion internet puis réessayez.";
       setStatus("error");
       setMessage(msg);
       return { ok: false, message: msg };
     }
-    const json = (await res.json().catch(() => ({}))) as { ok?: boolean; message?: string; fields?: Record<string, string> } & T;
-    if (!res.ok || !json.ok) {
+    const { status: code, json } = result;
+    if (code < 200 || code >= 300 || !json.ok) {
       const msg = json.message ?? "Une erreur est survenue. Réessayez dans un instant.";
       setStatus("error");
       setMessage(msg);
@@ -36,7 +37,7 @@ export function useSubmit<T = unknown>(url: string) {
       return { ok: false, message: msg, fields: json.fields };
     }
     setStatus("success");
-    return { ok: true, data: json };
+    return { ok: true, data: json as unknown as T };
   }
 
   return { submit, status, message, fields, setFields, reset: () => setStatus("idle") };

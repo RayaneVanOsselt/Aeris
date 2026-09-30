@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV !== "production";
+/** Version statique pour GitHub Pages : pas de serveur, donc ni API, ni en-têtes, ni redirections. */
+const isStaticSite = process.env.NEXT_PUBLIC_DEPLOY_TARGET === "github-pages";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const hasAnalytics = Boolean(process.env.NEXT_PUBLIC_GA_ID);
 
 /**
@@ -43,9 +46,11 @@ const legacyProductSlugs: Record<string, string> = {
   mesure: "sur-mesure-plus",
 };
 
-const nextConfig: NextConfig = {
+const serverConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Les routes API sont nommées route.api.ts : actives uniquement sur un hébergement avec serveur
+  pageExtensions: ["tsx", "ts", "api.ts"],
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
@@ -80,5 +85,16 @@ const nextConfig: NextConfig = {
     ];
   },
 };
+
+const staticConfig: NextConfig = {
+  reactStrictMode: true,
+  output: "export",
+  basePath,
+  trailingSlash: true,
+  pageExtensions: ["tsx", "ts"],
+  images: { unoptimized: true },
+};
+
+const nextConfig = isStaticSite ? staticConfig : serverConfig;
 
 export default nextConfig;

@@ -77,14 +77,17 @@ garantie 5 ans, fabrication européenne, vérification avant fabrication, répon
 
 **À fournir** : e-mail, téléphone, adresse, horaires, n° BCE/TVA ; photos réelles (produits posés, détails, atelier, équipe) ; avis authentiques ; histoire de l'entreprise ; règles de mesure précises par modèle ; textes juridiques (mentions, CGV, confidentialité, cookies) ; confirmation des prix, délais et limites de dimensions ; frais de livraison.
 
-**Services** : domaine + `NEXT_PUBLIC_SITE_URL` ; hébergement Vercel ; clé `ANTHROPIC_API_KEY` ou `OPENAI_API_KEY` (facultatif) ; `NEXT_PUBLIC_GA_ID` (facultatif) ; `CRM_WEBHOOK_URL` (facultatif) ; paiement par carte (Stripe, Mollie…) si souhaité plus tard ; limite de débit partagée (Upstash/Redis) si plusieurs instances.
+**Hébergement** : GitHub Pages via GitHub Actions (réglage *Source : GitHub Actions* à activer une fois). En version statique, les formulaires partent directement vers Formspree et l'assistant utilise le moteur local ; Vercel reste possible pour la version complète (IA, routes API, en-têtes de sécurité).
+
+**Services** : domaine personnalisé (facultatif) ; clé `ANTHROPIC_API_KEY` ou `OPENAI_API_KEY` (facultatif) ; `NEXT_PUBLIC_GA_ID` (facultatif) ; `CRM_WEBHOOK_URL` (facultatif) ; paiement par carte (Stripe, Mollie…) si souhaité plus tard ; limite de débit partagée (Upstash/Redis) si plusieurs instances.
 
 ## 9. Lancement
 
 ```bash
 npm install
 cp .env.example .env.local
-npm run dev        # développement
-npm run build      # build de production
-npm start          # production
+npm run dev          # développement
+npm run build:pages  # version statique GitHub Pages (dossier out/)
+npm run build        # version serveur (Vercel/Node)
+npm start            # sert la version serveur
 ```
