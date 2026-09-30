@@ -38,3 +38,9 @@ describe("assistant local", () => {
     expect(ask("prix plissée 5000x2000 mm").reply).toContain("Maximum");
   });
 });
+
+describe("zones de livraison", () => {
+  it("ne confirme pas une zone de livraison non validée", () => {
+    expect(ask("Vous livrez au Japon ?").reply).toBe(FALLBACK);
+  });
+});

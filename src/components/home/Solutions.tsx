@@ -57,16 +57,16 @@ export function Solutions() {
         id={`panel-${active}`}
         aria-labelledby={`tab-${active}`}
         key={active}
-        className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]"
+        className="scroll-row -mx-[var(--gutter)] mt-10 flex gap-4 overflow-x-auto px-[var(--gutter)] pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]"
       >
         {list.map((p, i) => (
-          <div key={p.id} className="animate-fade-up" style={{ "--delay": `${i * 70}ms` } as React.CSSProperties}>
+          <div key={p.id} className="animate-fade-up w-[78%] shrink-0 snap-start sm:w-auto" style={{ "--delay": `${i * 70}ms` } as React.CSSProperties}>
             <ProductCard product={p} className="h-full" />
           </div>
         ))}
         <Link
           href="/produits/sur-mesure-plus"
-          className="animate-fade-up group relative flex min-h-64 flex-col justify-between overflow-hidden rounded-[var(--radius-lg)] bg-night p-6 text-on-night"
+          className="animate-fade-up group relative flex min-h-64 w-[78%] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-[var(--radius-lg)] bg-night p-6 text-on-night sm:w-auto"
           style={{ "--delay": `${list.length * 70}ms` } as React.CSSProperties}
         >
           <span aria-hidden className="mesh-texture-night absolute inset-0" />

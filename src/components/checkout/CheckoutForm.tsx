@@ -220,7 +220,7 @@ export function CheckoutForm() {
               <FormAlert tone="error">{message}</FormAlert>
             </div>
           )}
-          <Button type="submit" size="lg" block arrow disabled={status === "loading"} className="mt-6 hidden lg:inline-flex">
+          <Button type="submit" size="lg" block arrow disabled={status === "loading"} className="mt-6 max-lg:hidden">
             {status === "loading" ? "Envoi en cours…" : "Confirmer la commande"}
           </Button>
           <ul className="mt-5 space-y-2 text-sm text-ink-2">

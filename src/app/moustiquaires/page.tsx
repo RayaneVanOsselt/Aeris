@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { CatalogGrid } from "@/components/product/CatalogGrid";
 import { CompareTable } from "@/components/product/CompareTable";
 import { ProductFinder } from "@/components/product/ProductFinder";
+import { ProductTrio } from "@/components/product/ProductTrio";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export const metadata = pageMetadata({
@@ -24,6 +25,7 @@ export default function CatalogPage() {
             Toutes nos moustiquaires, <span className="accent text-sand-deep">à vos mesures.</span>
           </>
         }
+        aside={<ProductTrio ids={["fenetre", "plissee", "coulissante"]} />}
         intro="Huit solutions, toutes fabriquées sur mesure. Les prix indiqués sont des prix de départ : le prix exact s'affiche dans le configurateur selon vos dimensions."
       />
 

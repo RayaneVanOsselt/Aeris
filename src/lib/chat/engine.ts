@@ -1,4 +1,4 @@
-import { claims, payment, shipping } from "../business";
+import { claims, company, payment, shipping } from "../business";
 import { frameColors, getProduct, meshes, products, type Product } from "../catalog";
 import { faq } from "../faq";
 import { formatLeadTime, formatMm, formatPrice } from "../format";
@@ -184,6 +184,11 @@ export function answer(messages: ChatMessage[]): ChatReply {
       `Le paiement se fait par **${payment.methods.join("** ou **")}**, après la commande : vous recevez les instructions avec votre référence. Aucune donnée bancaire n'est saisie sur le site. La fabrication démarre à réception du paiement.`,
       [],
     );
+  }
+
+  // Zone de livraison non confirmée par l'entreprise : on ne s'avance pas
+  if (has(text, "livr", "expedi", "envoi") && has(text, "pays", "etranger", "international", "ou livrez", "japon", "suisse", "canada", "usa", "maroc", "royaume") && company.deliveryArea.toConfirm) {
+    return reply(FALLBACK, [{ type: "link", ...pages.contact }, { type: "quote", label: "Être recontacté" }]);
   }
 
   if (has(text, "delai", "livr", "quand", "combien de temps", "expedi")) {

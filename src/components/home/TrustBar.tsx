@@ -17,7 +17,7 @@ export function TrustBar() {
     <section aria-label="Nos engagements" className="border-y border-line bg-surface">
       <ul className="container-site scroll-row flex gap-8 overflow-x-auto py-6 lg:grid lg:grid-cols-5 lg:gap-6">
         {visible.map((item) => (
-          <li key={item.id} className="flex min-w-[15rem] shrink-0 snap-start items-start gap-3.5 lg:min-w-0">
+          <li key={item.id} className="flex w-[16.5rem] shrink-0 snap-start items-start gap-3.5 lg:w-auto">
             <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-paper-2 text-ink">
               <Icon name={item.icon} size={19} />
             </span>

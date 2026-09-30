@@ -1,19 +1,10 @@
-import { getColor, getProduct } from "@/lib/catalog";
-import { formatPrice } from "@/lib/format";
-import { computePrice } from "@/lib/pricing";
-import { ProductVisual } from "@/components/product/ProductVisual";
 import { ButtonLink } from "@/components/ui/Button";
 import { ClaimLabel } from "@/components/ui/Claim";
 import { Icon } from "@/components/ui/Icon";
 import { Ruler } from "@/components/ui/Ruler";
-
-const demo = { productId: "fenetre", width: 1240, height: 1480, meshId: "fibre", colorId: "anthracite", optionIds: [], quantity: 1 };
+import { HeroVisual } from "./HeroVisual";
 
 export function Hero() {
-  const product = getProduct(demo.productId)!;
-  const color = getColor(demo.colorId)!;
-  const price = computePrice(demo);
-
   return (
     <section className="relative overflow-hidden">
       <div
@@ -65,69 +56,8 @@ export function Hero() {
           </ul>
         </div>
 
-        <div className="relative lg:col-span-5">
-          <div className="animate-fade-up relative mx-auto aspect-[4/5] max-w-[480px]" style={{ "--delay": "200ms" } as React.CSSProperties}>
-            <div className="absolute inset-0 overflow-hidden rounded-[var(--radius-xl)] border border-line bg-gradient-to-b from-surface to-paper-2 shadow-[var(--shadow-lg)]">
-              <div aria-hidden className="blueprint-grid absolute inset-0 opacity-70" />
-              <div aria-hidden className="absolute -right-16 -top-16 size-64 rounded-full bg-sky/10 blur-3xl" />
-              <div aria-hidden className="absolute -bottom-20 -left-10 size-72 rounded-full bg-sand/25 blur-3xl" />
-              <ProductVisual
-                kind={product.visual}
-                color={color.hex}
-                width={demo.width}
-                height={demo.height}
-                dimensions
-                animated
-                title={`${product.name}, coloris ${color.name}, ${demo.width} × ${demo.height} mm`}
-                className="absolute inset-0 m-auto h-[82%] w-[88%]"
-              />
-            </div>
-
-            {/* Carte configuration flottante : montre que le prix est calculé en direct */}
-            <div
-              className="absolute -right-3 top-6 w-52 rounded-[var(--radius-lg)] border border-line bg-surface/95 p-4 shadow-[var(--shadow-md)] backdrop-blur sm:-right-10 motion-safe:animate-[float_6s_var(--ease-in-out)_infinite]"
-              aria-hidden
-            >
-              <p className="t-caption text-ink-3">Votre configuration</p>
-              <dl className="mt-3 space-y-1.5 text-[0.8125rem]">
-                <div className="flex justify-between gap-2">
-                  <dt className="text-ink-3">Modèle</dt>
-                  <dd className="text-ink">{product.shortName}</dd>
-                </div>
-                <div className="flex justify-between gap-2">
-                  <dt className="text-ink-3">Coloris</dt>
-                  <dd className="flex items-center gap-1.5 text-ink">
-                    <span className="size-2.5 rounded-full" style={{ background: color.hex }} />
-                    {color.name}
-                  </dd>
-                </div>
-              </dl>
-              <div className="mt-3 flex items-baseline justify-between border-t border-line pt-3">
-                <span className="text-[0.8125rem] text-ink-3">Prix TTC</span>
-                <span className="t-num text-lg text-ink">{formatPrice(price.total)}</span>
-              </div>
-            </div>
-
-            {/* Loupe sur la trame */}
-            <div
-              aria-hidden
-              className="absolute -bottom-6 -left-2 flex items-center gap-3 rounded-full border border-line bg-surface/95 py-2 pl-2 pr-5 shadow-[var(--shadow-md)] backdrop-blur sm:-left-8 motion-safe:animate-[float_7s_var(--ease-in-out)_1s_infinite]"
-            >
-              <span
-                className="size-12 rounded-full border border-line-strong"
-                style={{
-                  backgroundColor: "#e9eef6",
-                  backgroundImage:
-                    "linear-gradient(to right, rgb(10 22 49/.45) 1px, transparent 1px), linear-gradient(to bottom, rgb(10 22 49/.45) 1px, transparent 1px)",
-                  backgroundSize: "5px 5px",
-                }}
-              />
-              <span>
-                <span className="block text-[0.8125rem] text-ink">Toile haute visibilité</span>
-                <span className="t-caption text-ink-3">Vous voyez dehors</span>
-              </span>
-            </div>
-          </div>
+        <div className="animate-fade-up relative lg:col-span-5" style={{ "--delay": "200ms" } as React.CSSProperties}>
+          <HeroVisual />
         </div>
       </div>
       <Ruler className="container-site" />

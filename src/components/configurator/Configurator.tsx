@@ -128,7 +128,7 @@ export function Configurator() {
                 meshDensity={mesh.density}
                 meshStrand={mesh.strand}
                 reinforced={state.optionIds.includes("renfort")}
-                dimensions={!!(w && h)}
+                dimensions={isStepValid({ ...state, step: 1 }, 1)}
                 title={`Aperçu : ${product.name}`}
                 className="absolute inset-0 h-full w-full p-4 transition-opacity sm:p-8"
               />

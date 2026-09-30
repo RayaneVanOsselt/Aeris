@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { CatalogGrid } from "@/components/product/CatalogGrid";
 import { CompareTable } from "@/components/product/CompareTable";
 import { ProductFinder } from "@/components/product/ProductFinder";
+import { ProductTrio } from "@/components/product/ProductTrio";
 import { Accordion } from "@/components/ui/Accordion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -41,6 +42,7 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
         eyebrow={`Pour ${category.name.toLowerCase()}`}
         title={category.title}
         intro={category.intro}
+        aside={<ProductTrio ids={category.slug === "fenetres" ? ["fixe", "fenetre", "sur-mesure-plus"] : ["enroulable", "plissee", "battante"]} />}
       />
       <section className="pb-[var(--section-y)] pt-10">
         <div className="container-site">

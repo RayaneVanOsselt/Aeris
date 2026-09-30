@@ -309,18 +309,21 @@
   background-size: 100% 1px;
 }
 
-/* Boîtes de dialogue natives (menus, tiroirs, modales) */
-dialog.sheet::backdrop {
-  background: rgb(10 22 49 / 0.45);
-  backdrop-filter: blur(4px);
-}
-dialog.sheet {
-  max-width: none;
-  max-height: none;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
+/* Boîtes de dialogue natives (menus, tiroirs, modales).
+   En couche « base » pour que les utilitaires (largeur, marges) restent prioritaires. */
+@layer base {
+  dialog.sheet::backdrop {
+    background: rgb(10 22 49 / 0.45);
+    backdrop-filter: blur(4px);
+  }
+  dialog.sheet {
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
 }
 
 /* Champs numériques sans flèches */

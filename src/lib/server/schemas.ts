@@ -1,14 +1,17 @@
 import { z } from "zod";
 import { frameColors, meshes, productOptions, products } from "@/lib/catalog";
 
+// Messages de validation en français pour tout champ sans message dédié
+z.config(z.locales.fr());
+
 /** Nettoie une chaîne : supprime les caractères de contrôle, espaces superflus. */
-const clean = (max: number) =>
+const clean = (max: number, message = "Champ requis") =>
   z
-    .string()
+    .string({ error: message })
     .transform((s) => s.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim())
     .pipe(z.string().max(max));
 
-const required = (max: number, message: string) => clean(max).pipe(z.string().min(1, message));
+const required = (max: number, message: string) => clean(max, message).pipe(z.string().min(1, message));
 
 export const configurationSchema = z.object({
   productId: z.enum(products.map((p) => p.id) as [string, ...string[]]),
@@ -22,8 +25,8 @@ export const configurationSchema = z.object({
   label: clean(40).optional(),
 });
 
-const email = clean(160).pipe(z.email("Adresse e-mail invalide"));
-const phone = clean(30).pipe(z.string().regex(/^[+0-9 ().-]{6,30}$/, "Numéro de téléphone invalide"));
+const email = clean(160, "Adresse e-mail requise").pipe(z.email("Adresse e-mail invalide"));
+const phone = clean(30, "Numéro de téléphone requis").pipe(z.string().regex(/^[+0-9 ().-]{6,30}$/, "Numéro de téléphone invalide"));
 /** Champ piège anti-robots : doit rester vide */
 const honeypot = z.string().max(0).optional();
 

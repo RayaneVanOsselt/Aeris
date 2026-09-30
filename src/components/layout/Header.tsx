@@ -166,7 +166,7 @@ export function Header() {
                   </span>
                 )}
               </Link>
-              <ButtonLink href="/configurateur" size="sm" arrow className="hidden sm:inline-flex">
+              <ButtonLink href="/configurateur" size="sm" arrow className="max-[359px]:hidden">
                 Configurer
               </ButtonLink>
               <button

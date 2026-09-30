@@ -16,7 +16,7 @@ export function ProductCard({ product, className, headingLevel: H = "h3" }: { pr
         className,
       )}
     >
-      <div className="relative aspect-[5/4] overflow-hidden bg-paper-2">
+      <div className="relative aspect-[4/3] overflow-hidden bg-paper-2 sm:aspect-[5/4]">
         <div aria-hidden className="blueprint-grid absolute inset-0 opacity-0 transition-opacity duration-[var(--dur-slow)] group-hover:opacity-100" />
         <ProductVisual
           kind={product.visual}
