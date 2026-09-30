@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────
+   AÉRIS — Design system « Plan & Lumière »
+   La précision d'un plan d'architecte, la douceur de la lumière
+   naturelle. Encre bleu nuit sur papier chaud, accent sable,
+   azur réservé aux détails de précision (cotes, focus, progression).
+   ────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Couleurs — fonds */
+  --color-paper: #f6f4ee;
+  --color-paper-2: #ece8dd;
+  --color-surface: #fcfbf8;
+  --color-night: #0a1631;
+  --color-night-2: #13234a;
+
+  /* Couleurs — texte (contrastes AA vérifiés sur paper) */
+  --color-ink: #0a1631;
+  --color-ink-2: #33415c;
+  --color-ink-3: #5b6780;
+  --color-on-night: #eef1f7;
+  --color-on-night-2: #a9b4ca;
+
+  /* Couleurs — marque */
+  --color-sand: #c8a57a;
+  --color-sand-soft: #efe4d2;
+  --color-sand-deep: #7c5d3a;
+  --color-sky: #3563e9;
+  --color-sky-soft: #e4eafc;
+
+  /* Couleurs — lignes */
+  --color-line: rgb(10 22 49 / 0.1);
+  --color-line-strong: rgb(10 22 49 / 0.2);
+  --color-line-night: rgb(238 241 247 / 0.14);
+
+  /* Couleurs — états */
+  --color-success: #1f7a55;
+  --color-success-soft: #e3f1ea;
+  --color-danger: #b42318;
+  --color-danger-soft: #fbe9e7;
+  --color-warning: #8a5300;
+  --color-warning-soft: #fbf0dc;
+
+  /* Typographie */
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-serif: var(--font-fraunces), Georgia, serif;
+
+  /* Rayons */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* Ombres — courtes et douces, jamais lourdes */
+  --shadow-xs: 0 1px 2px rgb(10 22 49 / 0.06);
+  --shadow-sm: 0 1px 2px rgb(10 22 49 / 0.05), 0 4px 12px rgb(10 22 49 / 0.05);
+  --shadow-md: 0 2px 4px rgb(10 22 49 / 0.04), 0 12px 32px rgb(10 22 49 / 0.08);
+  --shadow-lg: 0 4px 8px rgb(10 22 49 / 0.04), 0 24px 64px rgb(10 22 49 / 0.12);
+
+  /* Mouvement */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --breakpoint-xs: 26rem;
+}
+
+:root {
+  --header-h: 72px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --section-y: clamp(80px, 11vw, 152px);
+  --dur-fast: 160ms;
+  --dur-base: 260ms;
+  --dur-slow: 560ms;
+  --dur-slower: 900ms;
+  color-scheme: light;
+}
+
+/* ── Base ─────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+    background: var(--color-paper);
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    background: var(--color-sky);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-sky);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  button {
+    cursor: pointer;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  img,
+  svg {
+    display: block;
+  }
+  dialog {
+    color: inherit;
+  }
+}
+
+/* ── Typographie ──────────────────────────────────────────────── */
+@utility t-display {
+  font-size: clamp(2.75rem, 6.3vw, 5.75rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  font-weight: 300;
+}
+@utility t-h1 {
+  font-size: clamp(2.5rem, 5.6vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 300;
+}
+@utility t-h2 {
+  font-size: clamp(2rem, 4.2vw, 3.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 350;
+}
+@utility t-h3 {
+  font-size: clamp(1.375rem, 2.1vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 450;
+}
+@utility t-h4 {
+  font-size: 1.125rem;
+  line-height: 1.35;
+  letter-spacing: -0.012em;
+  font-weight: 500;
+}
+@utility t-lead {
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+@utility t-small {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+@utility t-caption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+@utility t-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+@utility accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 350;
+  letter-spacing: -0.02em;
+  font-variation-settings: "SOFT" 60, "WONK" 0, "opsz" 144;
+}
+
+/* ── Mise en page ─────────────────────────────────────────────── */
+@utility container-site {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+/* Trame de moustiquaire : motif signature (tissage fin) */
+@utility mesh-texture {
+  background-image:
+    linear-gradient(to right, rgb(10 22 49 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(10 22 49 / 0.06) 1px, transparent 1px);
+  background-size: 6px 6px;
+}
+@utility mesh-texture-night {
+  background-image:
+    linear-gradient(to right, rgb(238 241 247 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(238 241 247 / 0.05) 1px, transparent 1px);
+  background-size: 6px 6px;
+}
+/* Grille de plan (repères architecturaux) */
+@utility blueprint-grid {
+  background-image:
+    linear-gradient(to right, rgb(53 99 233 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(53 99 233 / 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ── Mouvement : révélation au défilement ─────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 420ms var(--ease-out),
+    transform 700ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+/* Sans JavaScript, tout reste visible */
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Dessin de trait (cotes, contours) */
+@keyframes draw {
+  from { stroke-dashoffset: var(--len, 1000); }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes unroll {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -6px, 0); }
+}
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(8px, -10px, 0) rotate(8deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes dot {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-3px); }
+}
+
+.animate-fade-up {
+  animation: fade-up var(--dur-slower) var(--ease-out) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-paper-2) 0%, var(--color-surface) 50%, var(--color-paper-2) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* Défilement horizontal sans barre visible (listes mobiles) */
+.scroll-row {
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Liens soulignés animés */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--dur-base) var(--ease-out);
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Boîtes de dialogue natives (menus, tiroirs, modales).
+   En couche « base » pour que les utilitaires (largeur, marges) restent prioritaires. */
+@layer base {
+  dialog.sheet::backdrop {
+    background: rgb(10 22 49 / 0.45);
+    backdrop-filter: blur(4px);
+  }
+  dialog.sheet {
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+}
+
+/* Champs numériques sans flèches */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Accessibilité : respect de « réduire les animations » */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
