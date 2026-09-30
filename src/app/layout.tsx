@@ -12,13 +12,15 @@ import "./globals.css";
 
 // Polices auto-hébergées par next/font : aucune requête vers Google (RGPD) et pas de décalage de mise en page.
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
-const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
+// Polices secondaires non préchargées : elles ne retardent pas l'affichage du contenu principal
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap", preload: false });
 const fraunces = Fraunces({
   subsets: ["latin"],
   style: ["italic"],
-  axes: ["SOFT", "WONK", "opsz"],
+  axes: ["opsz"],
   variable: "--font-fraunces",
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {

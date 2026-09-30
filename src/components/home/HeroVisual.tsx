@@ -73,7 +73,7 @@ export function HeroVisual() {
           />
         </div>
         {/* Sélecteur discret : l'utilisateur peut parcourir lui-même les exemples */}
-        <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-1.5" role="group" aria-label="Exemples de configurations">
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1" role="group" aria-label="Exemples de configurations">
           {presets.map((p, i) => (
             <button
               key={p.productId}
@@ -84,7 +84,7 @@ export function HeroVisual() {
               }}
               aria-label={`Exemple ${i + 1} : ${getProduct(p.productId)!.name}`}
               aria-pressed={i === index}
-              className="flex h-6 items-center"
+              className="flex size-6 items-center justify-center"
             >
               <span className={cn("block h-1 rounded-full transition-[width,background-color] duration-[var(--dur-slow)]", i === index ? "w-6 bg-ink" : "w-2 bg-line-strong")} />
             </button>

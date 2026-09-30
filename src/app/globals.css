@@ -183,7 +183,7 @@
   font-style: italic;
   font-weight: 350;
   letter-spacing: -0.02em;
-  font-variation-settings: "SOFT" 60, "WONK" 0, "opsz" 144;
+  font-variation-settings: "opsz" 144;
 }
 
 /* ── Mise en page ─────────────────────────────────────────────── */
@@ -273,6 +273,16 @@
 @keyframes dot {
   0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
   40% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* Montée sans transparence : le texte principal reste visible dès le premier affichage (LCP) */
+@keyframes rise {
+  from { transform: translate3d(0, 14px, 0); }
+  to { transform: none; }
+}
+.animate-rise {
+  animation: rise var(--dur-slower) var(--ease-out) both;
+  animation-delay: var(--delay, 0ms);
 }
 
 .animate-fade-up {

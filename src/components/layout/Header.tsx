@@ -20,6 +20,9 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  // Contenu du méga-menu monté seulement après la première ouverture (DOM initial plus léger)
+  const [megaMounted, setMegaMounted] = useState(false);
+  if (megaOpen && !megaMounted) setMegaMounted(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const count = useCartCount();
   const [bump, setBump] = useState(false);
@@ -191,6 +194,7 @@ export function Header() {
               megaOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0",
             )}
           >
+            {megaMounted && (
             <div className="container-site grid grid-cols-12 gap-10 py-10">
               {categories.map((cat) => (
                 <div key={cat.slug} className={cat.slug === "fenetres" ? "col-span-3" : "col-span-5"}>
@@ -249,6 +253,7 @@ export function Header() {
                 </div>
               </div>
             </div>
+            )}
           </div>
         </div>
       </header>
