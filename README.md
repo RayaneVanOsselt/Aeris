@@ -1,7 +1,8 @@
 # Aéris — Moustiquaires sur mesure
 
-Site e-commerce Next.js : catalogue, fiches produit, configurateur avec prix en temps réel,
-panier, commande sans compte, devis, contact et assistant IA.
+Site e-commerce Next.js en trois langues (français, néerlandais, anglais) : catalogue,
+fiches produit, configurateur avec prix en temps réel, panier, commande sans compte, devis,
+contact et assistant IA. Fonctionnement multilingue : [docs/I18N.md](docs/I18N.md).
 
 ## Démarrage
 
@@ -23,20 +24,23 @@ npm run dev                  # http://localhost:3000
 | `npm start`         | Sert le build de production                            |
 | `npm run lint`      | ESLint (règles Next.js, React, accessibilité)          |
 | `npm run typecheck` | Vérification TypeScript stricte                        |
-| `npm test`          | Tests unitaires (prix, validation, configurateur, IA)  |
+| `npm test`          | Tests unitaires (prix, validation, configurateur, IA, traductions, adresses) |
 | `npm run check`     | Tout ce qui précède, dans l'ordre                      |
 
 ## Où modifier quoi
 
 | Besoin                                          | Fichier                              |
 | ----------------------------------------------- | ------------------------------------ |
-| Coordonnées, engagements, paiement, avis        | `src/lib/business.ts`                |
+| Coordonnées, engagements (à confirmer), paiement, avis | `src/lib/business.ts`         |
 | Modèles, prix, toiles, coloris, options, délais | `src/lib/catalog.ts`                 |
+| Textes du site (FR, NL, EN)                     | `src/i18n/messages/*.ts`             |
+| Adresses des pages dans chaque langue           | `src/i18n/routes.ts`                 |
 | Formule de prix                                 | `src/lib/pricing.ts`                 |
 | Contrôle des dimensions                         | `src/lib/validation.ts`              |
-| FAQ                                             | `src/lib/faq.ts`                     |
+| FAQ (FR, NL, EN)                                | `src/i18n/faq/*.ts`                  |
 | Aide au choix                                   | `src/lib/finder.ts`                  |
-| Réponses de l'assistant                         | `src/lib/chat/engine.ts`, `llm.ts`   |
+| Réponses de l'assistant (FR, NL, EN)            | `src/lib/chat/lang/*.ts`, `engine.ts`, `llm.ts` |
+| Pages (une vue par page, toutes langues)        | `src/views/*.tsx`                    |
 | Couleurs, typographie, mouvement                | `src/app/globals.css`                |
 
 Les engagements marqués `toConfirm: true` dans `business.ts` s'affichent avec un repère ◆
