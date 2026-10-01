@@ -1,13 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { useI18n } from "@/i18n/provider";
 import { getColor, type Product } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
-import { formatPrice } from "@/lib/format";
 import { startingPrice } from "@/lib/pricing";
 import { Icon } from "@/components/ui/Icon";
 import { ProductVisual } from "./ProductVisual";
 
 /** Carte produit : illustration fidèle, promesse en une ligne, prix « dès » honnête. */
 export function ProductCard({ product, className, headingLevel: H = "h3" }: { product: Product; className?: string; headingLevel?: "h2" | "h3" }) {
+  const { m, href, f } = useI18n();
+  const text = m.catalog.products[product.id];
   const anthracite = getColor("anthracite")!;
   return (
     <article
@@ -23,26 +27,22 @@ export function ProductCard({ product, className, headingLevel: H = "h3" }: { pr
           color={anthracite.hex}
           width={product.defaultSize.width}
           height={product.defaultSize.height}
-          title={product.name}
+          title={text.name}
           className="absolute inset-0 m-auto h-[80%] w-[80%] transition-transform duration-[var(--dur-slower)] ease-[var(--ease-out)] group-hover:scale-[1.04]"
         />
-        {product.badge && (
-          <span className="t-caption absolute left-4 top-4 rounded-full bg-surface px-3 py-1 text-ink shadow-[var(--shadow-xs)]">
-            {product.badge}
-          </span>
-        )}
+        {text.badge && <span className="t-caption absolute left-4 top-4 rounded-full bg-surface px-3 py-1 text-ink shadow-[var(--shadow-xs)]">{text.badge}</span>}
       </div>
       <div className="flex flex-1 flex-col p-5 sm:p-6">
         <H className="t-h4 text-ink">
-          <Link href={`/produits/${product.slug}`} className="after:absolute after:inset-0 after:content-['']">
-            {product.name}
+          <Link href={href("product", product.id)} className="after:absolute after:inset-0 after:content-['']">
+            {text.name}
           </Link>
         </H>
-        <p className="t-small mt-1.5 flex-1 text-ink-3">{product.tagline}</p>
+        <p className="t-small mt-1.5 flex-1 text-ink-3">{text.tagline}</p>
         <div className="mt-5 flex items-end justify-between">
           <p>
-            <span className="t-caption block text-ink-3">dès</span>
-            <span className="t-num text-xl text-ink">{formatPrice(startingPrice(product))}</span>
+            <span className="t-caption block text-ink-3">{m.common.from}</span>
+            <span className="t-num text-xl text-ink">{f.price(startingPrice(product))}</span>
           </p>
           <span
             aria-hidden

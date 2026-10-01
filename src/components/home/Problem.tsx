@@ -1,16 +1,13 @@
+import { Rich } from "@/i18n/rich";
+import { getI18n } from "@/i18n/server";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-const night = [
-  { time: "19:30", title: "On ouvre grand", text: "La maison a chauffé toute la journée : on crée un courant d'air." },
-  { time: "21:45", title: "La lumière attire", text: "Les lampes s'allument, les insectes trouvent le chemin." },
-  { time: "23:10", title: "On referme, on étouffe", text: "Fraîcheur ou tranquillité : le dilemme de chaque soir d'été." },
-  { time: "03:00", title: "Le bourdonnement", text: "Celui qui réveille toute la maison." },
-];
-
 /** Storytelling : le problème vécu, raconté comme une nuit d'été. */
 export function Problem() {
+  const { m } = getI18n();
+  const p = m.homePage.problem;
   return (
     <section className="relative overflow-hidden bg-night text-on-night section-y">
       <div aria-hidden className="mesh-texture-night absolute inset-0" />
@@ -30,22 +27,11 @@ export function Problem() {
       ))}
 
       <div className="container-site relative">
-        <SectionHeading
-          tone="night"
-          eyebrow="Le dilemme de l'été"
-          title={
-            <>
-              On veut tout ouvrir.
-              <br />
-              <span className="accent text-sand">Les insectes aussi.</span>
-            </>
-          }
-          intro="Chaleur, sommeil, lumière du soir : les meilleures heures de l'été sont aussi celles où les moustiques entrent."
-        />
+        <SectionHeading tone="night" eyebrow={p.eyebrow} title={<Rich text={p.title} accentClassName="accent text-sand" />} intro={p.intro} />
 
         <ol className="relative mt-16 grid grid-cols-1 gap-10 md:mt-24 md:grid-cols-4 md:gap-6">
           <span aria-hidden className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-line-night md:left-0 md:top-[7px] md:h-px md:w-full" />
-          {night.map((step, i) => (
+          {p.night.map((step, i) => (
             <Reveal as="li" key={step.time} delay={i * 110} className="relative pl-10 md:pl-0 md:pt-12">
               <span aria-hidden className="absolute left-0 top-1 flex size-[15px] items-center justify-center rounded-full border border-on-night-2 bg-night md:top-0">
                 <span className="size-1.5 rounded-full bg-sand" />
@@ -62,8 +48,7 @@ export function Problem() {
             <Icon name="moon" size={24} />
           </span>
           <p className="t-h3 font-light text-on-night">
-            Avec une moustiquaire à vos mesures, on n&apos;a plus à choisir&nbsp;:{" "}
-            <span className="text-on-night-2">fenêtres ouvertes toute la nuit, et rien qui n&apos;entre.</span>
+            {p.closingLead} <span className="text-on-night-2">{p.closingRest}</span>
           </p>
         </Reveal>
       </div>

@@ -1,4 +1,7 @@
+"use client";
+
 import { useId, type ComponentProps, type ReactNode } from "react";
+import { useI18n } from "@/i18n/provider";
 import { cn } from "@/lib/cn";
 import { Icon } from "./Icon";
 
@@ -8,11 +11,12 @@ const control =
 type Base = { label: string; error?: string; hint?: ReactNode; optional?: boolean; className?: string };
 
 function Wrapper({ id, label, error, hint, optional, className, children }: Base & { id: string; children: ReactNode }) {
+  const { m } = useI18n();
   return (
     <div className={className}>
       <label htmlFor={id} className="mb-2 flex items-baseline justify-between text-sm text-ink-2">
         {label}
-        {optional && <span className="text-xs text-ink-3">facultatif</span>}
+        {optional && <span className="text-xs text-ink-3">{m.common.optional}</span>}
       </label>
       {children}
       {error ? (
@@ -102,10 +106,11 @@ export function Checkbox({ label, error, className, ...rest }: { label: ReactNod
 
 /** Champ piège invisible (anti-robots), ignoré par les lecteurs d'écran. */
 export function Honeypot() {
+  const { m } = useI18n();
   return (
     <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
       <label>
-        Ne pas remplir
+        {m.common.honeypot}
         <input type="text" name="website" tabIndex={-1} autoComplete="off" />
       </label>
     </div>

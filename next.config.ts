@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { allTargets, pathFor, productSlugs } from "./src/i18n/routes";
 
 const isDev = process.env.NODE_ENV !== "production";
 /** Version statique pour GitHub Pages : pas de serveur, donc ni API, ni en-têtes, ni redirections. */
@@ -34,17 +35,52 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
 ];
 
-/** Anciennes pages statiques (.html) → nouvelles routes, pour conserver le référencement. */
-const legacyProductSlugs: Record<string, string> = {
-  fenetre: "moustiquaire-fenetre",
-  fixe: "cadre-fixe",
-  enroul: "porte-enroulable",
-  plissee: "moustiquaire-plissee",
-  porte: "porte-battante",
-  couliss: "baie-coulissante",
-  magnet: "rideau-magnetique",
+/** Identifiants de l'ancien site (produit.html?p=…) → modèles actuels. */
+const legacyProductIds: Record<string, keyof typeof productSlugs> = {
+  fenetre: "fenetre",
+  fixe: "fixe",
+  enroul: "enroulable",
+  plissee: "plissee",
+  porte: "battante",
+  couliss: "coulissante",
+  magnet: "magnetique",
   mesure: "sur-mesure-plus",
 };
+
+/**
+ * Redirections permanentes (301), pour conserver le référencement :
+ * - adresses françaises sans préfixe de langue (/moustiquaires…) → /fr/… ;
+ * - anciennes pages .html du premier site → pages françaises équivalentes.
+ */
+function legacyRedirects() {
+  const fr = (target: Parameters<typeof pathFor>[1]) => pathFor("fr", target);
+  const unprefixed = allTargets()
+    .filter((t) => t.key !== "home")
+    .map((t) => ({ source: fr(t).replace(/^\/fr/, ""), destination: fr(t), permanent: true }));
+  const html: Array<[string, string]> = [
+    ["/index.html", fr({ key: "home" })],
+    ["/produits.html", fr({ key: "catalog" })],
+    ["/configurateur.html", fr({ key: "configurator" })],
+    ["/savoir-faire.html", fr({ key: "about" })],
+    ["/faq.html", fr({ key: "faq" })],
+    ["/contact.html", fr({ key: "contact" })],
+    ["/panier.html", fr({ key: "cart" })],
+    ["/commande.html", fr({ key: "checkout" })],
+    ...["paiement", "orders", "login", "register", "profile", "account", "forgot-password"].map((p): [string, string] => [`/${p}.html`, fr({ key: "orders" })]),
+  ];
+  const products = Object.entries(legacyProductIds).map(([key, id]) => ({
+    source: "/produit.html",
+    has: [{ type: "query" as const, key: "p", value: key }],
+    destination: fr({ key: "product", id }),
+    permanent: true,
+  }));
+  return [
+    ...products,
+    { source: "/produit.html", destination: fr({ key: "catalog" }), permanent: true },
+    ...html.map(([source, destination]) => ({ source, destination, permanent: true })),
+    ...unprefixed,
+  ];
+}
 
 const serverConfig: NextConfig = {
   reactStrictMode: true,
@@ -55,34 +91,7 @@ const serverConfig: NextConfig = {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
   async redirects() {
-    const simple: Array<[string, string]> = [
-      ["/index.html", "/"],
-      ["/produits.html", "/moustiquaires"],
-      ["/configurateur.html", "/configurateur"],
-      ["/savoir-faire.html", "/a-propos"],
-      ["/faq.html", "/faq"],
-      ["/contact.html", "/contact"],
-      ["/panier.html", "/panier"],
-      ["/commande.html", "/commande"],
-      ["/paiement.html", "/mes-commandes"],
-      ["/orders.html", "/mes-commandes"],
-      ["/login.html", "/mes-commandes"],
-      ["/register.html", "/mes-commandes"],
-      ["/profile.html", "/mes-commandes"],
-      ["/account.html", "/mes-commandes"],
-      ["/forgot-password.html", "/mes-commandes"],
-    ];
-    const products = Object.entries(legacyProductSlugs).map(([key, slug]) => ({
-      source: "/produit.html",
-      has: [{ type: "query" as const, key: "p", value: key }],
-      destination: `/produits/${slug}`,
-      permanent: true,
-    }));
-    return [
-      ...products,
-      { source: "/produit.html", destination: "/moustiquaires", permanent: true },
-      ...simple.map(([source, destination]) => ({ source, destination, permanent: true })),
-    ];
+    return legacyRedirects();
   },
 };
 

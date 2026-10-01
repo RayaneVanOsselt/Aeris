@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     await deliver(paymentSubmission(result.data));
   } catch (err) {
     console.error("[aeris] signalement de paiement non transmis", err);
-    return jsonError(502, "Le signalement n'a pas pu être envoyé. Votre paiement reste valable : nous le verrons à réception.");
+    return jsonError(502, "paymentFailed");
   }
   return NextResponse.json({ ok: true });
 }

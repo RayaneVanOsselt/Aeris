@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { useI18n } from "@/i18n/provider";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
@@ -10,6 +11,7 @@ import { Icon } from "@/components/ui/Icon";
 const ChatPanel = dynamic(() => import("./ChatPanel").then((m) => m.ChatPanel), { ssr: false });
 
 export function ChatLauncher() {
+  const { m } = useI18n();
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -32,7 +34,7 @@ export function ChatLauncher() {
           track("chatbot_opened");
         }}
         onMouseEnter={() => setLoaded(true)}
-        aria-label="Ouvrir l'assistant Aéris"
+        aria-label={m.chat.open}
         aria-expanded={open}
         className={cn(
           "fixed right-4 z-40 flex h-14 items-center gap-2.5 rounded-full bg-ink pl-4 pr-4 text-paper shadow-[0_8px_30px_rgb(10_22_49/0.3)] transition-[transform,opacity,bottom] duration-[var(--dur-slow)] ease-[var(--ease-out)] hover:-translate-y-0.5 sm:pr-5 lg:right-6",
@@ -44,7 +46,7 @@ export function ChatLauncher() {
           <Icon name="chat" size={22} />
           <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full border-2 border-ink bg-sand" />
         </span>
-        <span className="hidden text-sm sm:inline">Une question&nbsp;?</span>
+        <span className="hidden text-sm sm:inline">{m.chat.question}</span>
       </button>
       {loaded && <ChatPanel open={open} onClose={() => setOpen(false)} />}
     </>

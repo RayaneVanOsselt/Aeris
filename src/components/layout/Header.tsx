@@ -3,19 +3,23 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { categories, products, productsForOpenings } from "@/lib/catalog";
+import { useI18n } from "@/i18n/provider";
+import { Rich } from "@/i18n/rich";
+import { productPathPrefix } from "@/i18n/routes";
+import { categories, productsForOpenings } from "@/lib/catalog";
 import { useCartCount } from "@/lib/cart-store";
 import { cn } from "@/lib/cn";
-import { formatPrice } from "@/lib/format";
 import { startingPrice } from "@/lib/pricing";
 import { primaryNav } from "@/lib/site";
 import { ProductVisual } from "@/components/product/ProductVisual";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
 
 export function Header() {
+  const { m, href, f, t, locale } = useI18n();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -90,7 +94,8 @@ export function Header() {
     closeTimer.current = window.setTimeout(() => setMegaOpen(false), 160);
   };
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (path: string) => pathname === path || pathname.startsWith(`${path}/`);
+  const screensActive = megaOpen || isActive(href("catalog")) || pathname.startsWith(productPathPrefix(locale));
 
   return (
     <>
@@ -98,7 +103,7 @@ export function Header() {
         href="#contenu"
         className="fixed left-4 top-3 z-[100] -translate-y-24 rounded-md bg-ink px-4 py-2 text-sm text-paper transition-transform focus:translate-y-0"
       >
-        Aller au contenu
+        {m.common.skipToContent}
       </a>
       <header
         className={cn(
@@ -109,12 +114,12 @@ export function Header() {
         )}
       >
         <div ref={megaRef} onMouseLeave={scheduleClose}>
-          <div className="container-site flex h-[var(--header-h)] items-center gap-6">
-            <Link href="/" aria-label="Aéris — accueil" className="shrink-0 rounded-md">
+          <div className="container-site flex h-[var(--header-h)] items-center gap-4 xl:gap-6">
+            <Link href={href("home")} aria-label={m.nav.home} className="shrink-0 rounded-md">
               <Logo />
             </Link>
 
-            <nav aria-label="Navigation principale" className="ml-6 hidden items-center gap-1 lg:flex">
+            <nav aria-label={m.nav.main} className="ml-2 hidden items-center gap-0.5 lg:flex xl:ml-6 xl:gap-1">
               <button
                 type="button"
                 aria-expanded={megaOpen}
@@ -122,39 +127,38 @@ export function Header() {
                 onClick={() => setMegaOpen((v) => !v)}
                 onMouseEnter={openMega}
                 className={cn(
-                  "inline-flex h-10 items-center gap-1.5 rounded-full px-4 text-[0.9375rem] transition-colors",
-                  megaOpen || pathname.startsWith("/moustiquaires") || pathname.startsWith("/produits")
-                    ? "bg-paper-2 text-ink"
-                    : "text-ink-2 hover:text-ink",
+                  "inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-[0.9375rem] transition-colors xl:px-4",
+                  screensActive ? "bg-paper-2 text-ink" : "text-ink-2 hover:text-ink",
                 )}
               >
-                Moustiquaires
+                {m.nav.screens}
                 <Icon
                   name="chevronDown"
                   size={16}
                   className={cn("transition-transform duration-[var(--dur-base)]", megaOpen && "rotate-180")}
                 />
               </button>
-              {primaryNav.map((link) => (
+              {primaryNav.map((key) => (
                 <Link
-                  key={link.href}
-                  href={link.href}
+                  key={key}
+                  href={href(key)}
                   onMouseEnter={scheduleClose}
-                  aria-current={isActive(link.href) ? "page" : undefined}
+                  aria-current={isActive(href(key)) ? "page" : undefined}
                   className={cn(
-                    "inline-flex h-10 items-center rounded-full px-4 text-[0.9375rem] transition-colors",
-                    isActive(link.href) ? "bg-paper-2 text-ink" : "text-ink-2 hover:text-ink",
+                    "inline-flex h-10 items-center whitespace-nowrap rounded-full px-3 text-[0.9375rem] transition-colors xl:px-4",
+                    isActive(href(key)) ? "bg-paper-2 text-ink" : "text-ink-2 hover:text-ink",
                   )}
                 >
-                  {link.label}
+                  {m.nav.links[key]}
                 </Link>
               ))}
             </nav>
 
             <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+              <LanguageSwitcher className="hidden lg:block" />
               <Link
-                href="/panier"
-                aria-label={`Panier, ${count} article${count > 1 ? "s" : ""}`}
+                href={href("cart")}
+                aria-label={f.plural(count, m.nav.cart)}
                 className="relative inline-flex size-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-paper-2"
               >
                 <Icon name="bag" size={21} />
@@ -169,13 +173,13 @@ export function Header() {
                   </span>
                 )}
               </Link>
-              <ButtonLink href="/configurateur" size="sm" arrow className="max-[359px]:hidden">
-                Configurer
+              <ButtonLink href={href("configurator")} size="sm" arrow className="max-[359px]:hidden">
+                {m.nav.configure}
               </ButtonLink>
               <button
                 type="button"
                 onClick={() => setMenuOpen(true)}
-                aria-label="Ouvrir le menu"
+                aria-label={m.nav.openMenu}
                 aria-haspopup="dialog"
                 className="inline-flex size-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-paper-2 lg:hidden"
               >
@@ -197,26 +201,26 @@ export function Header() {
             {megaMounted && (
             <div className="container-site grid grid-cols-12 gap-10 py-10">
               {categories.map((cat) => (
-                <div key={cat.slug} className={cat.slug === "fenetres" ? "col-span-3" : "col-span-5"}>
-                  <Link href={`/moustiquaires/${cat.slug}`} className="t-caption mb-4 inline-flex items-center gap-2 text-ink-3 hover:text-ink">
-                    Pour {cat.name.toLowerCase()} <Icon name="arrowRight" size={14} />
+                <div key={cat.id} className={cat.id === "fenetres" ? "col-span-3" : "col-span-5"}>
+                  <Link href={href("category", cat.id)} className="t-caption mb-4 inline-flex items-center gap-2 text-ink-3 hover:text-ink">
+                    {m.catalog.categories[cat.id].forLabel} <Icon name="arrowRight" size={14} />
                   </Link>
-                  <ul className={cn("grid gap-1", cat.slug !== "fenetres" && "grid-cols-2")}>
+                  <ul className={cn("grid gap-1", cat.id !== "fenetres" && "grid-cols-2")}>
                     {productsForOpenings(cat.openings)
                       .filter((p) => p.id !== "sur-mesure-plus")
                       .map((p) => (
                         <li key={p.id}>
                           <Link
-                            href={`/produits/${p.slug}`}
+                            href={href("product", p.id)}
                             tabIndex={megaOpen ? 0 : -1}
                             className="group flex items-center gap-3 rounded-[var(--radius-md)] p-2 transition-colors hover:bg-surface"
                           >
                             <span className="flex size-14 shrink-0 items-center justify-center rounded-[10px] bg-paper-2 transition-colors group-hover:bg-sand-soft">
-                              <ProductVisual kind={p.visual} width={p.defaultSize.width} height={p.defaultSize.height} className="h-11 w-11" title={p.name} />
+                              <ProductVisual kind={p.visual} width={p.defaultSize.width} height={p.defaultSize.height} className="h-11 w-11" title={m.catalog.products[p.id].name} />
                             </span>
                             <span>
-                              <span className="block text-[0.9375rem] text-ink">{p.name}</span>
-                              <span className="t-small block text-ink-3">dès {formatPrice(startingPrice(p))}</span>
+                              <span className="block text-[0.9375rem] text-ink">{m.catalog.products[p.id].name}</span>
+                              <span className="t-small block text-ink-3">{t(m.common.fromPrice, { price: f.price(startingPrice(p)) })}</span>
                             </span>
                           </Link>
                         </li>
@@ -226,29 +230,29 @@ export function Header() {
               ))}
               <div className="col-span-4 flex flex-col gap-3">
                 <Link
-                  href="/moustiquaires#aide-au-choix"
+                  href={`${href("catalog")}#aide-au-choix`}
                   tabIndex={megaOpen ? 0 : -1}
                   className="group relative flex-1 overflow-hidden rounded-[var(--radius-lg)] bg-night p-6 text-on-night"
                 >
                   <span className="mesh-texture-night absolute inset-0" aria-hidden />
                   <span className="relative">
-                    <span className="t-caption text-on-night-2">Aide au choix</span>
+                    <span className="t-caption text-on-night-2">{m.nav.mega.finderEyebrow}</span>
                     <span className="mt-3 block text-xl font-light leading-snug tracking-[-0.02em]">
-                      Pas sûr du modèle&nbsp;? <span className="accent text-sand">Trois questions</span> suffisent.
+                      <Rich text={m.nav.mega.finderTitle} accentClassName="accent text-sand" />
                     </span>
                     <span className="mt-5 inline-flex items-center gap-2 text-sm text-on-night">
-                      Trouver mon modèle <Icon name="arrowRight" size={16} className="transition-transform group-hover:translate-x-1" />
+                      {m.nav.mega.finderCta} <Icon name="arrowRight" size={16} className="transition-transform group-hover:translate-x-1" />
                     </span>
                   </span>
                 </Link>
                 <div className="grid grid-cols-2 gap-3">
-                  <Link href="/produits/sur-mesure-plus" tabIndex={megaOpen ? 0 : -1} className="rounded-[var(--radius-md)] border border-line p-4 text-sm transition-colors hover:border-ink">
-                    <span className="block text-ink">{products.find((p) => p.id === "sur-mesure-plus")?.name}</span>
-                    <span className="t-small text-ink-3">Projets hors normes</span>
+                  <Link href={href("product", "sur-mesure-plus")} tabIndex={megaOpen ? 0 : -1} className="rounded-[var(--radius-md)] border border-line p-4 text-sm transition-colors hover:border-ink">
+                    <span className="block text-ink">{m.catalog.products["sur-mesure-plus"].name}</span>
+                    <span className="t-small text-ink-3">{m.nav.mega.customHint}</span>
                   </Link>
-                  <Link href="/#comment-ca-marche" tabIndex={megaOpen ? 0 : -1} className="rounded-[var(--radius-md)] border border-line p-4 text-sm transition-colors hover:border-ink">
-                    <span className="block text-ink">Comment ça marche</span>
-                    <span className="t-small text-ink-3">De la mesure à la pose</span>
+                  <Link href={`${href("home")}#comment-ca-marche`} tabIndex={megaOpen ? 0 : -1} className="rounded-[var(--radius-md)] border border-line p-4 text-sm transition-colors hover:border-ink">
+                    <span className="block text-ink">{m.nav.mega.howTitle}</span>
+                    <span className="t-small text-ink-3">{m.nav.mega.howHint}</span>
                   </Link>
                 </div>
               </div>

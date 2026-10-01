@@ -2,11 +2,11 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useReducer, useRef, useState } from "react";
+import { useI18n } from "@/i18n/provider";
 import { getColor, getMesh, getProduct } from "@/lib/catalog";
 import { cart } from "@/lib/cart-store";
 import { cn } from "@/lib/cn";
-import { STEPS, initialState, isStepValid, parseNumber, parseParams, reducer, toConfiguration, toParams, type StepIndex } from "@/lib/configurator";
-import { formatPrice } from "@/lib/format";
+import { initialState, isStepValid, parseNumber, parseParams, reducer, toConfiguration, toParams, type StepIndex } from "@/lib/configurator";
 import { useAnimatedNumber } from "@/lib/hooks";
 import { computePrice, startingPrice } from "@/lib/pricing";
 import { track } from "@/lib/analytics";
@@ -16,6 +16,8 @@ import { Icon } from "@/components/ui/Icon";
 import { StepDimensions, StepFinish, StepModel, StepOptions, StepSummary } from "./Steps";
 
 export function Configurator() {
+  const { m, href, f, t } = useI18n();
+  const c = m.configurator;
   const params = useSearchParams();
   const router = useRouter();
   const [state, dispatch] = useReducer(reducer, params, parseParams);
@@ -72,7 +74,7 @@ export function Configurator() {
 
   const requestQuote = () => {
     track("quote_requested", { source: "configurateur", product: state.productId ?? "" });
-    router.push(`/devis?${toParams(state)}`);
+    router.push(`${href("quote")}?${toParams(state)}`);
   };
 
   const color = getColor(state.colorId)!;
@@ -83,9 +85,9 @@ export function Configurator() {
   return (
     <div className="grid grid-cols-1 gap-8 pb-28 lg:grid-cols-12 lg:gap-12 lg:pb-0">
       {/* Progression */}
-      <nav aria-label="Étapes de configuration" className="lg:col-span-12">
+      <nav aria-label={c.stepsLabel} className="lg:col-span-12">
         <ol className="scroll-row -mx-[var(--gutter)] flex gap-2 overflow-x-auto px-[var(--gutter)] sm:mx-0 sm:px-0">
-          {STEPS.map((label, i) => {
+          {c.steps.map((label, i) => {
             const reachable = i <= state.maxStep || (i === state.step + 1 && canContinue);
             const done = i < state.step || (i <= state.maxStep && i !== state.step);
             return (
@@ -129,17 +131,17 @@ export function Configurator() {
                 meshStrand={mesh.strand}
                 reinforced={state.optionIds.includes("renfort")}
                 dimensions={isStepValid({ ...state, step: 1 }, 1)}
-                title={`Aperçu : ${product.name}`}
+                title={t(m.common.preview, { name: m.catalog.products[product.id].name })}
                 className="absolute inset-0 h-full w-full p-4 transition-opacity sm:p-8"
               />
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8 text-center text-ink-3">
                 <Icon name="layers" size={28} />
-                <p className="max-w-[16rem] text-sm">Choisissez un modèle : l&apos;aperçu se construit à chaque choix.</p>
+                <p className="max-w-[16rem] text-sm">{c.emptyPreview}</p>
               </div>
             )}
             {product && (
-              <p className="t-caption absolute left-4 top-4 rounded-full border border-line bg-surface/90 px-3 py-1 text-ink-2 backdrop-blur">Aperçu en direct</p>
+              <p className="t-caption absolute left-4 top-4 rounded-full border border-line bg-surface/90 px-3 py-1 text-ink-2 backdrop-blur">{c.livePreview}</p>
             )}
           </div>
 
@@ -149,21 +151,19 @@ export function Configurator() {
             {product && (
               <dl className="mt-5 grid grid-cols-3 gap-3 border-t border-line-night pt-5 text-sm">
                 <div>
-                  <dt className="text-xs text-on-night-2">Toile</dt>
-                  <dd className="mt-0.5 truncate">{mesh.name}</dd>
+                  <dt className="text-xs text-on-night-2">{m.common.mesh}</dt>
+                  <dd className="mt-0.5 truncate">{m.catalog.meshes[mesh.id].name}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs text-on-night-2">Coloris</dt>
+                  <dt className="text-xs text-on-night-2">{m.common.color}</dt>
                   <dd className="mt-0.5 flex items-center gap-1.5 truncate">
                     <span className="size-2.5 shrink-0 rounded-full border border-white/30" style={{ background: color.hex }} />
-                    {color.name}
+                    {m.catalog.colors[color.id]}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-xs text-on-night-2">Fabrication</dt>
-                  <dd className="t-num mt-0.5">
-                    {product.leadTimeDays[0]}–{product.leadTimeDays[1]} j
-                  </dd>
+                  <dt className="text-xs text-on-night-2">{m.common.manufacturing}</dt>
+                  <dd className="t-num mt-0.5">{t(m.common.leadTimeShort, { min: product.leadTimeDays[0], max: product.leadTimeDays[1] })}</dd>
                 </div>
               </dl>
             )}
@@ -208,10 +208,10 @@ export function Configurator() {
         {!isLast && (
           <div className="mt-10 hidden items-center justify-between border-t border-line pt-6 lg:flex">
             <Button variant="ghost" icon="arrowLeft" onClick={() => goto(Math.max(0, state.step - 1) as StepIndex)} disabled={state.step === 0}>
-              Retour
+              {m.common.back}
             </Button>
             <Button onClick={next} disabled={!canContinue} arrow size="lg">
-              {state.step === 3 ? "Voir le récapitulatif" : "Continuer"}
+              {state.step === 3 ? c.seeSummary : m.common.continue}
             </Button>
           </div>
         )}
@@ -223,7 +223,7 @@ export function Configurator() {
           {state.step > 0 && (
             <button
               type="button"
-              aria-label="Étape précédente"
+              aria-label={c.previousStep}
               onClick={() => goto((state.step - 1) as StepIndex)}
               className="flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-line text-ink"
             >
@@ -231,18 +231,18 @@ export function Configurator() {
             </button>
           )}
           <div className="min-w-0 flex-1">
-            <p className="t-caption truncate text-ink-3">{price ? "Prix TTC" : product ? "À partir de" : "Étape 1 sur 5"}</p>
+            <p className="t-caption truncate text-ink-3">{price ? m.common.priceInclTax : product ? m.common.startingAt : t(c.stepOf, { step: 1 })}</p>
             <p className="t-num text-xl text-ink" aria-live="polite">
-              {product ? formatPrice(shownPrice) : "—"}
+              {product ? f.price(shownPrice) : "—"}
             </p>
           </div>
           {isLast ? (
             <Button onClick={addToCart} disabled={!config} arrow>
-              Ajouter
+              {c.add}
             </Button>
           ) : (
             <Button onClick={next} disabled={!canContinue} arrow>
-              Continuer
+              {m.common.continue}
             </Button>
           )}
         </div>
@@ -252,21 +252,22 @@ export function Configurator() {
 }
 
 function PriceBlock({ product, total, hasConfig, quantity }: { product?: ReturnType<typeof getProduct>; total: number; hasConfig: boolean; quantity: number }) {
+  const { m, f, t } = useI18n();
   if (!product) {
     return (
       <>
-        <p className="t-caption text-on-night-2">Prix estimé TTC</p>
-        <p className="mt-2 text-on-night-2">Le prix s&apos;affiche dès que vous choisissez un modèle.</p>
+        <p className="t-caption text-on-night-2">{m.common.estimatedPrice}</p>
+        <p className="mt-2 text-on-night-2">{m.configurator.priceHint}</p>
       </>
     );
   }
   return (
     <>
-      <p className="t-caption text-on-night-2">{hasConfig ? `Prix TTC${quantity > 1 ? ` · ${quantity} pièces` : ""}` : "À partir de"}</p>
+      <p className="t-caption text-on-night-2">{hasConfig ? (quantity > 1 ? t(m.configurator.pieces, { count: quantity }) : m.common.priceInclTax) : m.common.startingAt}</p>
       <p className="t-num mt-2 text-5xl font-light tracking-[-0.04em]" aria-live="polite">
-        {formatPrice(total)}
+        {f.price(total)}
       </p>
-      <p className="mt-1 text-sm text-on-night-2">TVA 21 % incluse · {product.name}</p>
+      <p className="mt-1 text-sm text-on-night-2">{t(m.configurator.vatModel, { name: m.catalog.products[product.id].name })}</p>
     </>
   );
 }

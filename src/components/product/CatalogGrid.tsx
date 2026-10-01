@@ -1,17 +1,19 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { openings, type Opening, type Product } from "@/lib/catalog";
+import { useI18n } from "@/i18n/provider";
+import type { Opening, Product } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 import { startingPrice } from "@/lib/pricing";
 import { Icon } from "@/components/ui/Icon";
 import { ProductCard } from "./ProductCard";
 
 type Sort = "reco" | "prix" | "delai";
-const sorts: Record<Sort, string> = { reco: "Recommandés", prix: "Prix croissant", delai: "Délai le plus court" };
 
 /** Grille filtrable : filtres en puces (pas de colonne latérale lourde), tri et état vide. */
 export function CatalogGrid({ items, filters = ["fenetre", "porte", "baie"] }: { items: Product[]; filters?: Opening[] }) {
+  const { m, f } = useI18n();
+  const g = m.catalogGrid;
   const [filter, setFilter] = useState<Opening | "all">("all");
   const [sort, setSort] = useState<Sort>("reco");
 
@@ -27,19 +29,19 @@ export function CatalogGrid({ items, filters = ["fenetre", "porte", "baie"] }: {
     <div>
       <div className="flex flex-col gap-4 border-b border-line pb-6 sm:flex-row sm:items-center sm:justify-between">
         {filters.length > 1 ? (
-          <div role="group" aria-label="Filtrer par ouverture" className="scroll-row -mx-[var(--gutter)] flex gap-2 overflow-x-auto px-[var(--gutter)] sm:mx-0 sm:px-0">
-            {(["all", ...filters] as const).map((f) => (
+          <div role="group" aria-label={g.filterLabel} className="scroll-row -mx-[var(--gutter)] flex gap-2 overflow-x-auto px-[var(--gutter)] sm:mx-0 sm:px-0">
+            {(["all", ...filters] as const).map((o) => (
               <button
-                key={f}
+                key={o}
                 type="button"
-                aria-pressed={filter === f}
-                onClick={() => setFilter(f)}
+                aria-pressed={filter === o}
+                onClick={() => setFilter(o)}
                 className={cn(
                   "h-10 shrink-0 rounded-full border px-4 text-sm transition-colors",
-                  filter === f ? "border-ink bg-ink text-paper" : "border-line bg-surface text-ink-2 hover:border-ink-3 hover:text-ink",
+                  filter === o ? "border-ink bg-ink text-paper" : "border-line bg-surface text-ink-2 hover:border-ink-3 hover:text-ink",
                 )}
               >
-                {f === "all" ? "Tous" : openings[f].plural}
+                {o === "all" ? g.all : m.catalog.openings[o].plural}
               </button>
             ))}
           </div>
@@ -48,18 +50,18 @@ export function CatalogGrid({ items, filters = ["fenetre", "porte", "baie"] }: {
         )}
         <div className="flex items-center gap-3">
           <p className="t-small text-ink-3" aria-live="polite">
-            {list.length} modèle{list.length > 1 ? "s" : ""}
+            {f.plural(list.length, g.count)}
           </p>
           <label className="relative">
-            <span className="sr-only">Trier</span>
+            <span className="sr-only">{g.sort}</span>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as Sort)}
               className="h-10 appearance-none rounded-full border border-line bg-surface pl-4 pr-10 text-sm text-ink hover:border-ink-3"
             >
-              {Object.entries(sorts).map(([k, v]) => (
+              {(Object.keys(g.sorts) as Sort[]).map((k) => (
                 <option key={k} value={k}>
-                  {v}
+                  {g.sorts[k]}
                 </option>
               ))}
             </select>
@@ -70,9 +72,9 @@ export function CatalogGrid({ items, filters = ["fenetre", "porte", "baie"] }: {
 
       {list.length === 0 ? (
         <div className="mt-10 rounded-[var(--radius-lg)] border border-dashed border-line-strong p-12 text-center text-ink-2">
-          Aucun modèle ne correspond.
+          {g.empty}
           <button type="button" onClick={() => setFilter("all")} className="ml-2 text-ink underline underline-offset-4">
-            Voir tous les modèles
+            {g.showAll}
           </button>
         </div>
       ) : (

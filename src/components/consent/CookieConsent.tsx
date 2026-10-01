@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { useI18n } from "@/i18n/provider";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 
@@ -54,6 +55,8 @@ function loadAnalytics() {
  * outil, « Refuser » est aussi accessible qu'« Accepter ».
  */
 export function CookieConsent() {
+  const { m, href } = useI18n();
+  const c = m.consent;
   const stored = useSyncExternalStore(subscribeConsent, consentSnapshot, () => "server");
   const [manual, setManual] = useState<boolean | null>(null);
   const [details, setDetails] = useState(false);
@@ -89,43 +92,43 @@ export function CookieConsent() {
     <div role="dialog" aria-modal="false" aria-labelledby="consent-title" className="fixed inset-x-3 bottom-3 z-[60] animate-[fade-up_var(--dur-slow)_var(--ease-out)] sm:inset-x-auto sm:left-6 sm:bottom-6 sm:w-[420px]">
       <div className="rounded-[var(--radius-xl)] border border-line bg-surface p-6 shadow-[var(--shadow-lg)]">
         <p id="consent-title" className="flex items-center gap-2 text-ink">
-          <Icon name="lock" size={18} className="text-sky" /> Vos préférences
+          <Icon name="lock" size={18} className="text-sky" /> {c.title}
         </p>
         {!GA_ID ? (
           <>
             <p className="t-small mt-3 text-ink-2">
-              Ce site n&apos;utilise aucun cookie de mesure d&apos;audience ni de publicité. Seul le stockage strictement nécessaire (panier, historique de commandes sur cet appareil) est utilisé.
+              {c.noTracking}
             </p>
             <div className="mt-5 flex items-center justify-between gap-3">
-              <Link href="/politique-cookies" className="t-small text-ink-2 underline underline-offset-2">
-                Politique cookies
+              <Link href={href("cookies")} className="t-small text-ink-2 underline underline-offset-2">
+                {c.policy}
               </Link>
               <Button size="sm" onClick={() => setManual(false)}>
-                Compris
+                {c.understood}
               </Button>
             </div>
           </>
         ) : (
           <>
             <p className="t-small mt-3 text-ink-2">
-              Nous aimerions mesurer l&apos;audience du site pour l&apos;améliorer. Rien n&apos;est activé sans votre accord.{" "}
-              <Link href="/politique-cookies" className="underline underline-offset-2">
-                En savoir plus
+              {c.ask}{" "}
+              <Link href={href("cookies")} className="underline underline-offset-2">
+                {c.learnMore}
               </Link>
             </p>
             {details && (
               <div className="mt-4 space-y-3 rounded-[var(--radius-md)] border border-line bg-paper p-4 text-sm">
                 <label className="flex items-start justify-between gap-4">
                   <span>
-                    <span className="block text-ink">Strictement nécessaires</span>
-                    <span className="t-small text-ink-3">Panier, préférences. Toujours actifs.</span>
+                    <span className="block text-ink">{c.necessary}</span>
+                    <span className="t-small text-ink-3">{c.necessaryHint}</span>
                   </span>
                   <input type="checkbox" checked disabled className="mt-1 size-5 accent-[var(--color-ink)]" />
                 </label>
                 <label className="flex items-start justify-between gap-4">
                   <span>
-                    <span className="block text-ink">Mesure d&apos;audience</span>
-                    <span className="t-small text-ink-3">Statistiques anonymisées de visite.</span>
+                    <span className="block text-ink">{c.analytics}</span>
+                    <span className="t-small text-ink-3">{c.analyticsHint}</span>
                   </span>
                   <input type="checkbox" checked={analytics} onChange={(e) => setAnalytics(e.target.checked)} className="mt-1 size-5 accent-[var(--color-ink)]" />
                 </label>
@@ -133,15 +136,15 @@ export function CookieConsent() {
             )}
             <div className="mt-5 grid grid-cols-2 gap-2">
               <Button size="sm" variant="secondary" onClick={() => save(false)}>
-                Refuser
+                {c.refuse}
               </Button>
               <Button size="sm" onClick={() => save(details ? analytics : true)}>
-                {details ? "Enregistrer" : "Accepter"}
+                {details ? c.save : c.accept}
               </Button>
             </div>
             {!details && (
               <button type="button" onClick={() => setDetails(true)} className="t-small mt-3 w-full text-center text-ink-2 underline underline-offset-2">
-                Personnaliser
+                {c.customize}
               </button>
             )}
           </>

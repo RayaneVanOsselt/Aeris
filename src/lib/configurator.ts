@@ -2,7 +2,8 @@ import { frameColors, getProduct, meshes, productOptions } from "./catalog";
 import type { Configuration } from "./pricing";
 import { checkDimensions, hasBlockingIssue } from "./validation";
 
-export const STEPS = ["Modèle", "Dimensions", "Toile & coloris", "Options", "Récapitulatif"] as const;
+/** Modèle, dimensions, toile & coloris, options, récapitulatif (libellés : messages.configurator.steps) */
+export const STEP_COUNT = 5;
 export type StepIndex = 0 | 1 | 2 | 3 | 4;
 
 export type ConfiguratorState = {

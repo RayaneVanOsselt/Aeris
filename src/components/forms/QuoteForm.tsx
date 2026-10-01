@@ -2,9 +2,10 @@
 
 import { useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { useI18n } from "@/i18n/provider";
 import { getProduct } from "@/lib/catalog";
 import { parseParams, toConfiguration } from "@/lib/configurator";
-import { formatPrice } from "@/lib/format";
+import { openingCounts } from "@/lib/form-options";
 import { describeConfig } from "@/lib/order";
 import { computePrice } from "@/lib/pricing";
 import { track } from "@/lib/analytics";
@@ -14,6 +15,8 @@ import { Checkbox, FormAlert, Honeypot, SelectField, TextArea, TextField } from 
 import { Icon } from "@/components/ui/Icon";
 
 export function QuoteForm() {
+  const { m, href, f, t, locale } = useI18n();
+  const q = m.forms.quote;
   const params = useSearchParams();
   const config = toConfiguration(parseParams(params));
   const onlyModel = !config ? getProduct(params.get("modele") ?? "") : undefined;
@@ -22,16 +25,17 @@ export function QuoteForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const err = (k: string) => errors[k] ?? fields[k];
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    const get = (k: string) => String(f.get(k) ?? "").trim();
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const get = (k: string) => String(data.get(k) ?? "").trim();
     const next: Record<string, string> = {};
-    if (!get("name")) next.name = "Nom requis";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email"))) next.email = "Adresse e-mail invalide";
-    if (get("phone") && !/^[+0-9 ().-]{6,30}$/.test(get("phone"))) next.phone = "Numéro de téléphone invalide";
-    if (get("message").length < 10) next.message = "Décrivez votre projet en quelques mots (10 caractères minimum)";
-    if (!f.get("consent")) next.consent = "Votre accord est nécessaire pour que nous puissions vous répondre";
+    const errs = m.errors;
+    if (!get("name")) next.name = errs.name;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email"))) next.email = errs.email;
+    if (get("phone") && !/^[+0-9 ().-]{6,30}$/.test(get("phone"))) next.phone = errs.phone;
+    if (get("message").length < 10) next.message = errs.projectShort;
+    if (!data.get("consent")) next.consent = errs.consent;
     setErrors(next);
     if (Object.keys(next).length) {
       document.querySelector<HTMLElement>(`[name="${Object.keys(next)[0]}"]`)?.focus();
@@ -47,6 +51,7 @@ export function QuoteForm() {
       configuration: attach && config ? config : undefined,
       source: config ? "configurateur" : onlyModel ? "produit" : "devis",
       consent: true,
+      locale,
       website: get("website"),
     });
     if (res.ok) track("quote_requested", { source: config ? "configurateur" : "devis" });
@@ -58,10 +63,10 @@ export function QuoteForm() {
         <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-success text-white">
           <Icon name="check" size={26} strokeWidth={2.4} />
         </span>
-        <h2 className="t-h3 mt-6 text-ink">Demande envoyée</h2>
-        <p className="mx-auto mt-3 max-w-md text-ink-2">Merci. Nous étudions votre projet et revenons vers vous personnellement par e-mail.</p>
-        <ButtonLink href="/" variant="secondary" className="mt-8">
-          Retour à l&apos;accueil
+        <h2 className="t-h3 mt-6 text-ink">{q.sentTitle}</h2>
+        <p className="mx-auto mt-3 max-w-md text-ink-2">{q.sentText}</p>
+        <ButtonLink href={href("home")} variant="secondary" className="mt-8">
+          {m.common.backHome}
         </ButtonLink>
       </div>
     );
@@ -75,37 +80,39 @@ export function QuoteForm() {
           <label className="flex cursor-pointer items-start gap-3 text-sm">
             <input type="checkbox" checked={attach} onChange={(e) => setAttach(e.target.checked)} className="mt-0.5 size-5 accent-[var(--color-ink)]" />
             <span>
-              <span className="block text-ink">Joindre ma configuration</span>
-              <span className="mt-1 block text-ink-2">{describeConfig(config)}</span>
-              <span className="t-num mt-1 block text-ink">Estimation : {formatPrice(computePrice(config).total)} TTC</span>
+              <span className="block text-ink">{q.attach}</span>
+              <span className="mt-1 block text-ink-2">{describeConfig(config, m, f)}</span>
+              <span className="t-num mt-1 block text-ink">{t(q.estimate, { price: f.price(computePrice(config).total) })}</span>
             </span>
           </label>
         </div>
       )}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <TextField label="Nom complet" name="name" autoComplete="name" required error={err("name")} />
-        <TextField label="E-mail" name="email" type="email" autoComplete="email" required error={err("email")} />
-        <TextField label="Téléphone" name="phone" type="tel" autoComplete="tel" optional error={err("phone")} />
-        <TextField label="Code postal" name="postalCode" autoComplete="postal-code" optional hint="Utile pour la livraison ou la pose." />
+        <TextField label={q.fullName} name="name" autoComplete="name" required error={err("name")} />
+        <TextField label={m.checkout.email} name="email" type="email" autoComplete="email" required error={err("email")} />
+        <TextField label={m.checkout.phone} name="phone" type="tel" autoComplete="tel" optional error={err("phone")} />
+        <TextField label={m.checkout.postalCode} name="postalCode" autoComplete="postal-code" optional hint={q.postalHint} />
       </div>
-      <SelectField label="Nombre d'ouvertures à équiper" name="openings" defaultValue="1">
-        {["1", "2 à 3", "4 à 6", "7 ou plus"].map((o) => (
-          <option key={o}>{o}</option>
+      <SelectField label={q.openings} name="openings" defaultValue="1">
+        {openingCounts.map((o) => (
+          <option key={o} value={o}>
+            {q.openingChoices[o]}
+          </option>
         ))}
       </SelectField>
       <TextArea
-        label="Votre projet"
+        label={q.project}
         name="message"
         required
         maxLength={3000}
         error={err("message")}
-        defaultValue={onlyModel ? `Bonjour, je souhaite un devis pour : ${onlyModel.name}.\n` : ""}
-        placeholder="Types d'ouvertures, dimensions approximatives, coloris, besoin de pose…"
+        defaultValue={onlyModel ? t(q.prefill, { name: m.catalog.products[onlyModel.id].name }) : ""}
+        placeholder={q.projectPlaceholder}
       />
-      <Checkbox name="consent" error={err("consent")} label="J'accepte qu'Aéris utilise ces informations pour répondre à ma demande. Elles ne sont jamais revendues." />
+      <Checkbox name="consent" error={err("consent")} label={q.consent} />
       {status === "error" && <FormAlert tone="error">{message}</FormAlert>}
       <Button type="submit" size="lg" block arrow disabled={status === "loading"}>
-        {status === "loading" ? "Envoi en cours…" : "Envoyer ma demande de devis"}
+        {status === "loading" ? m.common.sendingLong : q.submit}
       </Button>
     </form>
   );

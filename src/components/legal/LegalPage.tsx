@@ -1,3 +1,4 @@
+import { getI18n } from "@/i18n/server";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { FormAlert } from "@/components/ui/Field";
 
@@ -9,11 +10,12 @@ export type LegalSection = { title: string; facts?: string[]; todo?: string };
  * par un professionnel du droit. Aucun texte juridique n'est inventé.
  */
 export function LegalPage({ title, path, intro, sections }: { title: string; path: string; intro: string; sections: LegalSection[] }) {
+  const { m } = getI18n();
   return (
     <>
-      <PageHeader crumbs={[{ name: title, href: path }]} eyebrow="Informations légales" title={title} intro={intro} />
+      <PageHeader crumbs={[{ name: title, href: path }]} eyebrow={m.legal.eyebrow} title={title} intro={intro} />
       <section className="container-site grid grid-cols-1 gap-12 pb-[var(--section-y)] pt-12 lg:grid-cols-12">
-        <nav aria-label="Sommaire" className="lg:col-span-3">
+        <nav aria-label={m.legal.toc} className="lg:col-span-3">
           <ol className="t-small space-y-2 text-ink-2 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
             {sections.map((s, i) => (
               <li key={s.title}>
@@ -25,9 +27,7 @@ export function LegalPage({ title, path, intro, sections }: { title: string; pat
           </ol>
         </nav>
         <div className="max-w-3xl space-y-12 lg:col-span-9">
-          <FormAlert tone="info">
-            Document en préparation : la structure et les informations techniques sont en place. Le texte juridique définitif doit être fourni ou validé par un professionnel avant la mise en ligne.
-          </FormAlert>
+          <FormAlert tone="info">{m.legal.draft}</FormAlert>
           {sections.map((s, i) => (
             <section key={s.title} id={`s${i + 1}`} className="scroll-mt-28">
               <h2 className="t-h3 text-ink">
@@ -42,7 +42,7 @@ export function LegalPage({ title, path, intro, sections }: { title: string; pat
               )}
               {s.todo && (
                 <p className="mt-4 rounded-[var(--radius-md)] border border-dashed border-line-strong bg-paper-2/50 p-4 text-sm text-ink-3">
-                  <span className="t-caption mr-2 rounded-full bg-warning-soft px-2 py-0.5 text-warning">À compléter</span>
+                  <span className="t-caption mr-2 rounded-full bg-warning-soft px-2 py-0.5 text-warning">{m.legal.toComplete}</span>
                   {s.todo}
                 </p>
               )}

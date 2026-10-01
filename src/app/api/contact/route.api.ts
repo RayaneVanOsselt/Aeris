@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     await deliver(contactSubmission(result.data));
   } catch (err) {
     console.error("[aeris] contact non transmis", err);
-    return jsonError(502, "Votre message n'a pas pu être envoyé. Réessayez dans un instant.");
+    return jsonError(502, "contactFailed");
   }
   return NextResponse.json({ ok: true });
 }

@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useRef, useState, type KeyboardEvent } from "react";
-import { openings, products, type Opening } from "@/lib/catalog";
+import { useI18n } from "@/i18n/provider";
+import { Rich } from "@/i18n/rich";
+import { products, type Opening } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Icon } from "@/components/ui/Icon";
@@ -11,6 +13,8 @@ const tabs: Opening[] = ["fenetre", "porte", "baie"];
 
 /** Solutions par type d'ouverture : on part de ce que le client connaît (son ouverture), pas du jargon produit. */
 export function Solutions() {
+  const { m, href } = useI18n();
+  const so = m.home.solutions;
   const [active, setActive] = useState<Opening>("fenetre");
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
   const list = products.filter((p) => p.openings.includes(active) && p.id !== "sur-mesure-plus");
@@ -25,7 +29,7 @@ export function Solutions() {
 
   return (
     <div>
-      <div role="tablist" aria-label="Type d'ouverture" className="inline-flex rounded-full border border-line bg-surface p-1">
+      <div role="tablist" aria-label={so.tabs} className="inline-flex rounded-full border border-line bg-surface p-1">
         {tabs.map((t, i) => (
           <button
             key={t}
@@ -44,12 +48,12 @@ export function Solutions() {
               active === t ? "bg-ink text-paper" : "text-ink-2 hover:text-ink",
             )}
           >
-            {openings[t].plural}
+            {m.catalog.openings[t].plural}
           </button>
         ))}
       </div>
       <p className="t-small mt-4 text-ink-3" aria-live="polite">
-        {openings[active].description}
+        {m.catalog.openings[active].description}
       </p>
 
       <div
@@ -65,18 +69,18 @@ export function Solutions() {
           </div>
         ))}
         <Link
-          href="/produits/sur-mesure-plus"
+          href={href("product", "sur-mesure-plus")}
           className="animate-fade-up group relative flex min-h-64 w-[78%] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-[var(--radius-lg)] bg-night p-6 text-on-night sm:w-auto"
           style={{ "--delay": `${list.length * 70}ms` } as React.CSSProperties}
         >
           <span aria-hidden className="mesh-texture-night absolute inset-0" />
-          <span className="relative t-caption text-on-night-2">Projet hors normes</span>
+          <span className="relative t-caption text-on-night-2">{so.customEyebrow}</span>
           <span className="relative">
             <span className="block text-2xl font-light leading-tight tracking-[-0.03em]">
-              Très grande, cintrée, en RAL précis&nbsp;? <span className="accent text-sand">Sur mesure +</span>
+              <Rich text={so.customTitle} accentClassName="accent text-sand" />
             </span>
             <span className="mt-5 inline-flex items-center gap-2 text-sm">
-              Étude personnalisée <Icon name="arrowRight" size={16} className="transition-transform group-hover:translate-x-1" />
+              {so.customCta} <Icon name="arrowRight" size={16} className="transition-transform group-hover:translate-x-1" />
             </span>
           </span>
         </Link>

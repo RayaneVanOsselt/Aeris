@@ -1,41 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { getMesh, getProduct, openings } from "@/lib/catalog";
-import { cn } from "@/lib/cn";
-import { finderNeeds, finderUsages, type FinderNeed, type FinderOpening } from "@/lib/finder";
-import { formatPrice } from "@/lib/format";
-import { startingPrice } from "@/lib/pricing";
+import { useI18n } from "@/i18n/provider";
+import { Rich } from "@/i18n/rich";
 import { track } from "@/lib/analytics";
+import { getMesh, getProduct } from "@/lib/catalog";
+import { cn } from "@/lib/cn";
+import { finderNeeds, finderUsages, type FinderNeed, type FinderOpening, type FinderUsageId } from "@/lib/finder";
+import { startingPrice } from "@/lib/pricing";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { ProductVisual } from "./ProductVisual";
 
-const openingChoices: Array<{ id: FinderOpening; label: string; hint: string }> = [
-  { id: "fenetre", label: openings.fenetre.label, hint: openings.fenetre.description },
-  { id: "porte", label: openings.porte.label, hint: openings.porte.description },
-  { id: "baie", label: openings.baie.label, hint: openings.baie.description },
-  { id: "special", label: "Hors normes", hint: "Très grande ou de forme spéciale" },
-];
+const openingIds: FinderOpening[] = ["fenetre", "porte", "baie", "special"];
 
-/** Aide au choix en 3 questions — réduit l'hésitation avant le configurateur. */
-export function ProductFinder() {
-  const [opening, setOpening] = useState<FinderOpening | null>(null);
-  const [usage, setUsage] = useState<string | null>(null);
-  const [need, setNeed] = useState<FinderNeed | null>(null);
-
-  const step = !opening ? 0 : !usage ? 1 : !need ? 2 : 3;
-  const usageChoice = opening ? finderUsages[opening].find((u) => u.id === usage) : undefined;
-  const product = usageChoice ? getProduct(usageChoice.product) : undefined;
-  const mesh = getMesh(finderNeeds.find((n) => n.id === need)?.mesh ?? "fibre");
-
-  const reset = () => {
-    setOpening(null);
-    setUsage(null);
-    setNeed(null);
-  };
-
-  const Choice = ({ selected, onClick, label, hint }: { selected: boolean; onClick: () => void; label: string; hint?: string }) => (
+function Choice({ selected, onClick, label, hint }: { selected: boolean; onClick: () => void; label: string; hint?: string }) {
+  return (
     <button
       type="button"
       onClick={onClick}
@@ -52,47 +32,63 @@ export function ProductFinder() {
       <Icon name="arrowRight" size={18} className="shrink-0 text-ink-3 transition-transform group-hover:translate-x-0.5" />
     </button>
   );
+}
 
-  const questions = ["Quelle ouverture ?", "Comment l'utilisez-vous ?", "Un besoin particulier ?"];
+/** Aide au choix en 3 questions — réduit l'hésitation avant le configurateur. */
+export function ProductFinder() {
+  const { m, href, f, t } = useI18n();
+  const fm = m.finder;
+  const [opening, setOpening] = useState<FinderOpening | null>(null);
+  const [usage, setUsage] = useState<FinderUsageId | null>(null);
+  const [need, setNeed] = useState<FinderNeed | null>(null);
+
+  const step = !opening ? 0 : !usage ? 1 : !need ? 2 : 3;
+  const usageChoice = opening ? finderUsages[opening].find((u) => u.id === usage) : undefined;
+  const product = usageChoice ? getProduct(usageChoice.product) : undefined;
+  const mesh = getMesh(finderNeeds.find((n) => n.id === need)?.mesh ?? "fibre");
+  const openingChoice = (id: FinderOpening) => (id === "special" ? fm.special : { label: m.catalog.openings[id].label, hint: m.catalog.openings[id].description });
+
+  const reset = () => {
+    setOpening(null);
+    setUsage(null);
+    setNeed(null);
+  };
 
   return (
     <div className="grid grid-cols-1 gap-8 rounded-[var(--radius-xl)] border border-line bg-paper-2/60 p-5 sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12 lg:p-10">
       <div>
         <div className="flex items-center gap-2" aria-hidden>
-          {questions.map((q, i) => (
+          {fm.questions.map((q, i) => (
             <span key={q} className={cn("h-1 flex-1 rounded-full transition-colors duration-[var(--dur-slow)]", i < step ? "bg-sky" : i === step ? "bg-ink" : "bg-line")} />
           ))}
         </div>
         <p className="t-caption mt-6 text-ink-3" aria-live="polite">
-          {step < 3 ? `Question ${step + 1} sur 3` : "Notre recommandation"}
+          {step < 3 ? t(fm.questionOf, { step: step + 1 }) : fm.recommendation}
         </p>
 
         {step < 3 ? (
           <div key={step} className="animate-fade-up">
-            <h3 className="t-h3 mt-2 text-ink">{questions[step]}</h3>
+            <h3 className="t-h3 mt-2 text-ink">{fm.questions[step]}</h3>
             <div className="mt-6 grid gap-2.5">
               {step === 0 &&
-                openingChoices.map((o) => (
+                openingIds.map((id) => (
                   <Choice
-                    key={o.id}
-                    selected={opening === o.id}
-                    label={o.label}
-                    hint={o.hint}
+                    key={id}
+                    selected={opening === id}
+                    {...openingChoice(id)}
                     onClick={() => {
-                      setOpening(o.id);
-                      if (finderUsages[o.id].length === 1) setUsage(finderUsages[o.id][0]!.id);
+                      setOpening(id);
+                      if (finderUsages[id].length === 1) setUsage(finderUsages[id][0]!.id);
                     }}
                   />
                 ))}
-              {step === 1 &&
-                opening &&
-                finderUsages[opening].map((u) => <Choice key={u.id} selected={usage === u.id} label={u.label} hint={u.hint} onClick={() => setUsage(u.id)} />)}
+              {step === 1 && opening && finderUsages[opening].map((u) => <Choice key={u.id} selected={usage === u.id} {...fm.usages[u.id]} onClick={() => setUsage(u.id)} />)}
               {step === 2 &&
                 finderNeeds.map((n) => (
                   <Choice
                     key={n.id}
                     selected={need === n.id}
-                    label={n.label}
+                    label={fm.needs[n.id]}
                     onClick={() => {
                       setNeed(n.id);
                       track("finder_completed", { product: usageChoice?.product ?? "", need: n.id });
@@ -102,7 +98,7 @@ export function ProductFinder() {
             </div>
             {step > 0 && (
               <button type="button" onClick={step === 1 ? reset : () => setUsage(null)} className="mt-5 inline-flex items-center gap-1.5 text-sm text-ink-2 hover:text-ink">
-                <Icon name="arrowLeft" size={16} /> Retour
+                <Icon name="arrowLeft" size={16} /> {m.common.back}
               </button>
             )}
           </div>
@@ -110,28 +106,30 @@ export function ProductFinder() {
           product &&
           mesh && (
             <div className="animate-fade-up">
-              <h3 className="t-h3 mt-2 text-ink">{product.name}</h3>
-              <p className="mt-3 text-ink-2">{product.lead}</p>
+              <h3 className="t-h3 mt-2 text-ink">{m.catalog.products[product.id].name}</h3>
+              <p className="mt-3 text-ink-2">{m.catalog.products[product.id].lead}</p>
               <ul className="mt-5 space-y-2 text-[0.9375rem] text-ink-2">
                 <li className="flex gap-2.5">
                   <Icon name="check" size={18} className="mt-0.5 shrink-0 text-sky" />
-                  Toile conseillée : <strong className="font-medium text-ink">{mesh.name}</strong>
+                  <span>
+                    <Rich text={t(fm.meshAdvice, { mesh: m.catalog.meshes[mesh.id].name })} strongClassName="font-medium text-ink" />
+                  </span>
                 </li>
                 <li className="flex gap-2.5">
                   <Icon name="check" size={18} className="mt-0.5 shrink-0 text-sky" />
-                  Dès {formatPrice(startingPrice(product))} TTC, prix exact selon vos dimensions
+                  {t(fm.priceFrom, { price: f.price(startingPrice(product)) })}
                 </li>
               </ul>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href={`/configurateur?modele=${product.id}&toile=${mesh.id}`} arrow>
-                  Configurer ce modèle
+                <ButtonLink href={`${href("configurator")}?modele=${product.id}&toile=${mesh.id}`} arrow>
+                  {fm.configureThis}
                 </ButtonLink>
-                <ButtonLink href={`/produits/${product.slug}`} variant="secondary">
-                  Voir la fiche
+                <ButtonLink href={href("product", product.id)} variant="secondary">
+                  {m.common.seeProduct}
                 </ButtonLink>
               </div>
               <button type="button" onClick={reset} className="mt-5 inline-flex items-center gap-1.5 text-sm text-ink-2 hover:text-ink">
-                <Icon name="arrowLeft" size={16} /> Recommencer
+                <Icon name="arrowLeft" size={16} /> {fm.restart}
               </button>
             </div>
           )
@@ -150,7 +148,7 @@ export function ProductFinder() {
             meshDensity={mesh?.density}
             meshStrand={mesh?.strand}
             animated
-            title={product.name}
+            title={m.catalog.products[product.id].name}
             className="relative h-72 w-full p-6"
           />
         ) : (

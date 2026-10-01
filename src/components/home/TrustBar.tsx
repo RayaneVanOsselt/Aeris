@@ -1,6 +1,7 @@
-import type { ClaimKey } from "@/lib/business";
-import { ClaimLabel, isClaimVisible } from "@/components/ui/Claim";
+import { getI18n } from "@/i18n/server";
+import { ClaimLabel } from "@/components/ui/Claim";
 import { Icon, type IconName } from "@/components/ui/Icon";
+import { isClaimVisible, type ClaimKey } from "@/lib/business";
 
 const items: Array<{ id: ClaimKey; icon: IconName }> = [
   { id: "madeToMeasure", icon: "ruler" },
@@ -14,9 +15,10 @@ const items: Array<{ id: ClaimKey; icon: IconName }> = [
 
 /** Réassurance immédiate, juste sous le hero. */
 export function TrustBar() {
+  const { m } = getI18n();
   const visible = items.filter((i) => isClaimVisible(i.id)).slice(0, 5);
   return (
-    <section aria-label="Nos engagements" className="border-y border-line bg-surface">
+    <section aria-label={m.homePage.trustLabel} className="border-y border-line bg-surface">
       <ul
         className="container-site scroll-row flex gap-8 overflow-x-auto py-6 lg:grid lg:gap-6"
         style={{ gridTemplateColumns: `repeat(${visible.length}, minmax(0, 1fr))` }}

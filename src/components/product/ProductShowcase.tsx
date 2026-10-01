@@ -1,28 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { frameColors, getMesh, type Product } from "@/lib/catalog";
+import { useI18n } from "@/i18n/provider";
 import { showPlaceholders } from "@/lib/business";
+import { frameColors, type Product } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 import { IconButton } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { ProductVisual } from "./ProductVisual";
 
 type View = "overview" | "dimensions" | "mesh";
-const views: Array<{ id: View; label: string }> = [
-  { id: "overview", label: "Vue d'ensemble" },
-  { id: "dimensions", label: "Avec cotes" },
-  { id: "mesh", label: "Trame" },
-];
+const views: View[] = ["overview", "dimensions", "mesh"];
 
 /** Galerie produit : vues, coloris en direct, zoom plein écran, emplacements photos réelles. */
 export function ProductShowcase({ product }: { product: Product }) {
+  const { m, t } = useI18n();
+  const name = m.catalog.products[product.id].name;
   const [view, setView] = useState<View>("overview");
   const [colorId, setColorId] = useState("anthracite");
   const [zoom, setZoom] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
   const color = frameColors.find((c) => c.id === colorId)!;
-  const mesh = getMesh("fibre")!;
+  const colorName = m.catalog.colors[color.id];
 
   useEffect(() => {
     const d = dialog.current;
@@ -42,7 +41,7 @@ export function ProductShowcase({ product }: { product: Product }) {
           backgroundSize: `100% 100%, ${large ? 14 : 9}px ${large ? 14 : 9}px, ${large ? 14 : 9}px ${large ? 14 : 9}px`,
         }}
         role="img"
-        aria-label={`Vue rapprochée de la toile ${mesh.name}`}
+        aria-label={t(m.product.meshCloseUp, { mesh: m.catalog.meshes.fibre.name })}
       />
     ) : (
       <ProductVisual
@@ -53,7 +52,7 @@ export function ProductShowcase({ product }: { product: Product }) {
         height={product.defaultSize.height}
         dimensions={view === "dimensions"}
         animated={view === "dimensions"}
-        title={`${product.name}, coloris ${color.name}`}
+        title={t(m.common.colorOf, { name, color: colorName })}
         className="absolute inset-0 h-full w-full p-6 sm:p-10"
       />
     );
@@ -63,25 +62,25 @@ export function ProductShowcase({ product }: { product: Product }) {
       <div className="relative aspect-square overflow-hidden rounded-[var(--radius-xl)] border border-line bg-gradient-to-b from-surface to-paper-2 sm:aspect-[5/4] lg:aspect-square">
         <div aria-hidden className="blueprint-grid absolute inset-0" />
         {stage(false)}
-        <div className="absolute left-4 top-4 flex gap-1 rounded-full border border-line bg-surface/90 p-1 backdrop-blur" role="group" aria-label="Choisir la vue">
+        <div className="absolute left-4 top-4 flex gap-1 rounded-full border border-line bg-surface/90 p-1 backdrop-blur" role="group" aria-label={m.product.chooseView}>
           {views.map((v) => (
             <button
-              key={v.id}
+              key={v}
               type="button"
-              aria-pressed={view === v.id}
-              onClick={() => setView(v.id)}
-              className={cn("h-8 rounded-full px-3 text-xs transition-colors sm:text-sm", view === v.id ? "bg-ink text-paper" : "text-ink-2 hover:text-ink")}
+              aria-pressed={view === v}
+              onClick={() => setView(v)}
+              className={cn("h-8 rounded-full px-3 text-xs transition-colors sm:text-sm", view === v ? "bg-ink text-paper" : "text-ink-2 hover:text-ink")}
             >
-              {v.label}
+              {m.product.views[v]}
             </button>
           ))}
         </div>
-        <IconButton icon="search" label="Agrandir l'illustration" onClick={() => setZoom(true)} className="absolute bottom-4 right-4 border border-line bg-surface/90 backdrop-blur" />
+        <IconButton icon="search" label={m.product.zoom} onClick={() => setZoom(true)} className="absolute bottom-4 right-4 border border-line bg-surface/90 backdrop-blur" />
       </div>
 
       <fieldset className="mt-5">
         <legend className="text-sm text-ink-2">
-          Coloris du profilé : <span className="text-ink">{color.name}</span>
+          {m.product.profileColor} <span className="text-ink">{colorName}</span>
         </legend>
         <div className="mt-3 flex flex-wrap gap-2.5">
           {frameColors.map((c) => (
@@ -89,8 +88,8 @@ export function ProductShowcase({ product }: { product: Product }) {
               key={c.id}
               type="button"
               aria-pressed={c.id === colorId}
-              aria-label={c.name}
-              title={c.name}
+              aria-label={m.catalog.colors[c.id]}
+              title={m.catalog.colors[c.id]}
               onClick={() => setColorId(c.id)}
               className={cn("size-9 rounded-full border border-line-strong ring-offset-2 ring-offset-paper transition-shadow", c.id === colorId && "ring-2 ring-sky")}
               style={{ background: c.id === "ral" ? "conic-gradient(#c8a57a,#3563e9,#1f7a55,#b42318,#c8a57a)" : c.hex }}
@@ -114,11 +113,11 @@ export function ProductShowcase({ product }: { product: Product }) {
         </div>
       )}
 
-      <dialog ref={dialog} onClose={() => setZoom(false)} className="sheet m-auto h-[min(92dvh,900px)] w-[min(94vw,900px)] overflow-hidden rounded-[var(--radius-xl)] bg-surface!" aria-label={`${product.name} en grand`}>
+      <dialog ref={dialog} onClose={() => setZoom(false)} className="sheet m-auto h-[min(92dvh,900px)] w-[min(94vw,900px)] overflow-hidden rounded-[var(--radius-xl)] bg-surface!" aria-label={t(m.product.large, { name })}>
         <div className="relative h-full">
           <div aria-hidden className="blueprint-grid absolute inset-0" />
           {zoom && stage(true)}
-          <IconButton icon="close" label="Fermer" onClick={() => setZoom(false)} className="absolute right-4 top-4 border border-line bg-surface" autoFocus />
+          <IconButton icon="close" label={m.common.close} onClick={() => setZoom(false)} className="absolute right-4 top-4 border border-line bg-surface" autoFocus />
         </div>
       </dialog>
     </div>

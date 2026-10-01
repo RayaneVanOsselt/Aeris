@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useI18n } from "@/i18n/provider";
 import { cn } from "@/lib/cn";
 import { ButtonLink } from "@/components/ui/Button";
 
 /** Barre d'action mobile : apparaît quand le CTA principal sort de l'écran. */
 export function StickyBuyBar({ label, price, href, watchId }: { label: string; price: string; href: string; watchId: string }) {
+  const { m } = useI18n();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const target = document.getElementById(watchId);
@@ -34,7 +36,7 @@ export function StickyBuyBar({ label, price, href, watchId }: { label: string; p
           <p className="t-num text-ink-2">{price}</p>
         </div>
         <ButtonLink href={href} tabIndex={visible ? 0 : -1} arrow>
-          Configurer
+          {m.nav.configure}
         </ButtonLink>
       </div>
     </div>

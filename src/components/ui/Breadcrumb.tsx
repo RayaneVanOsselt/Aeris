@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getI18n } from "@/i18n/server";
 import { breadcrumbJsonLd } from "@/lib/seo";
 import { cn } from "@/lib/cn";
 import { Icon } from "./Icon";
@@ -7,10 +8,11 @@ import { JsonLd } from "./JsonLd";
 export type Crumb = { name: string; href: string };
 
 export function Breadcrumb({ items, className }: { items: Crumb[]; className?: string }) {
-  const all = [{ name: "Accueil", href: "/" }, ...items];
+  const { m, href } = getI18n();
+  const all = [{ name: m.common.home, href: href("home") }, ...items];
   return (
     <>
-      <nav aria-label="Fil d'Ariane" className={cn("text-sm", className)}>
+      <nav aria-label={m.common.breadcrumb} className={cn("text-sm", className)}>
         <ol className="flex flex-wrap items-center gap-1.5 text-ink-3">
           {all.map((c, i) => (
             <li key={c.href} className="flex items-center gap-1.5">

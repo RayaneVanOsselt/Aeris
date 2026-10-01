@@ -1,6 +1,8 @@
+"use client";
+
 import { useId } from "react";
+import { useI18n } from "@/i18n/provider";
 import type { VisualKind } from "@/lib/catalog";
-import { formatNumber } from "@/lib/format";
 
 type Props = {
   kind: VisualKind;
@@ -49,6 +51,7 @@ export function ProductVisual({
   title,
   animated = false,
 }: Props) {
+  const { m } = useI18n();
   const uid = useId().replace(/[:«»]/g, "");
   const ratio = width / height;
   const W = Math.max(96, ratio >= 1 ? MAX : MAX * ratio);
@@ -70,7 +73,7 @@ export function ProductVisual({
       viewBox={`0 0 ${vbW} ${vbH}`}
       className={className}
       role="img"
-      aria-label={title ?? "Illustration du modèle"}
+      aria-label={title ?? m.common.illustration}
       preserveAspectRatio="xMidYMid meet"
     >
       <defs>
@@ -301,6 +304,7 @@ function CustomShape({
 }
 
 function Dimensions({ x, y, W, H, width, height, animated }: { x: number; y: number; W: number; H: number; width: number; height: number; animated: boolean }) {
+  const { f } = useI18n();
   const sky = "#3563e9";
   const by = y + H + 22;
   const rx = x - 22;
@@ -318,7 +322,7 @@ function Dimensions({ x, y, W, H, width, height, animated }: { x: number; y: num
       </g>
       <rect x={x + W / 2 - 34} y={by - 8} width="68" height="16" rx="3" fill="#f6f4ee" />
       <text x={x + W / 2} y={by + 3.5} textAnchor="middle" letterSpacing="0.3">
-        {formatNumber(width)} mm
+        {f.mm(width)}
       </text>
       {/* Hauteur */}
       <g stroke={sky} strokeWidth="0.8">
@@ -329,7 +333,7 @@ function Dimensions({ x, y, W, H, width, height, animated }: { x: number; y: num
       <g transform={`translate(${rx} ${y + H / 2}) rotate(-90)`}>
         <rect x="-34" y="-8" width="68" height="16" rx="3" fill="#f6f4ee" />
         <text x="0" y="3.5" textAnchor="middle" letterSpacing="0.3">
-          {formatNumber(height)} mm
+          {f.mm(height)}
         </text>
       </g>
     </g>

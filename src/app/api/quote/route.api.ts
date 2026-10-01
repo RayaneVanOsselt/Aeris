@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     await deliver(quoteSubmission(result.data));
   } catch (err) {
     console.error("[aeris] devis non transmis", err);
-    return jsonError(502, "Votre demande n'a pas pu être envoyée. Réessayez dans un instant.");
+    return jsonError(502, "quoteFailed");
   }
   return NextResponse.json({ ok: true });
 }

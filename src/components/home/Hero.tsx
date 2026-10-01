@@ -1,10 +1,15 @@
+import { Rich } from "@/i18n/rich";
+import { getI18n } from "@/i18n/server";
 import { ButtonLink } from "@/components/ui/Button";
-import { ClaimLabel, isClaimVisible } from "@/components/ui/Claim";
+import { ClaimLabel } from "@/components/ui/Claim";
 import { Icon } from "@/components/ui/Icon";
 import { Ruler } from "@/components/ui/Ruler";
+import { isClaimVisible } from "@/lib/business";
 import { HeroVisual } from "./HeroVisual";
 
 export function Hero() {
+  const { m, href } = getI18n();
+  const h = m.homePage.hero;
   return (
     <section className="relative overflow-hidden">
       <div
@@ -18,23 +23,20 @@ export function Hero() {
               <span className="absolute inset-0 animate-[pulse-ring_2s_var(--ease-out)_infinite] rounded-full bg-sky" />
               <span className="relative size-2 rounded-full bg-sky" />
             </span>
-            Moustiquaires sur mesure · Fenêtres, portes, baies
+            {h.badge}
           </p>
           <h1 className="t-display animate-rise text-ink" style={{ "--delay": "80ms" } as React.CSSProperties}>
-            Fenêtres ouvertes,
-            <br />
-            <span className="accent text-sand-deep">insectes dehors.</span>
+            <Rich text={h.title} />
           </h1>
           <p className="t-lead animate-rise mt-8 max-w-xl text-ink-2" style={{ "--delay": "160ms" } as React.CSSProperties}>
-            Des moustiquaires fabriquées au millimètre pour chacune de vos ouvertures. Discrètes, faciles à vivre — et votre prix exact
-            s&apos;affiche pendant que vous configurez.
+            {h.lead}
           </p>
           <div className="animate-fade-up mt-10 flex flex-col gap-3 sm:flex-row" style={{ "--delay": "240ms" } as React.CSSProperties}>
-            <ButtonLink href="/configurateur" size="lg" arrow>
-              Configurer ma moustiquaire
+            <ButtonLink href={href("configurator")} size="lg" arrow>
+              {m.common.configureMine}
             </ButtonLink>
-            <ButtonLink href="/moustiquaires#aide-au-choix" size="lg" variant="secondary">
-              Trouver le bon modèle
+            <ButtonLink href={`${href("catalog")}#aide-au-choix`} size="lg" variant="secondary">
+              {h.findModel}
             </ButtonLink>
           </div>
           <ul
@@ -43,15 +45,15 @@ export function Hero() {
           >
             <li className="flex items-center gap-2.5">
               <Icon name="check" size={18} className="shrink-0 text-sky" />
-              Prix immédiat, sans inscription
+              {h.instantPrice}
             </li>
             <li className="flex items-center gap-2.5">
               <Icon name="ruler" size={18} className="shrink-0 text-sky" />
-              {isClaimVisible("checkedBeforeProduction") ? <ClaimLabel id="checkedBeforeProduction" /> : "Fabriquée à vos dimensions"}
+              {isClaimVisible("checkedBeforeProduction") ? <ClaimLabel id="checkedBeforeProduction" /> : h.madeToSize}
             </li>
             <li className="flex items-center gap-2.5">
               <Icon name="lock" size={18} className="shrink-0 text-sky" />
-              Revolut ou virement
+              {m.payment.revolutOrTransfer}
             </li>
           </ul>
         </div>

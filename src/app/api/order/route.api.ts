@@ -10,14 +10,14 @@ export async function POST(req: Request) {
 
   // Revalidation métier côté serveur : dimensions contrôlées, prix recalculés (jamais repris du navigateur)
   const itemsError = orderItemsError(result.data.items);
-  if (itemsError) return jsonError(422, itemsError);
-  const { reference, total, summary, submission } = orderSubmission(result.data);
+  if (itemsError) return jsonError(422, itemsError.code, { params: { product: itemsError.product } });
+  const { reference, total, submission } = orderSubmission(result.data);
 
   try {
     await deliver(submission);
   } catch (err) {
     console.error("[aeris] commande non transmise", err);
-    return jsonError(502, "Votre commande n'a pas pu être transmise. Rien n'a été débité : réessayez dans un instant ou contactez-nous.");
+    return jsonError(502, "orderFailed");
   }
-  return NextResponse.json({ ok: true, reference, total, summary });
+  return NextResponse.json({ ok: true, reference, total });
 }

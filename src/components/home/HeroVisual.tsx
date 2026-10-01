@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "@/i18n/provider";
 import { getColor, getProduct } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
-import { formatMm, formatPrice } from "@/lib/format";
 import { useAnimatedNumber, useReducedMotion } from "@/lib/hooks";
 import { computePrice } from "@/lib/pricing";
 import { ProductVisual } from "@/components/product/ProductVisual";
@@ -21,6 +21,8 @@ const presets = [
  * Pause hors écran, onglet masqué ou « réduire les animations ».
  */
 export function HeroVisual() {
+  const { m, f, t } = useI18n();
+  const hv = m.home.heroVisual;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const reduced = useReducedMotion();
@@ -46,6 +48,8 @@ export function HeroVisual() {
   const preset = presets[index]!;
   const product = getProduct(preset.productId)!;
   const color = getColor(preset.colorId)!;
+  const name = m.catalog.products[product.id].name;
+  const colorName = m.catalog.colors[color.id];
   const price = computePrice({ ...preset, meshId: "fibre", optionIds: [], quantity: 1 }).total;
   const shown = useAnimatedNumber(price, 600);
 
@@ -68,12 +72,12 @@ export function HeroVisual() {
             height={preset.height}
             dimensions
             animated
-            title={`${product.name}, coloris ${color.name}, ${preset.width} × ${preset.height} mm`}
+            title={`${t(m.common.colorOf, { name, color: colorName })}, ${f.mm(preset.width)} × ${f.mm(preset.height)}`}
             className="absolute inset-0 m-auto h-[82%] w-[88%]"
           />
         </div>
         {/* Sélecteur discret : l'utilisateur peut parcourir lui-même les exemples */}
-        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1" role="group" aria-label="Exemples de configurations">
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1" role="group" aria-label={hv.examples}>
           {presets.map((p, i) => (
             <button
               key={p.productId}
@@ -82,7 +86,7 @@ export function HeroVisual() {
                 setIndex(i);
                 setPaused(true);
               }}
-              aria-label={`Exemple ${i + 1} : ${getProduct(p.productId)!.name}`}
+              aria-label={t(hv.example, { n: i + 1, name: m.catalog.products[p.productId].name })}
               aria-pressed={i === index}
               className="flex size-6 items-center justify-center"
             >
@@ -96,29 +100,29 @@ export function HeroVisual() {
         aria-live="polite"
         className="absolute -right-3 top-6 w-56 rounded-[var(--radius-lg)] border border-line bg-surface/95 p-4 shadow-[var(--shadow-md)] backdrop-blur sm:-right-10 motion-safe:animate-[float_6s_var(--ease-in-out)_infinite]"
       >
-        <p className="t-caption text-ink-3">Exemple de configuration</p>
+        <p className="t-caption text-ink-3">{hv.title}</p>
         <dl className="mt-3 space-y-1.5 text-[0.8125rem]">
           <div className="flex justify-between gap-2">
-            <dt className="text-ink-3">Modèle</dt>
-            <dd className="text-ink">{product.shortName}</dd>
+            <dt className="text-ink-3">{m.common.model}</dt>
+            <dd className="text-ink">{m.catalog.products[product.id].shortName}</dd>
           </div>
           <div className="flex justify-between gap-2">
-            <dt className="text-ink-3">Mesures</dt>
+            <dt className="text-ink-3">{hv.sizes}</dt>
             <dd className="t-num text-ink">
-              {formatMm(preset.width).replace(" mm", "")} × {formatMm(preset.height)}
+              {f.number(preset.width)} × {f.mm(preset.height)}
             </dd>
           </div>
           <div className="flex justify-between gap-2">
-            <dt className="text-ink-3">Coloris</dt>
+            <dt className="text-ink-3">{m.common.color}</dt>
             <dd className="flex items-center gap-1.5 text-ink">
               <span className="size-2.5 rounded-full border border-line-strong" style={{ background: color.hex }} />
-              {color.name}
+              {colorName}
             </dd>
           </div>
         </dl>
         <div className="mt-3 flex items-baseline justify-between border-t border-line pt-3">
-          <span className="text-[0.8125rem] text-ink-3">Prix TTC</span>
-          <span className="t-num text-lg text-ink">{formatPrice(shown)}</span>
+          <span className="text-[0.8125rem] text-ink-3">{m.common.priceInclTax}</span>
+          <span className="t-num text-lg text-ink">{f.price(shown)}</span>
         </div>
       </div>
 
@@ -135,8 +139,8 @@ export function HeroVisual() {
           }}
         />
         <span>
-          <span className="block text-[0.8125rem] text-ink">Toile haute visibilité</span>
-          <span className="t-caption text-ink-3">Vous voyez dehors</span>
+          <span className="block text-[0.8125rem] text-ink">{hv.clearMesh}</span>
+          <span className="t-caption text-ink-3">{hv.clearMeshHint}</span>
         </span>
       </div>
     </div>

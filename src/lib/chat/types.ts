@@ -8,5 +8,3 @@ export type ChatReply = {
 };
 
 export type ChatMessage = { role: "user" | "assistant"; content: string };
-
-export const FALLBACK = "Je préfère ne pas vous donner une information approximative. Je peux vous orienter vers notre équipe.";

@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "@/i18n/provider";
 import { getColor, getMesh, getProduct } from "@/lib/catalog";
 import type { CartItem } from "@/lib/cart-store";
 import { useCart } from "@/lib/cart-store";
-import { formatMm, formatPrice } from "@/lib/format";
 import { computePrice } from "@/lib/pricing";
 import { ProductVisual } from "@/components/product/ProductVisual";
 import { ButtonLink, IconButton } from "@/components/ui/Button";
@@ -13,6 +13,7 @@ import { Icon } from "@/components/ui/Icon";
 
 /** Tiroir de confirmation après ajout : rassure et propose la suite logique (commander ou continuer). */
 export function CartDrawer() {
+  const { m, href, f, t } = useI18n();
   const [item, setItem] = useState<CartItem | null>(null);
   const ref = useRef<HTMLDialogElement>(null);
   const items = useCart();
@@ -40,7 +41,7 @@ export function CartDrawer() {
       ref={ref}
       onClose={() => setItem(null)}
       onClick={(e) => e.target === ref.current && setItem(null)}
-      aria-label="Article ajouté au panier"
+      aria-label={m.drawer.label}
       className="sheet ml-auto h-dvh w-full max-w-md bg-paper! open:animate-[fade-up_var(--dur-slow)_var(--ease-out)] sm:rounded-l-[var(--radius-xl)]"
     >
       {item && product && color && mesh && (
@@ -50,44 +51,42 @@ export function CartDrawer() {
               <span className="flex size-7 items-center justify-center rounded-full bg-success text-white">
                 <Icon name="check" size={15} strokeWidth={2.6} />
               </span>
-              Ajoutée au panier
+              {m.drawer.added}
             </p>
-            <IconButton icon="close" label="Fermer" onClick={() => setItem(null)} />
+            <IconButton icon="close" label={m.common.close} onClick={() => setItem(null)} />
           </div>
           <div className="flex-1 overflow-y-auto px-6 py-6">
             <div className="flex gap-4">
               <span className="flex size-24 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-paper-2">
-                <ProductVisual kind={product.visual} color={color.hex} width={item.config.width} height={item.config.height} className="h-20 w-20" title={product.name} />
+                <ProductVisual kind={product.visual} color={color.hex} width={item.config.width} height={item.config.height} className="h-20 w-20" title={m.catalog.products[product.id].name} />
               </span>
               <div className="min-w-0">
-                <p className="text-ink">{product.name}</p>
+                <p className="text-ink">{m.catalog.products[product.id].name}</p>
                 <p className="t-num t-small mt-1 text-ink-3">
-                  {formatMm(item.config.width)} × {formatMm(item.config.height)}
+                  {f.mm(item.config.width)} × {f.mm(item.config.height)}
                 </p>
                 <p className="t-small text-ink-3">
-                  {mesh.name} · {color.name} · × {item.config.quantity}
+                  {m.catalog.meshes[mesh.id].name} · {m.catalog.colors[color.id]} · × {item.config.quantity}
                 </p>
-                <p className="t-num mt-2 text-ink">{formatPrice(safeTotal(item))}</p>
+                <p className="t-num mt-2 text-ink">{f.price(safeTotal(item))}</p>
               </div>
             </div>
           </div>
           <div className="border-t border-line bg-surface px-6 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
             <div className="mb-5 flex items-baseline justify-between">
-              <span className="text-ink-2">
-                Panier · {items.length} article{items.length > 1 ? "s" : ""}
-              </span>
-              <span className="t-num text-2xl font-light text-ink">{formatPrice(subtotal)}</span>
+              <span className="text-ink-2">{t(m.drawer.summary, { items: f.plural(items.length, m.common.items) })}</span>
+              <span className="t-num text-2xl font-light text-ink">{f.price(subtotal)}</span>
             </div>
             <div className="grid gap-3">
-              <ButtonLink href="/commande" size="lg" block arrow onClick={() => setItem(null)}>
-                Commander
+              <ButtonLink href={href("checkout")} size="lg" block arrow onClick={() => setItem(null)}>
+                {m.drawer.order}
               </ButtonLink>
-              <ButtonLink href="/panier" variant="secondary" size="lg" block onClick={() => setItem(null)}>
-                Voir le panier
+              <ButtonLink href={href("cart")} variant="secondary" size="lg" block onClick={() => setItem(null)}>
+                {m.common.seeCart}
               </ButtonLink>
             </div>
-            <Link href="/configurateur" onClick={() => setItem(null)} className="mt-4 block text-center text-sm text-ink-2 underline-offset-4 hover:underline">
-              Configurer une autre moustiquaire
+            <Link href={href("configurator")} onClick={() => setItem(null)} className="mt-4 block text-center text-sm text-ink-2 underline-offset-4 hover:underline">
+              {m.drawer.another}
             </Link>
           </div>
         </div>

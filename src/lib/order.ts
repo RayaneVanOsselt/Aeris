@@ -1,28 +1,34 @@
+import type { Formatters } from "@/i18n/format";
+import { fmt } from "@/i18n/format";
+import type { ClientMessages } from "@/i18n/messages";
+import type { ColorId, MeshId, OptionId, ProductId } from "./catalog";
 import { getColor, getMesh, getOption, getProduct } from "./catalog";
-import { formatMm, formatPrice } from "./format";
 import { computePrice, type Configuration } from "./pricing";
 
-/** Description lisible d'une configuration (e-mails, récapitulatifs, historique). */
-export function describeConfig(config: Configuration): string {
+type Labels = Pick<ClientMessages, "catalog" | "common">;
+
+/** Description lisible d'une configuration (récapitulatifs, historique, e-mails), dans la langue donnée. */
+export function describeConfig(config: Configuration, m: Labels, f: Formatters): string {
+  const { catalog, common } = m;
   const product = getProduct(config.productId);
   const mesh = getMesh(config.meshId);
   const color = getColor(config.colorId);
-  const options = config.optionIds.map((o) => getOption(o)?.name).filter(Boolean);
+  const options = config.optionIds.filter((o) => getOption(o)).map((o) => catalog.options[o as OptionId].name);
   return [
-    product?.name ?? config.productId,
-    `${formatMm(config.width)} × ${formatMm(config.height)}`,
-    `toile ${mesh?.name ?? config.meshId}`,
-    `coloris ${color?.name ?? config.colorId}${config.ralCode ? ` ${config.ralCode}` : ""}`,
-    options.length ? `options : ${options.join(", ")}` : null,
-    config.label ? `repère « ${config.label} »` : null,
+    product ? catalog.products[product.id as ProductId].name : config.productId,
+    `${f.mm(config.width)} × ${f.mm(config.height)}`,
+    fmt(common.describe.mesh, { name: mesh ? catalog.meshes[mesh.id as MeshId].name : config.meshId }),
+    fmt(common.describe.color, { name: `${color ? catalog.colors[color.id as ColorId] : config.colorId}${config.ralCode ? ` ${config.ralCode}` : ""}` }),
+    options.length ? fmt(common.describe.options, { list: options.join(common.listSeparator) }) : null,
+    config.label ? fmt(common.describe.label, { text: config.label }) : null,
     `× ${config.quantity}`,
   ]
     .filter(Boolean)
     .join(" · ");
 }
 
-export function describeLine(config: Configuration): string {
-  return `${describeConfig(config)} = ${formatPrice(computePrice(config).total)}`;
+export function describeLine(config: Configuration, m: Labels, f: Formatters): string {
+  return `${describeConfig(config, m, f)} = ${f.price(computePrice(config).total)}`;
 }
 
 /** Référence de commande lisible et non devinable : AER-AAMMJJ-XXXX */

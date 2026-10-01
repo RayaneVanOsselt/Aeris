@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "@/i18n/provider";
 import { meshes } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 import { Icon, type IconName } from "@/components/ui/Icon";
@@ -9,6 +10,8 @@ const icons: Record<string, IconName> = { fibre: "wind", alu: "layers", pollen: 
 
 /** Démonstration produit : la trame de chaque toile, vue à la loupe. */
 export function MeshExplorer() {
+  const { m, t } = useI18n();
+  const me = m.home.meshExplorer;
   const [activeId, setActiveId] = useState("fibre");
   const mesh = meshes.find((m) => m.id === activeId)!;
   const size = Math.max(4, 48 / mesh.density);
@@ -32,21 +35,21 @@ export function MeshExplorer() {
         />
         <div aria-hidden className="absolute inset-0 rounded-full shadow-[inset_0_0_0_10px_var(--color-surface),inset_0_0_0_11px_var(--color-line-strong),0_30px_80px_rgb(10_22_49/0.18)]" />
         <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-line bg-surface px-4 py-2 shadow-[var(--shadow-sm)]">
-          <p className="t-caption whitespace-nowrap text-ink-2">Vue rapprochée · {mesh.name}</p>
+          <p className="t-caption whitespace-nowrap text-ink-2">{t(me.closeUp, { mesh: m.catalog.meshes[mesh.id].name })}</p>
         </div>
       </div>
 
       <div>
         <ul className="divide-y divide-line border-y border-line" role="list">
-          {meshes.map((m) => {
-            const active = m.id === activeId;
+          {meshes.map((x) => {
+            const active = x.id === activeId;
             return (
-              <li key={m.id}>
+              <li key={x.id}>
                 <button
                   type="button"
                   aria-pressed={active}
-                  onClick={() => setActiveId(m.id)}
-                  onMouseEnter={() => setActiveId(m.id)}
+                  onClick={() => setActiveId(x.id)}
+                  onMouseEnter={() => setActiveId(x.id)}
                   className="group flex w-full items-start gap-4 py-5 text-left"
                 >
                   <span
@@ -55,13 +58,13 @@ export function MeshExplorer() {
                       active ? "border-ink bg-ink text-paper" : "border-line text-ink-2 group-hover:border-ink",
                     )}
                   >
-                    <Icon name={icons[m.id] ?? "wind"} size={18} />
+                    <Icon name={icons[x.id] ?? "wind"} size={18} />
                   </span>
                   <span className="flex-1">
                     <span className="flex items-baseline justify-between gap-4">
-                      <span className={cn("t-h4", active ? "text-ink" : "text-ink-2")}>{m.name}</span>
+                      <span className={cn("t-h4", active ? "text-ink" : "text-ink-2")}>{m.catalog.meshes[x.id].name}</span>
                       <span className="t-num text-sm text-ink-3">
-                        {m.multiplier === 1 ? "Standard" : `+${Math.round((m.multiplier - 1) * 100)} % surface`}
+                        {x.multiplier === 1 ? me.standard : t(me.surcharge, { percent: Math.round((x.multiplier - 1) * 100) })}
                       </span>
                     </span>
                     <span
@@ -71,7 +74,7 @@ export function MeshExplorer() {
                       )}
                     >
                       <span className="overflow-hidden">
-                        <span className="mt-1.5 block text-ink-2">{m.description}</span>
+                        <span className="mt-1.5 block text-ink-2">{m.catalog.meshes[x.id].description}</span>
                       </span>
                     </span>
                   </span>

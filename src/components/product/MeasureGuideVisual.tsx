@@ -1,11 +1,11 @@
 /** Schéma de prise de mesures : trois largeurs (A, B, C) et trois hauteurs (D, E, F). */
-export function MeasureGuideVisual({ className }: { className?: string }) {
+export function MeasureGuideVisual({ className, label }: { className?: string; label: string }) {
   const sky = "#3563e9";
   const W = { x: 90, y: 60, w: 260, h: 320 };
   const widths = [0.12, 0.5, 0.88].map((p, i) => ({ y: W.y + W.h * p, label: "ABC"[i]! }));
   const heights = [0.12, 0.5, 0.88].map((p, i) => ({ x: W.x + W.w * p, label: "DEF"[i]! }));
   return (
-    <svg viewBox="0 0 440 440" className={className} role="img" aria-label="Schéma : mesurer la largeur en haut, au milieu et en bas, puis la hauteur à gauche, au centre et à droite">
+    <svg viewBox="0 0 440 440" className={className} role="img" aria-label={label}>
       <rect x="40" y="20" width="360" height="400" rx="6" fill="#ece8dd" />
       <rect x={W.x - 14} y={W.y - 14} width={W.w + 28} height={W.h + 28} rx="3" fill="#fcfbf8" stroke="rgb(10 22 49/.3)" />
       <rect x={W.x} y={W.y} width={W.w} height={W.h} fill="#e4ebf6" stroke="rgb(10 22 49/.35)" />
