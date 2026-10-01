@@ -1,20 +1,3 @@
-# dépendances
-/node_modules
-
-# Next.js
-/.next/
-/out/
-next-env.d.ts
-*.tsbuildinfo
-
-# environnement
-.env
-.env.local
-.env.*.local
-
-# système
 .DS_Store
-npm-debug.log*
-
-# déploiement
-.vercel
+.claude/
+node_modules/
