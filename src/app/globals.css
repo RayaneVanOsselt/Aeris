@@ -75,9 +75,9 @@
   --section-y: clamp(96px, 13vw, 200px);
   --dur-fast: 180ms;
   --dur-base: 340ms;
-  --dur-slow: 700ms;
-  --dur-slower: 1100ms;
-  --dur-cinematic: 1600ms;
+  --dur-slow: 500ms;
+  --dur-slower: 750ms;
+  --dur-cinematic: 1000ms;
   color-scheme: light;
 }
 
@@ -237,7 +237,7 @@
 /* ── Mouvement : révélation au défilement ─────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translate3d(0, 28px, 0);
+  transform: translate3d(0, 20px, 0);
   transition:
     opacity var(--dur-slower) var(--ease-out),
     transform var(--dur-cinematic) var(--ease-out);
@@ -261,7 +261,7 @@
   display: inline-block;
   transform: translate3d(0, 105%, 0);
   transition: transform var(--dur-cinematic) var(--ease-out);
-  transition-delay: calc(var(--reveal-delay, 0ms) + var(--i, 0) * 55ms);
+  transition-delay: calc(var(--reveal-delay, 0ms) + var(--i, 0) * 35ms);
 }
 [data-visible="true"] .rt-word > span {
   transform: none;
@@ -269,29 +269,11 @@
 /* Au chargement (titre principal, au-dessus de la ligne de flottaison) */
 .rt-load .rt-word > span {
   animation: rt-up var(--dur-cinematic) var(--ease-out) both;
-  animation-delay: calc(var(--delay, 0ms) + var(--i, 0) * 70ms);
+  animation-delay: calc(var(--delay, 0ms) + var(--i, 0) * 45ms);
 }
 @keyframes rt-up {
   from { transform: translate3d(0, 105%, 0); }
   to { transform: none; }
-}
-
-/* Média qui se dévoile : un cadre qui s'ouvre, une image qui se pose */
-.media-reveal {
-  clip-path: inset(14% 8% 0 8% round 28px);
-  transition: clip-path var(--dur-cinematic) var(--ease-out);
-}
-.media-reveal > * {
-  transform: scale(1.14);
-  transition: transform 2200ms var(--ease-out);
-}
-[data-visible="true"] .media-reveal,
-.media-reveal[data-visible="true"] {
-  clip-path: inset(0 0 0 0 round 0);
-}
-[data-visible="true"] .media-reveal > *,
-.media-reveal[data-visible="true"] > * {
-  transform: none;
 }
 
 /* Défilement piloté (navigateurs compatibles uniquement : amélioration progressive) */
@@ -379,7 +361,7 @@
   border-radius: 999px 999px 56px 56px;
   box-shadow: 0 0 0 150vmax var(--color-night);
   transform-origin: 50% 55%;
-  animation: hero-veil var(--dur-cinematic) var(--ease-in-out) 120ms both;
+  animation: hero-veil var(--dur-cinematic) var(--ease-in-out) both;
 }
 @keyframes hero-veil {
   from { transform: scale(0.52, 0.6); }
@@ -474,9 +456,7 @@ input[type="number"] {
     scroll-behavior: auto !important;
   }
   .reveal,
-  .rt-word > span,
-  .media-reveal,
-  .media-reveal > * {
+  .rt-word > span {
     opacity: 1;
     transform: none;
     clip-path: none;
