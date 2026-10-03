@@ -3,22 +3,44 @@
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/i18n/provider";
 import { Rich } from "@/i18n/rich";
+import { getColor, getMesh, getProduct } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
-import { LazyVideo } from "@/components/ui/LazyVideo";
+import { ProductVisual } from "@/components/product/ProductVisual";
 import { Reveal } from "@/components/ui/Reveal";
+import { MeshCloseUp } from "./MeshCloseUp";
 
-/** Extraits du film, dans l'ordre de la journée (cadrage : position horizontale du sujet). */
-const clips = [
-  { name: "clip-morning", focus: "50%" },
-  { name: "clip-mesh", focus: "55%" },
-  { name: "clip-door", focus: "46%" },
-  { name: "clip-cat", focus: "42%" },
-] as const;
+const frame = getColor("anthracite")!.hex;
+const fibre = getMesh("fibre")!;
+const pet = getMesh("pet")!;
+
+/**
+ * Une illustration par heure (le film n'apparaît qu'en ouverture) : la fenêtre,
+ * la toile standard de près, la porte plissée, la toile anti-griffe de près.
+ */
+function Scene({ index }: { index: number }) {
+  if (index === 1 || index === 3) {
+    const mesh = index === 1 ? fibre : pet;
+    return <MeshCloseUp cell={Math.round(90 / mesh.density)} strand={mesh.strand} />;
+  }
+  const product = getProduct(index === 0 ? "fenetre" : "plissee")!;
+  return (
+    <span className="relative block size-full bg-sand-soft">
+      <span aria-hidden className="blueprint-grid absolute inset-0 opacity-60" />
+      <ProductVisual
+        kind={product.visual}
+        color={frame}
+        width={product.defaultSize.width}
+        height={product.defaultSize.height}
+        className="absolute inset-0 m-auto size-full p-[14%] pt-[22%]"
+      />
+    </span>
+  );
+}
 
 /**
  * Récit au défilement : une journée d'été, fenêtres ouvertes. Sur grand écran,
- * la fenêtre en arche reste fixe et change de scène au fil des heures ; sur
- * mobile, chaque heure a sa propre image, dans le fil de lecture.
+ * la fenêtre en arche reste fixe et change d'illustration au fil des heures ;
+ * sur mobile, chaque heure a sa propre illustration, dans le fil de lecture.
  */
 export function DayStory({ eyebrow, title }: { eyebrow: string; title: string }) {
   const { m } = useI18n();
@@ -56,15 +78,15 @@ export function DayStory({ eyebrow, title }: { eyebrow: string; title: string })
           <div className="hidden lg:col-span-6 lg:block">
             <div className="sticky top-[calc(var(--header-h)+2.5rem)] pb-10">
               <div role="img" aria-label={s.media[active]} className="relative aspect-[4/5] h-[min(72svh,46rem)] max-w-full overflow-hidden rounded-arch bg-night-2">
-                {clips.map((clip, i) => (
+                {s.steps.map((step, i) => (
                   <div
-                    key={clip.name}
+                    key={step.time}
                     className={cn(
                       "absolute inset-0 transition-[opacity,transform] duration-[var(--dur-slower)] ease-[var(--ease-out)]",
                       i === active ? "scale-100 opacity-100" : "scale-[1.06] opacity-0",
                     )}
                   >
-                    <LazyVideo name={clip.name} playing={i === active} focus={clip.focus} />
+                    <Scene index={i} />
                   </div>
                 ))}
               </div>
@@ -99,7 +121,7 @@ export function DayStory({ eyebrow, title }: { eyebrow: string; title: string })
                 className="border-t border-line-night py-12 first:border-t-0 first:pt-0 lg:flex lg:min-h-[80svh] lg:flex-col lg:justify-center lg:border-t-0 lg:py-0"
               >
                 <div role="img" aria-label={s.media[i]} className="relative mb-10 aspect-[4/5] max-h-[70svh] w-full overflow-hidden rounded-arch bg-night-2 lg:hidden">
-                  <LazyVideo name={clips[i]!.name} focus={clips[i]!.focus} />
+                  <Scene index={i} />
                 </div>
                 <Reveal>
                   <p

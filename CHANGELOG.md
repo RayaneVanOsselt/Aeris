@@ -3,16 +3,18 @@
 ## Non publié
 
 ### Refonte immersive (design system « L'air, cadré »)
-- Accueil reconstruit comme un récit autour du film de marque : film plein écran qui s'ouvre en
-  arche puis se referme en cadre au défilement, manifeste, sur-mesure à essayer, « une journée
-  fenêtres ouvertes » (arche fixe qui change de scène), collection en index éditorial,
-  preuve « 1 mm », méthode en 4 gestes, appel final sur la maison éclairée le soir.
+- Accueil reconstruit comme un récit qui s'ouvre sur le film de marque (une seule apparition,
+  en plein écran) : film qui s'ouvre en arche puis se referme en cadre au défilement,
+  manifeste, sur-mesure à essayer, « une journée fenêtres ouvertes » (arche fixe qui change
+  d'illustration), collection en index éditorial, preuve « 1 mm », méthode en 4 gestes,
+  appel final en arche bleu nuit.
 - Nouveau design system : serif Fraunces en très grand + Geist, lin et bleu nuit, arche
   signature, courbes et durées centralisées, boutons pilule au libellé qui roule.
 - En-tête transparent sur le film, puis îlot compact au défilement ; sélecteur de langue
   compact (FR/NL/EN) toujours visible sur téléphone et tablette.
-- Vidéos optimisées (`public/media`, 0,3 à 3,7 Mo), affiche immédiate, chargement différé,
-  pause hors écran, bouton pause/lecture ; aucune vidéo avec « réduire les animations ».
+- Film optimisé (`public/media` : 1,7 Mo sur téléphone, 3,7 Mo sur ordinateur), affiche
+  immédiate, chargement différé, pause hors écran, bouton pause/lecture ; aucune vidéo avec
+  « réduire les animations ».
 - Barre « Configurer » sur mobile une fois le film passé.
 - Documentation : `docs/DESIGN.md` (jetons, mouvements, vidéo, audit visuel).
 

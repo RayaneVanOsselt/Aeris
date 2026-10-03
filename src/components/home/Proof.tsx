@@ -1,10 +1,12 @@
 import { getI18n } from "@/i18n/server";
 import { ClaimLabel } from "@/components/ui/Claim";
 import { Icon } from "@/components/ui/Icon";
-import { LazyVideo } from "@/components/ui/LazyVideo";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { Reveal } from "@/components/ui/Reveal";
+import { Ruler } from "@/components/ui/Ruler";
 import { isClaimVisible, reviews, showPlaceholders, type ClaimKey } from "@/lib/business";
+import { getMesh } from "@/lib/catalog";
+import { MeshCloseUp } from "./MeshCloseUp";
 
 /** Engagements dans l'ordre d'importance. Les non confirmés n'apparaissent qu'en mode préparation. */
 const commitments: ClaimKey[] = ["madeToMeasure", "instantPrice", "directPayment", "humanSupport", "checkedBeforeProduction", "europeanMade", "warranty"];
@@ -39,9 +41,11 @@ export function Proof() {
         </div>
 
         <Reveal delay={160} className="lg:col-span-5">
+          {/* La toile vue de près, posée sur une règle graduée : le millimètre rendu visible */}
           <div className="media-reveal relative mx-auto aspect-[4/5] max-w-md overflow-hidden rounded-arch bg-paper-2 lg:max-w-none">
-            <div className="sd-parallax absolute inset-0">
-              <LazyVideo name="clip-mesh" focus="55%" />
+            <div className="absolute inset-0">
+              <MeshCloseUp cell={Math.round(90 / getMesh("fibre")!.density)} strand={getMesh("fibre")!.strand} />
+              <Ruler className="absolute inset-x-0 bottom-0 bg-surface/85 pt-2 backdrop-blur-sm" />
             </div>
           </div>
         </Reveal>

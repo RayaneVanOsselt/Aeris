@@ -38,7 +38,6 @@ sont dans `src/app/globals.css` ; les polices dans `src/app/fonts.ts`.
 | Ouverture du film en arche | `.hero-veil` | Chargement (transformations uniquement) |
 | Film qui se referme en cadre | `.sd-hero-frame`, `.sd-hero-copy` | Défilement de la page |
 | Arche qui s'ouvre en grand | `.sd-window` | Entrée de l'appel final dans l'écran |
-| Parallaxe douce | `.sd-parallax` | Défilement |
 | Média qui se dévoile | `.media-reveal` | Bloc parent visible |
 | Bouton : libellé qui roule, flèche qui glisse | `Button` / `ButtonLink` | Survol |
 | En-tête qui devient un îlot | `Header` | Défilement (transparent sur le film, îlot compact ensuite) |
@@ -52,9 +51,9 @@ vidéo téléchargée (affiches fixes), tout le texte visible. Sans JavaScript :
 
 `HeroFilm` (film plein écran) → `Manifesto` (une phrase) → `Craft` (le sur-mesure à essayer,
 chiffres lus dans le catalogue) → `DayStory` (une journée fenêtres ouvertes, arche fixe qui change
-de scène) → `Collection` (index éditorial des 8 modèles, aperçu en arche) → `Proof` (« 1 mm » :
+d'illustration : fenêtre, toile, porte plissée, toile anti-griffe) → `Collection` (index éditorial des 8 modèles, aperçu en arche) → `Proof` (« 1 mm » :
 engagement confirmé « sur mesure, au millimètre » + engagements sans astérisque) → `Process`
-(4 gestes) → FAQ → `FinalCta` (maison éclairée le soir). Sur mobile : `HomeStickyCta`.
+(4 gestes) → FAQ → `FinalCta` (arche bleu nuit qui s'ouvre en grand). Sur mobile : `HomeStickyCta`.
 
 Aucun chiffre, avis ou label inventé : les chiffres viennent de `src/lib/catalog.ts`, les
 engagements de `src/lib/business.ts` (les non confirmés restent masqués en ligne), les avis
@@ -70,12 +69,12 @@ n'apparaissent que si le tableau `reviews` est rempli.
 | `film-1600.mp4` | Film d'accueil, écrans larges | 3,7 Mo |
 | `film-portrait.mp4` | Film d'accueil, téléphone en portrait (recadrage centré 9:16) | 1,7 Mo |
 | `film-poster(.webp/.jpg)`, `film-poster-portrait.webp` | Affiches (affichées immédiatement) | 10–40 Ko |
-| `clip-morning/mesh/door/cat/house(.mp4/.webp)` | Extraits pour le récit, la preuve et l'appel final | 0,3–0,8 Mo |
 
-- Chargement : affiche d'abord ; vidéo du film lancée 1,2 s après le chargement de la page
-  (fin de l'ouverture en arche) ; extraits chargés seulement à l'approche de l'écran et quand ils
-  doivent jouer ; tout est mis en pause hors écran ; bouton pause/lecture (WCAG 2.2.2).
-- Muettes, en boucle, `playsInline`, sans son (piste audio retirée).
+- **Une seule apparition** (choix de l'entreprise) : le film n'est utilisé qu'en ouverture de
+  l'accueil. Les autres sections utilisent les illustrations des modèles et la toile dessinée.
+- Chargement : affiche d'abord ; vidéo lancée 1,2 s après le chargement de la page (fin de
+  l'ouverture en arche) ; pause hors écran ; bouton pause/lecture (WCAG 2.2.2).
+- Muette, en boucle, `playsInline`, sans son (piste audio retirée).
 - **Le film est une mise en scène générée** : il ne montre ni de vrais clients ni des
   réalisations Aéris et ne doit pas être présenté comme tel.
 
@@ -85,9 +84,6 @@ Ré-encoder après un nouveau montage (ffmpeg) :
 ffmpeg -y -i master.mp4 -an -vf "scale=1600:-2:flags=lanczos,format=yuv420p" -c:v libx264 -preset slow -crf 27 -profile:v high -movflags +faststart public/media/film-1600.mp4
 ffmpeg -y -i master.mp4 -an -vf "crop=608:1080:656:0,scale=540:960:flags=lanczos,format=yuv420p" -c:v libx264 -preset slow -crf 27 -movflags +faststart public/media/film-portrait.mp4
 ffmpeg -y -ss 0.3 -i master.mp4 -frames:v 1 -vf "scale=1600:-2:flags=lanczos" -c:v libwebp -quality 72 public/media/film-poster.webp
-# un extrait : début (s), durée (s), image d'affiche (s)
-ffmpeg -y -ss 4.2 -t 5.4 -i master.mp4 -an -vf "scale=1280:-2:flags=lanczos,format=yuv420p" -c:v libx264 -preset slow -crf 28 -movflags +faststart public/media/clip-mesh.mp4
-ffmpeg -y -ss 5.6 -i master.mp4 -frames:v 1 -vf "scale=1280:-2:flags=lanczos" -c:v libwebp -quality 74 public/media/clip-mesh.webp
 ```
 
 ## Audit visuel final (build GitHub Pages, serveur compressé)
