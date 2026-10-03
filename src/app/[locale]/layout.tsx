@@ -52,7 +52,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
       <body className="min-h-dvh">
         {/* Sans JavaScript, les contenus révélés au défilement restent visibles */}
         <noscript>
-          <style>{".reveal,.rt-word>span,.media-reveal,.media-reveal>*{opacity:1!important;transform:none!important;clip-path:none!important}"}</style>
+          <style>{".reveal,.rt-word>span{opacity:1!important;transform:none!important}"}</style>
         </noscript>
         <I18nProvider locale={locale} messages={clientMessages(locale)}>
           <Header />

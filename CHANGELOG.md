@@ -2,6 +2,18 @@
 
 ## Non publié
 
+### Accueil plus rapide et plus professionnel
+- Le film d'accueil a désormais sa bande-son (niveau normalisé) et un bouton « Activer le son » ;
+  il démarre automatiquement sur ordinateur et sur téléphone (en silencieux quand le navigateur
+  interdit le son automatique, ce qui est la règle sur iPhone et Android). Il est aussi plus
+  léger : 1,4 Mo sur téléphone (au lieu de 1,7) et 3,2 Mo sur ordinateur (au lieu de 3,7).
+- Accueil réorganisé dans l'ordre des questions d'un client : engagements juste sous le film,
+  modèles par ouverture (fenêtres, portes, baies vitrées), comment ça marche, prix au
+  millimètre, choix de la toile (5 toiles avec leur supplément réel et un lien vers le
+  configurateur avec la toile choisie), « 1 mm », FAQ, appel final.
+- Plus rapide : ouverture et animations raccourcies (le contenu apparaît sans attendre), un seul
+  dessin d'aperçu à la fois, page allégée d'un tiers d'éléments.
+
 ### Refonte immersive (design system « L'air, cadré »)
 - Accueil reconstruit comme un récit qui s'ouvre sur le film de marque (une seule apparition,
   en plein écran) : film qui s'ouvre en arche puis se referme en cadre au défilement,

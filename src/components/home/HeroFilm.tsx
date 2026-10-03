@@ -39,18 +39,18 @@ export function HeroFilm() {
         />
 
         <div className="sd-hero-copy container-site relative flex h-full flex-col justify-end pb-[clamp(5.5rem,11vh,8.5rem)] pt-[calc(var(--header-h)+2rem)]">
-          <p className="t-caption animate-fade-in flex items-center gap-3 text-white/80" style={delay(500)}>
+          <p className="t-caption animate-fade-in flex items-center gap-3 text-white/80" style={delay(100)}>
             <span aria-hidden className="h-px w-8 bg-sand" />
             {h.eyebrow}
           </p>
-          <h1 className="t-display rt-load mt-6 max-w-[14ch] text-white" style={delay(650)}>
+          <h1 className="t-display rt-load mt-6 max-w-[14ch] text-white" style={delay(150)}>
             <Rich text={h.title} words="rise" accentClassName="accent text-sand-soft" />
           </h1>
           <div className="mt-8 flex flex-col gap-8 md:mt-10 lg:flex-row lg:items-end lg:justify-between">
-            <p className="t-lead animate-fade-up max-w-[36rem] text-white/85" style={delay(1150)}>
+            <p className="t-lead animate-fade-up max-w-[36rem] text-white/85" style={delay(400)}>
               {h.lead}
             </p>
-            <div className="animate-fade-up flex flex-col gap-3 min-[430px]:flex-row lg:shrink-0" style={delay(1300)}>
+            <div className="animate-fade-up flex flex-col gap-3 min-[430px]:flex-row lg:shrink-0" style={delay(500)}>
               <ButtonLink href={href("configurator")} size="lg" variant="light" arrow>
                 {m.common.configureMine}
               </ButtonLink>
@@ -64,7 +64,7 @@ export function HeroFilm() {
         <a
           href="#intro"
           className="animate-fade-in group absolute bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2.5 text-white/75 transition-colors hover:text-white lg:flex"
-          style={delay(1700)}
+          style={delay(800)}
         >
           <span className="t-caption">{h.scroll}</span>
           <span aria-hidden className="relative h-10 w-px overflow-hidden bg-white/25">
