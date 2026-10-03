@@ -105,6 +105,12 @@ export function Header() {
       >
         {m.common.skipToContent}
       </a>
+      {/* Téléphone : barre de langue au-dessus de l'en-tête (pas assez de place à côté du bouton Configurer) */}
+      <div className="border-b border-line bg-paper sm:hidden">
+        <div className="container-site flex justify-end">
+          <LanguageSwitcher size="md" />
+        </div>
+      </div>
       <header
         className={cn(
           "sticky top-0 z-50 transition-[transform,background-color,border-color,box-shadow] duration-[var(--dur-slow)] ease-[var(--ease-out)]",
@@ -155,7 +161,7 @@ export function Header() {
             </nav>
 
             <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-              <LanguageSwitcher className="hidden lg:block" />
+              <LanguageSwitcher className="hidden sm:block" />
               <Link
                 href={href("cart")}
                 aria-label={f.plural(count, m.nav.cart)}

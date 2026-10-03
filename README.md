@@ -44,7 +44,8 @@ npm run dev                  # http://localhost:3000
 | Couleurs, typographie, mouvement                | `src/app/globals.css`                |
 
 Les engagements marqués `toConfirm: true` dans `business.ts` s'affichent avec un repère ◆
-tant que `NEXT_PUBLIC_SHOW_PLACEHOLDERS=true`, et sont **masqués** quand il vaut `false`.
+uniquement si `NEXT_PUBLIC_SHOW_PLACEHOLDERS=true` (mode préparation, à activer dans `.env.local`).
+Sans cette variable — c'est le cas en ligne — ils sont **masqués**.
 Passez-les à `toConfirm: false` une fois validés.
 
 ## Mise en production
