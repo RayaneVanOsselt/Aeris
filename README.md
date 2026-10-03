@@ -1,42 +1,19 @@
 # Aéris — Moustiquaires sur mesure
 
-<<<<<<< HEAD
 Site e-commerce Next.js en trois langues (français, néerlandais, anglais) : catalogue,
 fiches produit, configurateur avec prix en temps réel, panier, commande sans compte, devis,
 contact et assistant IA. Fonctionnement multilingue : [docs/I18N.md](docs/I18N.md).
-=======
-Site en ligne : https://rayanevanosselt.github.io/Aeris/
->>>>>>> 2f584c8ef75544d11991ba213e5a8dda01ac4b07
 
-Ce dépôt contient le site **prêt à l'emploi** (HTML, CSS, JavaScript), servi tel quel par
-GitHub Pages : aucune installation ni compilation n'est nécessaire.
+## Démarrage
 
-## Publication
-
-*Settings → Pages → Build and deployment* :
-**Source : Deploy from a branch** · **Branch : main** · **Dossier : / (root)**.
-
-Le fichier `.nojekyll` est indispensable (il permet à GitHub de servir le dossier `_next`).
-
-## Fonctionnement
-
-- Formulaires (commande, devis, contact) : envoyés à Formspree.
-- Paiement : Revolut ou virement SEPA, instructions affichées après la commande.
-- Assistant : répond dans le navigateur à partir des informations du site.
-- Panier et historique des commandes : conservés dans le navigateur du visiteur.
-
-## Modifier le site
-
-Les fichiers de ce dépôt sont générés (minifiés) : ils ne se modifient pas à la main.
-Le code source se trouve dans la branche `sources-nextjs`. Pour une modification :
+Prérequis : Node.js 22.12 ou plus récent.
 
 ```bash
-git checkout sources-nextjs
 npm install
-npm run build:pages
+cp .env.example .env.local   # puis ajustez les valeurs
+npm run dev                  # http://localhost:3000
 ```
 
-<<<<<<< HEAD
 ## Commandes
 
 | Commande            | Rôle                                                   |
@@ -104,6 +81,3 @@ L'ancienne version statique reste consultable dans l'historique git (commit `bde
 ```bash
 git show bde59c9:index.html
 ```
-=======
-puis remplacer le contenu de `main` par celui du dossier `out/` généré.
->>>>>>> 2f584c8ef75544d11991ba213e5a8dda01ac4b07
