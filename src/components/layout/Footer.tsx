@@ -128,7 +128,7 @@ export function Footer() {
 
         <p
           aria-hidden
-          className="pointer-events-none -mb-[0.2em] select-none text-center text-[clamp(5rem,22vw,20rem)] font-extralight leading-[0.8] tracking-[-0.07em] text-white/[0.045]"
+          className="pointer-events-none -mb-[0.2em] select-none text-center font-serif text-[clamp(5rem,22vw,20rem)] font-light italic leading-[0.8] tracking-[-0.05em] text-white/[0.05]"
         >
           aéris
         </p>

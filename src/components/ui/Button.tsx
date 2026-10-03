@@ -3,49 +3,61 @@ import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { Icon, type IconName } from "./Icon";
 
-type Variant = "primary" | "secondary" | "ghost" | "text" | "light" | "outline-light";
+type Variant = "primary" | "secondary" | "ghost" | "text" | "light" | "outline-light" | "glass";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "group/btn relative inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium tracking-[-0.005em] transition-[background-color,color,border-color,box-shadow,transform] duration-[var(--dur-base)] ease-[var(--ease-out)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 select-none";
+  "group/btn relative isolate inline-flex items-center justify-center gap-2.5 overflow-hidden whitespace-nowrap rounded-full font-medium tracking-[-0.005em] transition-[background-color,color,border-color,box-shadow,transform] duration-[var(--dur-base)] ease-[var(--ease-out)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45 select-none";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-ink text-paper shadow-[inset_0_1px_0_rgb(255_255_255/0.12),0_1px_2px_rgb(10_22_49/0.2)] hover:bg-night-2 hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.14),0_8px_24px_rgb(10_22_49/0.22)]",
-  secondary: "bg-surface text-ink border border-line-strong hover:border-ink hover:bg-white",
+  primary: "bg-ink text-paper hover:bg-night-2",
+  secondary: "bg-transparent text-ink border border-line-strong hover:border-ink hover:bg-surface",
   ghost: "text-ink hover:bg-paper-2",
-  text: "text-ink px-0! h-auto! underline-offset-4 hover:underline",
-  light: "bg-paper text-ink hover:bg-white shadow-[0_1px_2px_rgb(0_0_0/0.2)]",
-  "outline-light": "border border-line-night text-on-night hover:border-on-night hover:bg-white/5",
+  text: "text-ink px-0! h-auto! rounded-none! underline-offset-4 hover:underline",
+  light: "bg-paper text-ink hover:bg-white",
+  "outline-light": "border border-white/35 text-white hover:border-white hover:bg-white/10",
+  /** Sur la vidéo : verre dépoli discret, sans voile sombre */
+  glass: "border border-white/30 bg-white/10 text-white backdrop-blur-md hover:bg-white/20",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-10 px-4 text-[0.875rem] rounded-[var(--radius-md)]",
-  md: "h-12 px-5 text-[0.9375rem] rounded-[var(--radius-md)]",
-  lg: "h-14 px-7 text-base rounded-[14px]",
+  sm: "h-10 px-4.5 text-[0.875rem]",
+  md: "h-12 px-6 text-[0.9375rem]",
+  lg: "h-14 px-8 text-[1rem]",
 };
 
 type Common = {
   variant?: Variant;
   size?: Size;
   icon?: IconName;
-  /** Icône flèche qui glisse au survol : signale une navigation vers l'avant */
+  /** Flèche qui glisse au survol : signale une navigation vers l'avant */
   arrow?: boolean;
   block?: boolean;
   children: ReactNode;
   className?: string;
 };
 
+/** Libellé qui « roule » au survol : la ligne monte et laisse place à sa copie. */
 function Content({ icon, arrow, children }: Pick<Common, "icon" | "arrow" | "children">) {
   return (
     <>
       {icon && <Icon name={icon} size={18} />}
-      <span>{children}</span>
+      <span className="relative block overflow-hidden">
+        <span className="block transition-transform duration-[var(--dur-slow)] ease-[var(--ease-out)] group-hover/btn:-translate-y-full motion-reduce:group-hover/btn:translate-y-0">
+          {children}
+        </span>
+        <span
+          aria-hidden
+          className="absolute inset-0 block translate-y-full transition-transform duration-[var(--dur-slow)] ease-[var(--ease-out)] group-hover/btn:translate-y-0 motion-reduce:hidden"
+        >
+          {children}
+        </span>
+      </span>
       {arrow && (
         <Icon
           name="arrowRight"
           size={17}
-          className="transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover/btn:translate-x-0.5"
+          className="transition-transform duration-[var(--dur-slow)] ease-[var(--ease-out)] group-hover/btn:translate-x-1"
         />
       )}
     </>

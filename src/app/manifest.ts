@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Aéris",
     start_url: `${basePath}/`,
     display: "standalone",
-    background_color: "#f6f4ee",
-    theme_color: "#0a1631",
+    background_color: "#f3efe7",
+    theme_color: "#0d1a2e",
     icons: [{ src: `${basePath}/icon.svg`, sizes: "any", type: "image/svg+xml" }],
   };
 }

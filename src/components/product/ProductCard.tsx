@@ -16,7 +16,7 @@ export function ProductCard({ product, className, headingLevel: H = "h3" }: { pr
   return (
     <article
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-line bg-surface transition-[border-color,box-shadow,transform] duration-[var(--dur-slow)] ease-[var(--ease-out)] hover:-translate-y-1 hover:border-line-strong hover:shadow-[var(--shadow-md)]",
+        "group relative flex flex-col overflow-hidden rounded-[var(--radius-xl)] border border-line bg-surface transition-[border-color,box-shadow,transform] duration-[var(--dur-slow)] ease-[var(--ease-out)] hover:-translate-y-1 hover:border-line-strong hover:shadow-[var(--shadow-md)]",
         className,
       )}
     >
@@ -33,7 +33,7 @@ export function ProductCard({ product, className, headingLevel: H = "h3" }: { pr
         {text.badge && <span className="t-caption absolute left-4 top-4 rounded-full bg-surface px-3 py-1 text-ink shadow-[var(--shadow-xs)]">{text.badge}</span>}
       </div>
       <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <H className="t-h4 text-ink">
+        <H className="font-serif text-[1.375rem] font-normal leading-tight tracking-[-0.015em] text-ink">
           <Link href={href("product", product.id)} className="after:absolute after:inset-0 after:content-['']">
             {text.name}
           </Link>
@@ -42,7 +42,7 @@ export function ProductCard({ product, className, headingLevel: H = "h3" }: { pr
         <div className="mt-5 flex items-end justify-between">
           <p>
             <span className="t-caption block text-ink-3">{m.common.from}</span>
-            <span className="t-num text-xl text-ink">{f.price(startingPrice(product))}</span>
+            <span className="t-num font-serif text-2xl font-light tracking-[-0.02em] text-ink">{f.price(startingPrice(product))}</span>
           </p>
           <span
             aria-hidden

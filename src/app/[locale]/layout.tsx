@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 }
 
 export const viewport: Viewport = {
-  themeColor: "#f6f4ee",
+  themeColor: "#f3efe7",
   width: "device-width",
   initialScale: 1,
 };
@@ -50,6 +50,10 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   return (
     <html lang={htmlLang[locale]} className={fontVariables}>
       <body className="min-h-dvh">
+        {/* Sans JavaScript, les contenus révélés au défilement restent visibles */}
+        <noscript>
+          <style>{".reveal,.rt-word>span,.media-reveal,.media-reveal>*{opacity:1!important;transform:none!important;clip-path:none!important}"}</style>
+        </noscript>
         <I18nProvider locale={locale} messages={clientMessages(locale)}>
           <Header />
           <main id="contenu" tabIndex={-1} className="outline-none">

@@ -92,7 +92,7 @@ export function ProductShowcase({ product }: { product: Product }) {
               title={m.catalog.colors[c.id]}
               onClick={() => setColorId(c.id)}
               className={cn("size-9 rounded-full border border-line-strong ring-offset-2 ring-offset-paper transition-shadow", c.id === colorId && "ring-2 ring-sky")}
-              style={{ background: c.id === "ral" ? "conic-gradient(#c8a57a,#3563e9,#1f7a55,#b42318,#c8a57a)" : c.hex }}
+              style={{ background: c.id === "ral" ? "conic-gradient(#c9a97e,#3e5b7e,#1f7a55,#b42318,#c9a97e)" : c.hex }}
             />
           ))}
         </div>

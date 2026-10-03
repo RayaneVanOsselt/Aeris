@@ -1,16 +1,17 @@
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist } from "next/font/google";
 
-// Polices auto-hébergées par next/font : aucune requête vers Google (RGPD) et pas de décalage de mise en page.
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
-// Polices secondaires non préchargées : elles ne retardent pas l'affichage du contenu principal
-const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap", preload: false });
+/*
+ * Deux familles, auto-hébergées par next/font (aucune requête vers Google, RGPD) :
+ * - Fraunces : serif éditoriale des titres (variable : taille optique) ;
+ * - Geist : sans-serif fonctionnelle (texte, interface, chiffres).
+ */
 const fraunces = Fraunces({
   subsets: ["latin"],
-  style: ["italic"],
+  style: ["normal", "italic"],
   axes: ["opsz"],
   variable: "--font-fraunces",
   display: "swap",
-  preload: false,
 });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
 
-export const fontVariables = `${geist.variable} ${geistMono.variable} ${fraunces.variable}`;
+export const fontVariables = `${fraunces.variable} ${geist.variable}`;

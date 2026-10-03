@@ -61,7 +61,7 @@ export function ProductVisual({
   const vbW = W + PAD * 2;
   const vbH = H + PAD * 1.9;
   const f = reinforced ? 12 : 9; // épaisseur du profilé
-  const stroke = isLight(color) ? "rgb(10 22 49 / 0.28)" : "rgb(10 22 49 / 0.55)";
+  const stroke = isLight(color) ? "rgb(13 26 46 / 0.28)" : "rgb(13 26 46 / 0.55)";
   const spacing = Math.max(2.2, 30 / meshDensity);
   const inner = { x: x + f, y: y + f, w: W - f * 2, h: H - f * 2 };
 
@@ -86,7 +86,7 @@ export function ProductVisual({
           <path
             d={`M ${spacing} 0 L 0 0 0 ${spacing}`}
             fill="none"
-            stroke="rgb(10 22 49 / 0.32)"
+            stroke="rgb(13 26 46 / 0.32)"
             strokeWidth={meshStrand * 0.45}
           />
         </pattern>
@@ -100,7 +100,7 @@ export function ProductVisual({
       </defs>
 
       {/* Ombre portée douce */}
-      <rect x={x + 6} y={y + 10} width={W} height={H} rx="3" fill="rgb(10 22 49 / 0.07)" />
+      <rect x={x + 6} y={y + 10} width={W} height={H} rx="3" fill="rgb(13 26 46 / 0.07)" />
 
       {kind === "custom" ? (
         <CustomShape x={x} y={y} W={W} H={H} f={f} color={color} stroke={stroke} light={lightFill} mesh={meshFill} uid={uid} />
@@ -146,7 +146,7 @@ function KindDetails({ kind, inner, color, stroke, mesh }: { kind: VisualKind; i
         <>
           <rect x={x} y={y} width={bar - x} height={h} fill={mesh} />
           {Array.from({ length: folds }, (_, i) => (
-            <rect key={i} x={x + i * step} y={y} width={step / 2} height={h} fill="rgb(10 22 49 / 0.05)" />
+            <rect key={i} x={x + i * step} y={y} width={step / 2} height={h} fill="rgb(13 26 46 / 0.05)" />
           ))}
           <rect x={bar - 3} y={y} width="6" height={h} fill={color} stroke={stroke} strokeWidth="0.75" />
         </>
@@ -167,7 +167,7 @@ function KindDetails({ kind, inner, color, stroke, mesh }: { kind: VisualKind; i
       return (
         <>
           <rect x={x} y={y} width={w} height={h} fill={mesh} />
-          <path d={`M ${mid} ${y} V ${y + h}`} stroke="rgb(10 22 49 / 0.35)" strokeWidth="1.2" strokeDasharray="1 7" />
+          <path d={`M ${mid} ${y} V ${y + h}`} stroke="rgb(13 26 46 / 0.35)" strokeWidth="1.2" strokeDasharray="1 7" />
           {Array.from({ length: 7 }, (_, i) => (
             <circle key={i} cx={mid} cy={y + ((i + 1) * h) / 8} r="2.2" fill={color} stroke={stroke} strokeWidth="0.6" />
           ))}
@@ -305,7 +305,7 @@ function CustomShape({
 
 function Dimensions({ x, y, W, H, width, height, animated }: { x: number; y: number; W: number; H: number; width: number; height: number; animated: boolean }) {
   const { f } = useI18n();
-  const sky = "#3563e9";
+  const sky = "#3e5b7e";
   const by = y + H + 22;
   const rx = x - 22;
   const drawStyle = (len: number, delay: number) =>
@@ -320,7 +320,7 @@ function Dimensions({ x, y, W, H, width, height, animated }: { x: number; y: num
         <path d={`M ${x} ${by} H ${x + W}`} style={drawStyle(W, 0.6)} />
         <path d={`M ${x - 3} ${by + 3} L ${x + 3} ${by - 3} M ${x + W - 3} ${by + 3} L ${x + W + 3} ${by - 3}`} strokeWidth="1.2" />
       </g>
-      <rect x={x + W / 2 - 34} y={by - 8} width="68" height="16" rx="3" fill="#f6f4ee" />
+      <rect x={x + W / 2 - 34} y={by - 8} width="68" height="16" rx="3" fill="#f3efe7" />
       <text x={x + W / 2} y={by + 3.5} textAnchor="middle" letterSpacing="0.3">
         {f.mm(width)}
       </text>
@@ -331,7 +331,7 @@ function Dimensions({ x, y, W, H, width, height, animated }: { x: number; y: num
         <path d={`M ${rx - 3} ${y + 3} L ${rx + 3} ${y - 3} M ${rx - 3} ${y + H + 3} L ${rx + 3} ${y + H - 3}`} strokeWidth="1.2" />
       </g>
       <g transform={`translate(${rx} ${y + H / 2}) rotate(-90)`}>
-        <rect x="-34" y="-8" width="68" height="16" rx="3" fill="#f6f4ee" />
+        <rect x="-34" y="-8" width="68" height="16" rx="3" fill="#f3efe7" />
         <text x="0" y="3.5" textAnchor="middle" letterSpacing="0.3">
           {f.mm(height)}
         </text>
