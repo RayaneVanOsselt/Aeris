@@ -2,6 +2,20 @@
 
 ## Non publié
 
+### Refonte immersive (design system « L'air, cadré »)
+- Accueil reconstruit comme un récit autour du film de marque : film plein écran qui s'ouvre en
+  arche puis se referme en cadre au défilement, manifeste, sur-mesure à essayer, « une journée
+  fenêtres ouvertes » (arche fixe qui change de scène), collection en index éditorial,
+  preuve « 1 mm », méthode en 4 gestes, appel final sur la maison éclairée le soir.
+- Nouveau design system : serif Fraunces en très grand + Geist, lin et bleu nuit, arche
+  signature, courbes et durées centralisées, boutons pilule au libellé qui roule.
+- En-tête transparent sur le film, puis îlot compact au défilement ; sélecteur de langue
+  compact (FR/NL/EN) toujours visible sur téléphone et tablette.
+- Vidéos optimisées (`public/media`, 0,3 à 3,7 Mo), affiche immédiate, chargement différé,
+  pause hors écran, bouton pause/lecture ; aucune vidéo avec « réduire les animations ».
+- Barre « Configurer » sur mobile une fois le film passé.
+- Documentation : `docs/DESIGN.md` (jetons, mouvements, vidéo, audit visuel).
+
 ### Ajouté
 - Site en trois langues : français, néerlandais (Belgique) et anglais (britannique), avec des
   adresses traduites (`/fr/moustiquaires`, `/nl/horren`, `/en/insect-screens`…).
@@ -14,6 +28,12 @@
 - Documentation : `docs/I18N.md` (fonctionnement, glossaire, tableau de correspondance des adresses).
 
 ### Modifié
+- Le film source « Test 1 .mp4 » est renommé `assets/video/aeris-film-master.mp4` (nom sans
+  espace ; conservé comme original, non publié sur le site).
+- Accueil : les sections « dilemme de l'été », « solutions par ouverture », bento « pourquoi
+  Aéris », « toile à la loupe » et barre de réassurance sont remplacées par le nouveau récit
+  (leurs informations sont reprises : engagements, modèles, étapes, sur-mesure).
+- Le bouton de l'assistant a un nom accessible qui reprend son texte visible.
 - Les adresses françaises sont désormais préfixées par `/fr` ; les anciennes redirigent
   (308 sur hébergement serveur, page de redirection sur GitHub Pages).
 - Les formulaires et l'API renvoient des codes d'erreur, traduits dans la langue du visiteur.

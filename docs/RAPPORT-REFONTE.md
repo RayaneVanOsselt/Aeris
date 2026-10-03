@@ -20,6 +20,9 @@ Les anciennes URL `.html` redirigent (301) vers les nouvelles.
 
 ## 2. Design system « Plan & Lumière »
 
+> Remplacé par le design system « L'air, cadré » (accueil immersif autour du film de marque) :
+> voir [`DESIGN.md`](DESIGN.md). Cette section décrit l'état précédent.
+
 - **Idée** : la précision d'un plan d'architecte (cotes, grille, règle graduée) et la douceur de la lumière naturelle. Motifs signature : trame de moustiquaire, cotes en millimètres, règle.
 - **Couleurs** : papier `#F6F4EE`, encre bleu nuit `#0A1631`, sable `#C8A57A` / `#7C5D3A`, azur `#3563E9` (réservé aux détails de précision : cotes, focus, progression), états succès/erreur/avertissement. Contrastes AA.
 - **Typographie** : Geist (titres légers à approche serrée, texte), Geist Mono (mesures, repères), Fraunces italique (mots d'accent). Auto-hébergées (aucun appel à Google, RGPD).
