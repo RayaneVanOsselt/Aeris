@@ -34,7 +34,6 @@ export function ChatLauncher() {
           track("chatbot_opened");
         }}
         onMouseEnter={() => setLoaded(true)}
-        aria-label={m.chat.open}
         aria-expanded={open}
         className={cn(
           "fixed right-4 z-40 flex h-14 items-center gap-2.5 rounded-full bg-ink pl-4 pr-4 text-paper shadow-[0_8px_30px_rgb(10_22_49/0.3)] transition-[transform,opacity,bottom] duration-[var(--dur-slow)] ease-[var(--ease-out)] hover:-translate-y-0.5 sm:pr-5 lg:right-6",
@@ -46,7 +45,9 @@ export function ChatLauncher() {
           <Icon name="chat" size={22} />
           <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full border-2 border-ink bg-sand" />
         </span>
+        {/* Nom accessible = texte visible (+ précision), conforme au critère « étiquette dans le nom » */}
         <span className="hidden text-sm sm:inline">{m.chat.question}</span>
+        <span className="sr-only">{m.chat.open}</span>
       </button>
       {loaded && <ChatPanel open={open} onClose={() => setOpen(false)} />}
     </>
