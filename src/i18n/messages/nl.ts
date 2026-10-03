@@ -591,7 +591,7 @@ export const nl: Messages = {
         { time: "17:00", title: "In en uit de tuin", text: "Plissé, rolhor of draaideur: de deur blijft open, de doorgang blijft vrij." },
         { time: "18:30", title: "Ook voor uw dieren", text: "Voor huishoudens met katten en honden is het huisdierbestendige gaas versterkt." },
       ],
-      media: ["Een keuken in de ochtend, raam open", "Close-up van het gaas, de tuin scherp erachter", "Een raamdeur open naar het terras", "Een kat achter de hor"],
+      media: ["Illustratie van een vliegenraam", "Close-up van het standaardgaas", "Illustratie van een plissé hor voor een raamdeur", "Close-up van het huisdierbestendige gaas, dikker"],
     },
     collection: {
       index: "Model {n} van {total}",

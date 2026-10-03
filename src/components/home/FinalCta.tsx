@@ -2,23 +2,20 @@ import { Rich } from "@/i18n/rich";
 import { getI18n } from "@/i18n/server";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import { LazyVideo } from "@/components/ui/LazyVideo";
 import { Reveal } from "@/components/ui/Reveal";
+import { Ruler } from "@/components/ui/Ruler";
 
-/** Dernier plan du film : la maison éclairée le soir, fenêtres ouvertes. La fenêtre s'ouvre en grand en entrant dans l'écran. */
+/** Appel final sur fond bleu nuit (le film n'apparaît qu'en ouverture). L'arche s'ouvre en grand en entrant dans l'écran. */
 export function FinalCta() {
   const { m, href } = getI18n();
   const c = m.homePage.finalCta;
   return (
     <section id="final-cta" aria-labelledby="final-cta-title" className="px-2 pb-2 pt-[calc(var(--section-y)*0.4)] sm:px-3 sm:pb-3">
       <div className="sd-window relative isolate flex min-h-[min(92svh,56rem)] items-end overflow-hidden rounded-[var(--radius-2xl)] bg-night text-white lg:rounded-[56px]">
-        <div className="absolute inset-0 -z-10">
-          <LazyVideo name="clip-house" focus="38%" />
-        </div>
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(13_26_46/0.85)_0%,rgb(13_26_46/0.45)_45%,rgb(13_26_46/0.1)_80%)]"
-        />
+        <div aria-hidden className="mesh-texture-night absolute inset-0 -z-10" />
+        <div aria-hidden className="absolute -right-32 -top-40 -z-10 size-[36rem] rounded-full bg-sky/30 blur-[120px]" />
+        <div aria-hidden className="absolute -bottom-48 left-[10%] -z-10 size-[32rem] rounded-full bg-sand/20 blur-[120px]" />
+        <Ruler tone="night" className="absolute inset-x-0 top-0 -z-10 opacity-70" />
         <Reveal className="container-site pb-[clamp(3rem,8vw,6rem)] pt-40">
           <p className="t-caption flex items-center gap-3 text-white/75">
             <span aria-hidden className="h-px w-8 bg-sand" />

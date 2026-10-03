@@ -749,7 +749,7 @@ export const fr = {
         { time: "17:00", title: "Les allers-retours au jardin", text: "Plissée, enroulable ou battante : la porte reste ouverte, le passage reste libre." },
         { time: "18:30", title: "Les animaux aussi", text: "Pour les foyers avec chats et chiens, la toile anti-griffe est renforcée." },
       ],
-      media: ["Une cuisine au matin, fenêtre ouverte", "Gros plan sur la toile, le jardin net derrière", "Une porte-fenêtre ouverte sur la terrasse", "Un chat derrière la moustiquaire"],
+      media: ["Illustration d'une moustiquaire fenêtre", "Vue rapprochée de la toile standard", "Illustration d'une moustiquaire plissée de porte-fenêtre", "Vue rapprochée de la toile anti-griffe, plus épaisse"],
     },
     collection: {
       index: "Modèle {n} sur {total}",

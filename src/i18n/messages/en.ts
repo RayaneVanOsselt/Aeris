@@ -590,7 +590,7 @@ export const en: Messages = {
         { time: "17:00", title: "In and out to the garden", text: "Pleated, retractable or hinged: the door stays open, the way stays clear." },
         { time: "18:30", title: "Pets welcome too", text: "For homes with cats and dogs, the pet-resistant mesh is reinforced." },
       ],
-      media: ["A kitchen in the morning, window open", "Close-up of the mesh, the garden sharp behind it", "A French door open onto the terrace", "A cat behind the insect screen"],
+      media: ["Illustration of a window insect screen", "Close-up of the standard mesh", "Illustration of a pleated screen for a French door", "Close-up of the pet-resistant mesh, thicker"],
     },
     collection: {
       index: "Model {n} of {total}",
