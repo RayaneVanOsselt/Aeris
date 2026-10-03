@@ -12,7 +12,18 @@ import { basePath, isStaticSite } from "@/lib/deploy";
  * traduite), en conservant les paramètres (configuration en cours…).
  * Le choix est mémorisé pour la page d'accueil racine.
  */
-export function LanguageSwitcher({ className, tone = "ink", variant = "codes" }: { className?: string; tone?: "ink" | "light"; variant?: "codes" | "names" }) {
+export function LanguageSwitcher({
+  className,
+  tone = "ink",
+  variant = "codes",
+  size = "sm",
+}: {
+  className?: string;
+  tone?: "ink" | "light";
+  variant?: "codes" | "names";
+  /** md : cible tactile de 44 px (barre mobile) */
+  size?: "sm" | "md";
+}) {
   const { locale, m, t } = useI18n();
   const pathname = usePathname();
   const { segments } = splitPath(pathname);
@@ -48,7 +59,8 @@ export function LanguageSwitcher({ className, tone = "ink", variant = "codes" }:
                   if (!current) e.currentTarget.search = window.location.search;
                 }}
                 className={cn(
-                  "inline-flex h-9 min-w-9 items-center justify-center rounded-full px-2 text-sm transition-colors",
+                  "inline-flex items-center justify-center rounded-full px-2 text-sm transition-colors",
+                  size === "md" ? "h-11 min-w-11" : "h-9 min-w-9",
                   variant === "codes" && "t-num uppercase",
                   tone === "light"
                     ? current

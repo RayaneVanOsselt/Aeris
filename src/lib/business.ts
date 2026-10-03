@@ -15,7 +15,8 @@
  */
 import type { ProductId } from "./catalog";
 
-export const showPlaceholders = process.env.NEXT_PUBLIC_SHOW_PLACEHOLDERS !== "false";
+/** Mode préparation (repères ◆, emplacements « À compléter ») : uniquement si activé explicitement. */
+export const showPlaceholders = process.env.NEXT_PUBLIC_SHOW_PLACEHOLDERS === "true";
 
 export const company = {
   name: "Aéris",
