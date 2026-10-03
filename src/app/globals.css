@@ -1,80 +1,83 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
-   AÉRIS — Design system « Plan & Lumière »
-   La précision d'un plan d'architecte, la douceur de la lumière
-   naturelle. Encre bleu nuit sur papier chaud, accent sable,
-   azur réservé aux détails de précision (cotes, focus, progression).
+   AÉRIS — Design system « L'air, cadré »
+   Une marque qui vend de l'air et de la lumière, cadrés au millimètre.
+   Signature : la fenêtre (arches, cadres qui s'ouvrent au défilement),
+   la serif éditoriale en très grand, le lin et le bleu nuit, la règle
+   graduée. Mouvement lent, fluide, au service de la lecture.
    ────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* Couleurs — fonds */
-  --color-paper: #f6f4ee;
-  --color-paper-2: #ece8dd;
-  --color-surface: #fcfbf8;
-  --color-night: #0a1631;
-  --color-night-2: #13234a;
+  /* Couleurs — fonds : lin, ivoire, bleu nuit */
+  --color-paper: #f3efe7;
+  --color-paper-2: #e8e2d6;
+  --color-surface: #fbf9f4;
+  --color-night: #0d1a2e;
+  --color-night-2: #18273f;
 
-  /* Couleurs — texte (contrastes AA vérifiés sur paper) */
-  --color-ink: #0a1631;
-  --color-ink-2: #33415c;
-  --color-ink-3: #5b6780;
-  --color-on-night: #eef1f7;
-  --color-on-night-2: #a9b4ca;
+  /* Couleurs — texte (contrastes AA vérifiés sur lin, ivoire et nuit) */
+  --color-ink: #0d1a2e;
+  --color-ink-2: #364154;
+  --color-ink-3: #5c6575;
+  --color-on-night: #f1eee7;
+  --color-on-night-2: #aeb5c2;
 
-  /* Couleurs — marque */
-  --color-sand: #c8a57a;
-  --color-sand-soft: #efe4d2;
-  --color-sand-deep: #7c5d3a;
-  --color-sky: #3563e9;
-  --color-sky-soft: #e4eafc;
+  /* Couleurs — accents, à petite dose : sable (chaleur) et ardoise (précision) */
+  --color-sand: #c9a97e;
+  --color-sand-soft: #eee4d3;
+  --color-sand-deep: #7a5a36;
+  --color-sky: #3e5b7e;
+  --color-sky-soft: #e3e9f0;
 
   /* Couleurs — lignes */
-  --color-line: rgb(10 22 49 / 0.1);
-  --color-line-strong: rgb(10 22 49 / 0.2);
-  --color-line-night: rgb(238 241 247 / 0.14);
+  --color-line: rgb(13 26 46 / 0.1);
+  --color-line-strong: rgb(13 26 46 / 0.22);
+  --color-line-night: rgb(241 238 231 / 0.16);
 
   /* Couleurs — états */
-  --color-success: #1f7a55;
-  --color-success-soft: #e3f1ea;
-  --color-danger: #b42318;
-  --color-danger-soft: #fbe9e7;
-  --color-warning: #8a5300;
-  --color-warning-soft: #fbf0dc;
+  --color-success: #1f6e4e;
+  --color-success-soft: #e2efe8;
+  --color-danger: #a8261b;
+  --color-danger-soft: #f8e7e4;
+  --color-warning: #835000;
+  --color-warning-soft: #f7eddb;
 
-  /* Typographie */
+  /* Typographie : une serif éditoriale (titres) + une sans-serif fonctionnelle */
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
-  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-serif: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-mono: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
 
-  /* Rayons */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  /* Rayons : des courbes généreuses, et l'arche réservée aux médias */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+  --radius-2xl: 44px;
   --radius-pill: 999px;
 
-  /* Ombres — courtes et douces, jamais lourdes */
-  --shadow-xs: 0 1px 2px rgb(10 22 49 / 0.06);
-  --shadow-sm: 0 1px 2px rgb(10 22 49 / 0.05), 0 4px 12px rgb(10 22 49 / 0.05);
-  --shadow-md: 0 2px 4px rgb(10 22 49 / 0.04), 0 12px 32px rgb(10 22 49 / 0.08);
-  --shadow-lg: 0 4px 8px rgb(10 22 49 / 0.04), 0 24px 64px rgb(10 22 49 / 0.12);
+  /* Ombres : rares, longues et diffuses */
+  --shadow-xs: 0 1px 2px rgb(13 26 46 / 0.05);
+  --shadow-sm: 0 1px 2px rgb(13 26 46 / 0.04), 0 6px 16px rgb(13 26 46 / 0.05);
+  --shadow-md: 0 2px 6px rgb(13 26 46 / 0.04), 0 18px 40px rgb(13 26 46 / 0.08);
+  --shadow-lg: 0 6px 12px rgb(13 26 46 / 0.05), 0 40px 90px rgb(13 26 46 / 0.14);
 
-  /* Mouvement */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Mouvement : une seule famille de courbes pour tout le site */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
 
   --breakpoint-xs: 26rem;
 }
 
 :root {
-  --header-h: 72px;
-  --gutter: clamp(16px, 4vw, 40px);
-  --section-y: clamp(80px, 11vw, 152px);
-  --dur-fast: 160ms;
-  --dur-base: 260ms;
-  --dur-slow: 560ms;
-  --dur-slower: 900ms;
+  --header-h: 76px;
+  --gutter: clamp(18px, 4.4vw, 56px);
+  --section-y: clamp(96px, 13vw, 200px);
+  --dur-fast: 180ms;
+  --dur-base: 340ms;
+  --dur-slow: 700ms;
+  --dur-slower: 1100ms;
+  --dur-cinematic: 1600ms;
   color-scheme: light;
 }
 
@@ -89,16 +92,15 @@
     background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.0625rem;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    font-feature-settings: "ss01", "cv11";
   }
   ::selection {
-    background: var(--color-sky);
-    color: #fff;
+    background: var(--color-night);
+    color: var(--color-on-night);
   }
   :focus-visible {
     outline: 2px solid var(--color-sky);
@@ -118,7 +120,8 @@
     display: none !important;
   }
   img,
-  svg {
+  svg,
+  video {
     display: block;
   }
   dialog {
@@ -126,30 +129,40 @@
   }
 }
 
-/* ── Typographie ──────────────────────────────────────────────── */
+/* ── Typographie ──────────────────────────────────────────────────
+   Les grands titres sont des éléments graphiques : serif légère,
+   approche serrée, interlignage court. */
 @utility t-display {
-  font-size: clamp(2.75rem, 6.3vw, 5.75rem);
-  line-height: 0.96;
-  letter-spacing: -0.045em;
+  font-family: var(--font-serif);
+  font-size: clamp(3.1rem, 8.4vw, 8.25rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
   font-weight: 300;
+  font-variation-settings: "opsz" 144;
 }
 @utility t-h1 {
-  font-size: clamp(2.5rem, 5.6vw, 4.75rem);
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-family: var(--font-serif);
+  font-size: clamp(2.75rem, 6.2vw, 5.75rem);
+  line-height: 0.96;
+  letter-spacing: -0.026em;
   font-weight: 300;
+  font-variation-settings: "opsz" 144;
 }
 @utility t-h2 {
-  font-size: clamp(2rem, 4.2vw, 3.5rem);
-  line-height: 1.04;
-  letter-spacing: -0.035em;
-  font-weight: 350;
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 4.9vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.022em;
+  font-weight: 320;
+  font-variation-settings: "opsz" 144;
 }
 @utility t-h3 {
-  font-size: clamp(1.375rem, 2.1vw, 1.75rem);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  font-weight: 450;
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.4vw, 2.125rem);
+  line-height: 1.12;
+  letter-spacing: -0.014em;
+  font-weight: 360;
+  font-variation-settings: "opsz" 72;
 }
 @utility t-h4 {
   font-size: 1.125rem;
@@ -158,30 +171,29 @@
   font-weight: 500;
 }
 @utility t-lead {
-  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
-  line-height: 1.55;
-  letter-spacing: -0.01em;
+  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+  line-height: 1.6;
+  letter-spacing: -0.008em;
 }
 @utility t-small {
   font-size: 0.875rem;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 @utility t-caption {
-  font-family: var(--font-mono);
   font-size: 0.75rem;
   line-height: 1.4;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  font-weight: 500;
 }
 @utility t-num {
-  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 @utility accent {
   font-family: var(--font-serif);
   font-style: italic;
-  font-weight: 350;
+  font-weight: 300;
   letter-spacing: -0.02em;
   font-variation-settings: "opsz" 144;
 }
@@ -189,52 +201,153 @@
 /* ── Mise en page ─────────────────────────────────────────────── */
 @utility container-site {
   width: 100%;
-  max-width: 1320px;
+  max-width: 1440px;
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
 @utility section-y {
   padding-block: var(--section-y);
 }
+/* Arche : la fenêtre, signature des médias (sommet en plein cintre) */
+@utility rounded-arch {
+  border-radius: 999px 999px 72px 72px;
+}
 
 /* Trame de moustiquaire : motif signature (tissage fin) */
 @utility mesh-texture {
   background-image:
-    linear-gradient(to right, rgb(10 22 49 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(10 22 49 / 0.06) 1px, transparent 1px);
+    linear-gradient(to right, rgb(13 26 46 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(13 26 46 / 0.06) 1px, transparent 1px);
   background-size: 6px 6px;
 }
 @utility mesh-texture-night {
   background-image:
-    linear-gradient(to right, rgb(238 241 247 / 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(238 241 247 / 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgb(241 238 231 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(241 238 231 / 0.05) 1px, transparent 1px);
   background-size: 6px 6px;
 }
 /* Grille de plan (repères architecturaux) */
 @utility blueprint-grid {
   background-image:
-    linear-gradient(to right, rgb(53 99 233 / 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(53 99 233 / 0.07) 1px, transparent 1px);
+    linear-gradient(to right, rgb(62 91 126 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(62 91 126 / 0.07) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
 /* ── Mouvement : révélation au défilement ─────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translate3d(0, 18px, 0);
+  transform: translate3d(0, 28px, 0);
   transition:
-    opacity 420ms var(--ease-out),
-    transform 700ms var(--ease-out);
+    opacity var(--dur-slower) var(--ease-out),
+    transform var(--dur-cinematic) var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal[data-visible="true"] {
   opacity: 1;
   transform: none;
 }
-/* Sans JavaScript, tout reste visible */
-.no-js .reveal {
-  opacity: 1;
+
+/* Titres révélés mot à mot (ligne qui monte derrière un masque) */
+.rt-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* marge pour les jambages et l'italique, compensée pour ne pas décaler la ligne */
+  padding: 0 0.08em 0.1em 0;
+  margin: 0 -0.08em -0.1em 0;
+}
+.rt-word > span {
+  display: inline-block;
+  transform: translate3d(0, 105%, 0);
+  transition: transform var(--dur-cinematic) var(--ease-out);
+  transition-delay: calc(var(--reveal-delay, 0ms) + var(--i, 0) * 55ms);
+}
+[data-visible="true"] .rt-word > span {
   transform: none;
+}
+/* Au chargement (titre principal, au-dessus de la ligne de flottaison) */
+.rt-load .rt-word > span {
+  animation: rt-up var(--dur-cinematic) var(--ease-out) both;
+  animation-delay: calc(var(--delay, 0ms) + var(--i, 0) * 70ms);
+}
+@keyframes rt-up {
+  from { transform: translate3d(0, 105%, 0); }
+  to { transform: none; }
+}
+
+/* Média qui se dévoile : un cadre qui s'ouvre, une image qui se pose */
+.media-reveal {
+  clip-path: inset(14% 8% 0 8% round 28px);
+  transition: clip-path var(--dur-cinematic) var(--ease-out);
+}
+.media-reveal > * {
+  transform: scale(1.14);
+  transition: transform 2200ms var(--ease-out);
+}
+[data-visible="true"] .media-reveal,
+.media-reveal[data-visible="true"] {
+  clip-path: inset(0 0 0 0 round 0);
+}
+[data-visible="true"] .media-reveal > *,
+.media-reveal[data-visible="true"] > * {
+  transform: none;
+}
+
+/* Défilement piloté (navigateurs compatibles uniquement : amélioration progressive) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Mot qui s'éclaire quand il traverse l'écran (manifeste) */
+    .sd-word {
+      animation: sd-word linear both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 42%;
+    }
+    /* Parallaxe douce d'un média dans son cadre */
+    .sd-parallax {
+      animation: sd-parallax linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    /* Le film de l'accueil se referme en fenêtre quand on descend */
+    .sd-hero-frame {
+      animation: sd-hero-frame linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100svh;
+    }
+    .sd-hero-copy {
+      animation: sd-hero-copy linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 70svh;
+    }
+    /* Fenêtre en arche qui s'ouvre en grand en entrant dans l'écran */
+    .sd-window {
+      animation: sd-window linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+  }
+}
+/* Départ à 50 % : le mot reste lisible (contraste ≥ 3:1 pour ce corps) avant de s'éclairer */
+@keyframes sd-word {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+@keyframes sd-parallax {
+  from { transform: translate3d(0, -7%, 0) scale(1.14); }
+  to { transform: translate3d(0, 7%, 0) scale(1.14); }
+}
+@keyframes sd-hero-frame {
+  from { transform: scale(1); border-radius: 0; }
+  to { transform: scale(0.9); border-radius: 44px; }
+}
+@keyframes sd-hero-copy {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translate3d(0, -6vh, 0); }
+}
+@keyframes sd-window {
+  from { clip-path: inset(4% 6% 0 6% round 999px 999px 44px 44px); }
+  to { clip-path: inset(0 0 0 0 round 44px 44px 44px 44px); }
 }
 
 /* Dessin de trait (cotes, contours) */
@@ -243,25 +356,16 @@
   to { stroke-dashoffset: 0; }
 }
 @keyframes fade-up {
-  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
   to { opacity: 1; transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 @keyframes unroll {
   from { transform: scaleY(0); }
   to { transform: scaleY(1); }
-}
-@keyframes float {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -6px, 0); }
-}
-@keyframes drift {
-  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(8px, -10px, 0) rotate(8deg); }
-  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-}
-@keyframes pulse-ring {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  100% { transform: scale(1.6); opacity: 0; }
 }
 @keyframes shimmer {
   from { background-position: -200% 0; }
@@ -274,19 +378,40 @@
   0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
   40% { opacity: 1; transform: translateY(-3px); }
 }
+/* Indicateur de défilement : un trait qui descend */
+@keyframes scroll-line {
+  0% { transform: translate3d(0, -100%, 0); }
+  60%, 100% { transform: translate3d(0, 100%, 0); }
+}
+/* Film d'accueil : apparition depuis une fenêtre en arche. Le voile (bleu
+   nuit, peint par l'ombre portée) s'écarte ; transformations uniquement. */
+.hero-veil {
+  border-radius: 999px 999px 56px 56px;
+  box-shadow: 0 0 0 150vmax var(--color-night);
+  transform-origin: 50% 55%;
+  animation: hero-veil var(--dur-cinematic) var(--ease-in-out) 120ms both;
+}
+@keyframes hero-veil {
+  from { transform: scale(0.52, 0.6); }
+  80% { visibility: visible; }
+  to { transform: scale(1.5); visibility: hidden; }
+}
 
 /* Montée sans transparence : le texte principal reste visible dès le premier affichage (LCP) */
 @keyframes rise {
-  from { transform: translate3d(0, 14px, 0); }
+  from { transform: translate3d(0, 18px, 0); }
   to { transform: none; }
 }
 .animate-rise {
   animation: rise var(--dur-slower) var(--ease-out) both;
   animation-delay: var(--delay, 0ms);
 }
-
 .animate-fade-up {
   animation: fade-up var(--dur-slower) var(--ease-out) both;
+  animation-delay: var(--delay, 0ms);
+}
+.animate-fade-in {
+  animation: fade-in var(--dur-slower) var(--ease-out) both;
   animation-delay: var(--delay, 0ms);
 }
 
@@ -300,6 +425,8 @@
 .scroll-row {
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
+  /* l'accroche des cartes respecte la marge latérale du site */
+  scroll-padding-inline: var(--gutter);
   -webkit-overflow-scrolling: touch;
 }
 .scroll-row::-webkit-scrollbar {
@@ -312,7 +439,7 @@
   background-size: 0% 1px;
   background-position: 0 100%;
   background-repeat: no-repeat;
-  transition: background-size var(--dur-base) var(--ease-out);
+  transition: background-size var(--dur-slow) var(--ease-out);
 }
 .link-underline:hover,
 .link-underline:focus-visible {
@@ -323,8 +450,8 @@
    En couche « base » pour que les utilitaires (largeur, marges) restent prioritaires. */
 @layer base {
   dialog.sheet::backdrop {
-    background: rgb(10 22 49 / 0.45);
-    backdrop-filter: blur(4px);
+    background: rgb(13 26 46 / 0.45);
+    backdrop-filter: blur(6px);
   }
   dialog.sheet {
     max-width: none;
@@ -356,8 +483,12 @@ input[type="number"] {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal {
+  .reveal,
+  .rt-word > span,
+  .media-reveal,
+  .media-reveal > * {
     opacity: 1;
     transform: none;
+    clip-path: none;
   }
 }

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: { images: [{ url: ogImagePath(defaultLocale), width: 1200, height: 630 }] },
 };
 
-export const viewport: Viewport = { themeColor: "#f6f4ee", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#f3efe7", width: "device-width", initialScale: 1 };
 
 /**
  * Redirection immédiate vers la langue mémorisée, sinon celle du navigateur

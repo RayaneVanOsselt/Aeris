@@ -256,7 +256,7 @@ export function StepFinish({ state, dispatch }: StepProps) {
                 <input type="radio" name="coloris" value={c.id} checked={selected} onChange={() => dispatch({ type: "set", patch: { colorId: c.id } })} className="sr-only" />
                 <span
                   className={cn("size-14 rounded-full border border-line-strong ring-offset-4 ring-offset-paper transition-shadow", selected ? "ring-2 ring-ink" : "group-hover:ring-1 group-hover:ring-line-strong")}
-                  style={{ background: c.id === "ral" ? "conic-gradient(#c8a57a,#3563e9,#1f7a55,#b42318,#c8a57a)" : c.hex }}
+                  style={{ background: c.id === "ral" ? "conic-gradient(#c9a97e,#3e5b7e,#1f7a55,#b42318,#c9a97e)" : c.hex }}
                 />
                 <span className={cn("text-xs", selected ? "text-ink" : "text-ink-3")}>
                   {m.catalog.colors[c.id]}

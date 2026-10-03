@@ -2,7 +2,7 @@ import { cn } from "@/lib/cn";
 
 /** Règle graduée : motif signature « au millimètre ». Purement décoratif. */
 export function Ruler({ className, tone = "light" }: { className?: string; tone?: "light" | "night" }) {
-  const color = tone === "night" ? "rgb(238 241 247 / 0.28)" : "rgb(10 22 49 / 0.22)";
+  const color = tone === "night" ? "rgb(241 238 231 / 0.28)" : "rgb(13 26 46 / 0.22)";
   return (
     <div aria-hidden className={cn("relative h-9 overflow-hidden", className)}>
       <div

@@ -54,7 +54,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
             <Logo />
           </Link>
           <div className="flex items-center gap-2">
-            <LanguageSwitcher />
+            <LanguageSwitcher size="md" />
             <IconButton icon="close" label={m.nav.closeMenu} onClick={onClose} />
           </div>
         </div>
@@ -79,7 +79,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
           <ul className="divide-y divide-line border-y border-line">
             {links.map((link, i) => (
               <li key={link.href} className="animate-fade-up" style={{ "--delay": `${80 + i * 40}ms` } as React.CSSProperties}>
-                <Link href={link.href} onClick={onClose} className="flex items-center justify-between py-4 text-2xl font-light tracking-[-0.03em] text-ink">
+                <Link href={link.href} onClick={onClose} className="flex items-center justify-between py-4 font-serif text-[1.75rem] font-light tracking-[-0.02em] text-ink">
                   {link.label}
                   <Icon name="arrowRight" size={20} className="text-ink-3" />
                 </Link>

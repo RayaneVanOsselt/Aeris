@@ -151,6 +151,14 @@ const paths = {
   home: <path d="M4 11 12 4l8 7v9h-5v-6H9v6H4v-9Z" />,
   layers: <path d="m12 3 9 5-9 5-9-5 9-5ZM3 13l9 5 9-5" />,
   sliders: <path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4" />,
+  play: <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />,
+  pause: <path d="M9 5v14M15 5v14" />,
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c2.3 2.4 3.4 5.2 3.4 8.5s-1.1 6.1-3.4 8.5c-2.3-2.4-3.4-5.2-3.4-8.5s1.1-6.1 3.4-8.5Z" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof paths;
