@@ -26,8 +26,8 @@ export function MeasureDemo() {
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.1fr_1fr]">
-      <div className="relative min-h-[300px] rounded-[var(--radius-lg)] bg-paper-2 md:min-h-[360px]">
-        <div aria-hidden className="blueprint-grid absolute inset-0 rounded-[var(--radius-lg)]" />
+      <div className="relative min-h-[300px] overflow-hidden rounded-[var(--radius-xl)] bg-paper-2 md:min-h-[380px]">
+        <div aria-hidden className="blueprint-grid absolute inset-0" />
         <ProductVisual
           kind={product.visual}
           color={color.hex}
@@ -87,7 +87,7 @@ export function MeasureDemo() {
         <div className="mt-auto flex items-end justify-between gap-4 border-t border-line pt-5">
           <p>
             <span className="t-caption block text-ink-3">{m.common.priceStandardMesh}</span>
-            <span className="t-num text-3xl font-light text-ink" aria-live="polite">
+            <span className="t-num font-serif text-4xl font-light tracking-[-0.03em] text-ink" aria-live="polite">
               {f.price(price.total)}
             </span>
           </p>
