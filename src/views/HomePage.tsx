@@ -5,13 +5,13 @@ import { messages } from "@/i18n/messages";
 import { getI18n } from "@/i18n/server";
 import { Collection } from "@/components/home/Collection";
 import { Craft } from "@/components/home/Craft";
-import { DayStory } from "@/components/home/DayStory";
 import { FinalCta } from "@/components/home/FinalCta";
 import { HeroFilm } from "@/components/home/HeroFilm";
 import { HomeStickyCta } from "@/components/home/HomeStickyCta";
-import { Manifesto } from "@/components/home/Manifesto";
+import { Meshes } from "@/components/home/Meshes";
 import { Process } from "@/components/home/Process";
 import { Proof } from "@/components/home/Proof";
+import { TrustStrip } from "@/components/home/TrustStrip";
 import { Accordion } from "@/components/ui/Accordion";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
@@ -20,9 +20,10 @@ import { pageMetadata } from "@/lib/seo";
 export const homeMeta = (locale: Locale) => pageMetadata({ locale, target: { key: "home" }, description: messages[locale].meta.description });
 
 /**
- * Accueil, construit comme un récit : le film (hero) → l'idée (manifeste) →
- * le sur-mesure (savoir-faire) → une journée fenêtres ouvertes (récit) →
- * la collection → la preuve → la méthode → les questions → l'appel final.
+ * Accueil, dans l'ordre des questions d'un client : le film (envie) → nos
+ * engagements (confiance) → quel modèle pour mon ouverture → comment ça
+ * marche → le prix au millimètre (essai) → quelle toile pour mon besoin →
+ * la preuve « 1 mm » → les questions → l'appel final.
  */
 export function HomePage() {
   const { m, href, locale } = getI18n();
@@ -30,14 +31,14 @@ export function HomePage() {
   return (
     <>
       <HeroFilm />
-      <Manifesto />
-      <Craft />
-      <DayStory eyebrow={h.story.eyebrow} title={h.story.title} />
+      <TrustStrip />
       <Collection copy={h.collection} />
-      <Proof />
       <Process />
+      <Craft />
+      <Meshes copy={h.meshes} />
+      <Proof />
 
-      <section aria-labelledby="faq-title" className="py-[var(--section-y)]">
+      <section aria-labelledby="faq-title" className="pb-[var(--section-y)]">
         <div className="container-site grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
           <Reveal className="lg:col-span-5">
             <p className="t-caption flex items-center gap-3 text-ink-3">
@@ -51,7 +52,7 @@ export function HomePage() {
               {m.common.allQuestions} <Icon name="arrowRight" size={16} />
             </Link>
           </Reveal>
-          <Reveal delay={120} className="lg:col-span-7">
+          <Reveal delay={100} className="lg:col-span-7">
             <Accordion items={homeFaq(locale)} />
           </Reveal>
         </div>

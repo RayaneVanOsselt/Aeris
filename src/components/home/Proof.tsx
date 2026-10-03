@@ -1,69 +1,37 @@
 import { getI18n } from "@/i18n/server";
-import { ClaimLabel } from "@/components/ui/Claim";
 import { Icon } from "@/components/ui/Icon";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { Reveal } from "@/components/ui/Reveal";
 import { Ruler } from "@/components/ui/Ruler";
-import { isClaimVisible, reviews, showPlaceholders, type ClaimKey } from "@/lib/business";
-import { getMesh } from "@/lib/catalog";
-import { MeshCloseUp } from "./MeshCloseUp";
-
-/** Engagements dans l'ordre d'importance. Les non confirmés n'apparaissent qu'en mode préparation. */
-const commitments: ClaimKey[] = ["madeToMeasure", "instantPrice", "directPayment", "humanSupport", "checkedBeforeProduction", "europeanMade", "warranty"];
+import { reviews, showPlaceholders } from "@/lib/business";
 
 /**
  * La preuve en un chiffre : 1 mm, la précision de la saisie (engagement
- * confirmé « sur mesure, au millimètre »). Puis les engagements, sans
- * astérisque. Les avis clients n'apparaissent que s'ils sont authentiques.
+ * confirmé « sur mesure, au millimètre »), posé sur une règle graduée.
+ * Les avis clients n'apparaissent que s'ils sont authentiques.
  */
 export function Proof() {
   const { m, t } = getI18n();
   const p = m.homePage.proof;
-  const visible = commitments.filter(isClaimVisible);
 
   return (
-    <section aria-labelledby="proof-title" className="overflow-x-clip pb-[var(--section-y)] pt-[calc(var(--section-y)*0.5)]">
-      <div className="container-site grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-7">
-          <Reveal>
-            <p className="t-caption flex items-center gap-3 text-ink-3">
-              <span aria-hidden className="h-px w-8 bg-sand" />
-              {p.eyebrow}
-            </p>
-            <h2 id="proof-title" className="mt-4 flex items-start font-serif font-light leading-[0.8] tracking-[-0.06em] text-ink">
-              <span className="text-[clamp(11rem,34vw,26rem)] [font-variation-settings:'opsz'_144]">{p.figure}</span>
-              <span className="accent mt-[0.18em] text-[clamp(3rem,9vw,7rem)] text-sand-deep">{p.unit}</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={120}>
-            <p className="t-h3 mt-8 max-w-[30ch] text-ink-2">{p.statement}</p>
-          </Reveal>
-        </div>
-
-        <Reveal delay={160} className="lg:col-span-5">
-          {/* La toile vue de près, posée sur une règle graduée : le millimètre rendu visible */}
-          <div className="media-reveal relative mx-auto aspect-[4/5] max-w-md overflow-hidden rounded-arch bg-paper-2 lg:max-w-none">
-            <div className="absolute inset-0">
-              <MeshCloseUp cell={Math.round(90 / getMesh("fibre")!.density)} strand={getMesh("fibre")!.strand} />
-              <Ruler className="absolute inset-x-0 bottom-0 bg-surface/85 pt-2 backdrop-blur-sm" />
-            </div>
-          </div>
+    <section aria-labelledby="proof-title" className="overflow-x-clip py-[var(--section-y)]">
+      <div className="container-site grid grid-cols-1 items-end gap-10 lg:grid-cols-12">
+        <Reveal className="lg:col-span-6">
+          <p className="t-caption flex items-center gap-3 text-ink-3">
+            <span aria-hidden className="h-px w-8 bg-sand" />
+            {p.eyebrow}
+          </p>
+          <h2 id="proof-title" className="mt-4 flex items-start font-serif font-light leading-[0.8] tracking-[-0.06em] text-ink">
+            <span className="text-[clamp(10rem,30vw,24rem)] [font-variation-settings:'opsz'_144]">{p.figure}</span>
+            <span className="accent mt-[0.18em] text-[clamp(3rem,8vw,6.5rem)] text-sand-deep">{p.unit}</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={100} className="lg:col-span-5 lg:col-start-8 lg:pb-8">
+          <p className="t-h3 max-w-[30ch] text-ink-2">{p.statement}</p>
         </Reveal>
       </div>
-
-      <div className="container-site mt-24 lg:mt-32">
-        <Reveal>
-          <h3 className="t-caption text-ink-3">{p.commitments}</h3>
-        </Reveal>
-        <ul className="mt-8 grid grid-cols-1 border-t border-line md:grid-cols-2 lg:grid-cols-4">
-          {visible.map((id, i) => (
-            <Reveal as="li" key={id} delay={i * 70} className="border-b border-line py-7 md:pr-8 lg:border-b-0 lg:py-2 lg:pt-8 lg:[&:not(:first-child)]:border-l lg:[&:not(:first-child)]:pl-8">
-              <ClaimLabel id={id} className="t-h4 block text-ink" />
-              <ClaimLabel id={id} field="detail" className="t-small mt-2 block text-ink-3" />
-            </Reveal>
-          ))}
-        </ul>
-      </div>
+      <Ruler className="container-site mt-12 lg:mt-16" />
 
       {(reviews.length > 0 || showPlaceholders) && (
         <div className="container-site mt-24 lg:mt-32">

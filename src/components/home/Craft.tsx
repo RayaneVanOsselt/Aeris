@@ -15,7 +15,7 @@ export function Craft() {
     { value: frameColors.length, label: c.facts.colors },
   ];
   return (
-    <section className="pb-[var(--section-y)]">
+    <section className="py-[var(--section-y)]">
       <div className="container-site grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+3rem)]">
