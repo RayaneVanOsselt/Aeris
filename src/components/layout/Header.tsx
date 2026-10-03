@@ -14,6 +14,7 @@ import { primaryNav } from "@/lib/site";
 import { ProductVisual } from "@/components/product/ProductVisual";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { LanguageMenu } from "./LanguageMenu";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
@@ -23,6 +24,9 @@ export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  // Au-dessus d'un média plein écran (film de l'accueil) : en-tête transparent, texte clair
+  const trim = (p: string) => p.replace(/\/+$/, "");
+  const [overMedia, setOverMedia] = useState(() => trim(pathname) === trim(href("home")));
   const [megaOpen, setMegaOpen] = useState(false);
   // Contenu du méga-menu monté seulement après la première ouverture (DOM initial plus léger)
   const [megaMounted, setMegaMounted] = useState(false);
@@ -33,26 +37,30 @@ export function Header() {
   const closeTimer = useRef<number | undefined>(undefined);
   const megaRef = useRef<HTMLDivElement>(null);
 
-  // Masqué en descendant, réapparaît en remontant : plus d'espace pour le contenu
+  // En-tête qui évolue : plein et transparent en haut de page, îlot compact
+  // dès qu'on défile ; masqué en descendant, il revient en remontant.
   useEffect(() => {
     let last = window.scrollY;
     let ticking = false;
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > 8);
+      setHidden(y > 320 && y > last + 4);
+      if (y < last - 4) setHidden(false);
+      last = y;
+      const media = document.querySelector("[data-header-overlay]");
+      setOverMedia(!!media && media.getBoundingClientRect().bottom > 72);
+      ticking = false;
+    };
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        setScrolled(y > 8);
-        setHidden(y > 320 && y > last + 4);
-        if (y < last - 4) setHidden(false);
-        last = y;
-        ticking = false;
-      });
+      requestAnimationFrame(update);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
 
   // Pastille du panier : petit rebond quand un article est ajouté (retour visuel)
   useEffect(() => {
@@ -96,6 +104,13 @@ export function Header() {
 
   const isActive = (path: string) => pathname === path || pathname.startsWith(`${path}/`);
   const screensActive = megaOpen || isActive(href("catalog")) || pathname.startsWith(productPathPrefix(locale));
+  const light = overMedia && !megaOpen;
+  const island = scrolled;
+  const tone = {
+    link: light ? "text-white/80 hover:text-white" : "text-ink-2 hover:text-ink",
+    current: light ? "bg-white/12 text-white" : "bg-paper-2 text-ink",
+    icon: light ? "text-white hover:bg-white/10" : "text-ink hover:bg-paper-2",
+  };
 
   return (
     <>
@@ -105,27 +120,39 @@ export function Header() {
       >
         {m.common.skipToContent}
       </a>
-      {/* Téléphone : barre de langue au-dessus de l'en-tête (pas assez de place à côté du bouton Configurer) */}
-      <div className="border-b border-line bg-paper sm:hidden">
-        <div className="container-site flex justify-end">
-          <LanguageSwitcher size="md" />
-        </div>
-      </div>
       <header
         className={cn(
-          "sticky top-0 z-50 transition-[transform,background-color,border-color,box-shadow] duration-[var(--dur-slow)] ease-[var(--ease-out)]",
-          "border-b",
-          scrolled || megaOpen ? "border-line bg-paper/90 backdrop-blur-xl backdrop-saturate-150" : "border-transparent bg-paper",
+          "sticky top-0 z-50 h-[var(--header-h)] transition-transform duration-[var(--dur-slow)] ease-[var(--ease-out)]",
           hidden && !megaOpen && !menuOpen ? "-translate-y-full" : "translate-y-0",
         )}
       >
-        <div ref={megaRef} onMouseLeave={scheduleClose}>
-          <div className="container-site flex h-[var(--header-h)] items-center gap-4 xl:gap-6">
-            <Link href={href("home")} aria-label={m.nav.home} className="shrink-0 rounded-md">
-              <Logo />
+        <div
+          ref={megaRef}
+          onMouseLeave={scheduleClose}
+          className={cn(
+            "relative mx-auto max-w-[1440px] transition-[padding] duration-[var(--dur-slow)] ease-[var(--ease-out)]",
+            island && "px-2 pt-2 sm:px-4 sm:pt-3",
+          )}
+        >
+          <div
+            className={cn(
+              "flex items-center gap-1.5 border transition-[height,padding,background-color,border-color,box-shadow,border-radius,color] duration-[var(--dur-slow)] ease-[var(--ease-out)] sm:gap-2 lg:gap-4 xl:gap-6",
+              island ? "h-[60px] rounded-full pl-4 pr-1.5 sm:pl-6 sm:pr-2" : "h-[var(--header-h)] rounded-none px-[var(--gutter)]",
+              light ? "text-white" : "text-ink",
+              island
+                ? light
+                  ? "border-white/15 bg-night/35 backdrop-blur-xl"
+                  : "border-line bg-paper/85 shadow-[var(--shadow-md)] backdrop-blur-xl backdrop-saturate-150"
+                : megaOpen
+                  ? "border-transparent border-b-line bg-paper"
+                  : "border-transparent bg-transparent",
+            )}
+          >
+            <Link href={href("home")} aria-label={m.nav.home} className="mr-auto shrink-0 rounded-md lg:mr-0">
+              <Logo tone={light ? "light" : "ink"} />
             </Link>
 
-            <nav aria-label={m.nav.main} className="ml-2 hidden items-center gap-0.5 lg:flex xl:ml-6 xl:gap-1">
+            <nav aria-label={m.nav.main} className="ml-2 mr-auto hidden items-center gap-0.5 lg:flex xl:ml-6 xl:gap-1">
               <button
                 type="button"
                 aria-expanded={megaOpen}
@@ -134,7 +161,7 @@ export function Header() {
                 onMouseEnter={openMega}
                 className={cn(
                   "inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-[0.9375rem] transition-colors xl:px-4",
-                  screensActive ? "bg-paper-2 text-ink" : "text-ink-2 hover:text-ink",
+                  screensActive ? tone.current : tone.link,
                 )}
               >
                 {m.nav.screens}
@@ -152,7 +179,7 @@ export function Header() {
                   aria-current={isActive(href(key)) ? "page" : undefined}
                   className={cn(
                     "inline-flex h-10 items-center whitespace-nowrap rounded-full px-3 text-[0.9375rem] transition-colors xl:px-4",
-                    isActive(href(key)) ? "bg-paper-2 text-ink" : "text-ink-2 hover:text-ink",
+                    isActive(href(key)) ? tone.current : tone.link,
                   )}
                 >
                   {m.nav.links[key]}
@@ -160,12 +187,13 @@ export function Header() {
               ))}
             </nav>
 
-            <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-              <LanguageSwitcher className="hidden sm:block" />
+            <div className="flex items-center gap-1 sm:gap-2">
+              <LanguageSwitcher tone={light ? "light" : "ink"} className="hidden lg:block" />
+              <LanguageMenu tone={light ? "light" : "ink"} className="lg:hidden" />
               <Link
                 href={href("cart")}
                 aria-label={f.plural(count, m.nav.cart)}
-                className="relative inline-flex size-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-paper-2"
+                className={cn("relative inline-flex size-11 items-center justify-center rounded-full transition-colors", tone.icon)}
               >
                 <Icon name="bag" size={21} />
                 {count > 0 && (
@@ -179,7 +207,13 @@ export function Header() {
                   </span>
                 )}
               </Link>
-              <ButtonLink href={href("configurator")} size="sm" arrow className="max-[359px]:hidden">
+              <ButtonLink
+                href={href("configurator")}
+                size="sm"
+                variant={light ? "light" : "primary"}
+                arrow
+                className="max-[379px]:hidden max-sm:px-4 max-sm:[&>svg]:hidden"
+              >
                 {m.nav.configure}
               </ButtonLink>
               <button
@@ -187,7 +221,7 @@ export function Header() {
                 onClick={() => setMenuOpen(true)}
                 aria-label={m.nav.openMenu}
                 aria-haspopup="dialog"
-                className="inline-flex size-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-paper-2 lg:hidden"
+                className={cn("inline-flex size-11 items-center justify-center rounded-full transition-colors lg:hidden", tone.icon)}
               >
                 <Icon name="menu" size={22} />
               </button>
@@ -199,13 +233,13 @@ export function Header() {
             id="mega-menu"
             onMouseEnter={openMega}
             className={cn(
-              "absolute inset-x-0 top-full hidden border-b border-line bg-paper/95 backdrop-blur-xl lg:block",
+              "absolute inset-x-4 top-[calc(100%+0.5rem)] hidden overflow-hidden rounded-[var(--radius-xl)] border border-line bg-paper/95 text-ink shadow-[var(--shadow-lg)] backdrop-blur-xl lg:block",
               "origin-top transition-[opacity,transform,visibility] duration-[var(--dur-base)] ease-[var(--ease-out)]",
               megaOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0",
             )}
           >
             {megaMounted && (
-            <div className="container-site grid grid-cols-12 gap-10 py-10">
+            <div className="grid grid-cols-12 gap-10 p-8 xl:p-10">
               {categories.map((cat) => (
                 <div key={cat.id} className={cat.id === "fenetres" ? "col-span-3" : "col-span-5"}>
                   <Link href={href("category", cat.id)} className="t-caption mb-4 inline-flex items-center gap-2 text-ink-3 hover:text-ink">
