@@ -2,6 +2,13 @@
 
 ## Non publié
 
+### Site en ligne qui affichait le README
+- Le site publié montrait le texte du README au lieu de la boutique : GitHub Pages était
+  encore réglé sur « Deploy from a branch » et publiait le README (via Jekyll) en même temps
+  que le vrai site, le dernier arrivé l'emportant. La publication attend désormais celle de
+  GitHub pour passer en dernier, et signale le réglage à corriger.
+- Retrait du fichier caché macOS « Icon » ajouté par erreur au dépôt.
+
 ### Accueil plus rapide et plus professionnel
 - Le film d'accueil a désormais sa bande-son (niveau normalisé) et un bouton « Activer le son » ;
   il démarre automatiquement sur ordinateur et sur téléphone (en silencieux quand le navigateur

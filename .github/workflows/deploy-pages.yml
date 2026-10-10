@@ -12,6 +12,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
 
 concurrency:
   group: pages
@@ -45,5 +46,24 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Si la source Pages est restée sur « Deploy from a branch », GitHub publie aussi
+      # le README (via Jekyll) à chaque push : le dernier arrivé l'emporte. On le signale
+      # et on attend qu'il ait fini, pour que le vrai site soit toujours publié en dernier.
+      - name: Passer après la publication automatique de GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .build_type 2>/dev/null)" = "legacy" ]; then
+            echo "::warning title=Réglage GitHub Pages à corriger::GitHub publie aussi le README par-dessus le site. Settings → Pages → Build and deployment → Source : GitHub Actions."
+          fi
+          for _ in $(seq 60); do
+            pending=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?head_sha=$GITHUB_SHA&event=dynamic" \
+              --jq '[.workflow_runs[] | select(.path | endswith("pages-build-deployment")) | select(.status != "completed")] | length') \
+              || { echo "::warning::Impossible de vérifier la publication automatique de GitHub."; exit 0; }
+            [ "$pending" = "0" ] && exit 0
+            echo "Publication automatique de GitHub en cours, attente…"
+            sleep 10
+          done
+          echo "::warning::La publication automatique de GitHub ne s'est pas terminée en 10 minutes."
       - id: deployment
         uses: actions/deploy-pages@v5
