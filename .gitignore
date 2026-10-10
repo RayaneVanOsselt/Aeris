@@ -18,3 +18,6 @@ npm-debug.log*
 
 # déploiement
 .vercel
+
+# icônes de dossier macOS
+Icon?

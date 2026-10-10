@@ -56,6 +56,8 @@ Le workflow `.github/workflows/deploy-pages.yml` contrôle, compile et publie le
 à chaque push sur `main` : https://rayanevanosselt.github.io/Aeris/
 
 À faire **une seule fois** : *Settings → Pages → Build and deployment → Source : GitHub Actions*.
+Sans ce réglage, GitHub publie aussi ce README par-dessus le site (page de texte brut
+« Aéris — Moustiquaires sur mesure ») ; le workflow le signale par un avertissement.
 
 Tester la version statique en local :
 
